@@ -86,6 +86,8 @@ PUBLIC_API_BASE = 'https://api.public.com'
 
 to run optionchaintest.js
 node option-chain-test/optionchaintest.js
+to run fullbacktest.js
+node ./backtesters/fullbacktest.js
 
 email: nlpChartMonitor@gmail.com
 

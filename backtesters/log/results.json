@@ -26688,13 +26688,15 @@
   {
     "symbol": "VVX",
     "name": "V2X, Inc.",
-    "strategy": "TrendSpike",
-    "winRate": 61.66,
-    "trades": 26,
-    "wins": 13,
-    "losses": 13,
-    "avgDuration": "1.52",
-    "avgRR": "46.39"
+    "strategy": "MicroReversion",
+    "winRate": 62.19,
+    "trades": 520,
+    "wins": 320,
+    "losses": 200,
+    "avgDuration": "2.25",
+    "avgRR": "38.49",
+    "replaced": "yes",
+    "retested": "yes"
   },
   {
     "symbol": "TMDX",
@@ -36960,7 +36962,9 @@
     "wins": 214,
     "losses": 156,
     "avgDuration": "2.92",
-    "avgRR": "43.88"
+    "avgRR": "43.88",
+    "retested": "yes",
+    "replaced": "no"
   },
   {
     "symbol": "IGD",
@@ -107214,6 +107218,32 @@
     "losses": 78,
     "avgDuration": "2.46",
     "avgRR": "95.18",
+    "replaced": "new",
+    "retested": "yes"
+  },
+  {
+    "symbol": "HAVAU",
+    "name": "Harvard Ave Acquisition Corporation Unit",
+    "strategy": "",
+    "winRate": 0,
+    "trades": 0,
+    "wins": 0,
+    "losses": 0,
+    "avgDuration": 0,
+    "avgRR": 0,
+    "replaced": "new",
+    "retested": "yes"
+  },
+  {
+    "symbol": "MMTXU",
+    "name": "Miluna Acquisition Corp Units",
+    "strategy": "",
+    "winRate": 0,
+    "trades": 0,
+    "wins": 0,
+    "losses": 0,
+    "avgDuration": 0,
+    "avgRR": 0,
     "replaced": "new",
     "retested": "yes"
   }
