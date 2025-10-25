@@ -6,7 +6,7 @@ Chart Monitor/
 │   └── config/
 │       └── alpaca.js              # API setup (keys, Alpaca client)
 │                          
-├── backtester/
+├── backtesters/
 │   ├── Archive/               #Archived backtesters
 │   ├── log                    # holds results.js for fullbacktest.js
 │   │   └── results.json       # saves results gathered from fullbacktest.js
@@ -48,6 +48,8 @@ Chart Monitor/
 |
 ├── option-chain-test/        # folder for program that examines option chains against black-sch0les equation for under and over pricing
 │   ├── log/                  # holds results.js for optionchaintest.js
+│   |    ├── optionchains.txt # logs all option chain data
+│   |    ├── alerts.csv       # logs outputs to be used in excel
 │   |    └── results.json     # results form optionchaintest.js that holds all information about options that were tested against bs equation
 │   ├── optionchaintest.js    # gets options chain data and runs it through black scholes equation to find contracts that are over and under priced
 │   └── package.json          # dependencies for optionchaintest.js
@@ -81,3 +83,184 @@ public api
 KEY = '5CV5MVGpfuldYKVtjjijmZlJh9FrB1Aw'
 ID = '5OF34891'
 PUBLIC_API_BASE = 'https://api.public.com'
+
+to run optionchaintest.js
+node option-chain-test/optionchaintest.js
+
+email: nlpChartMonitor@gmail.com
+
+Full Workflow Overview
+1. stockMonitor.js — Scans Stocks
+
+Purpose: Monitors a list of stocks and evaluates them against historical strategies or backtests to identify potential opportunities.
+
+Steps:
+
+Load the list of stocks to monitor.
+
+For each stock, apply your best win rate scenarios (strategies with highest historical success).
+
+Evaluate the stock based on:
+
+Current price (spotPrice)
+
+Trend (Up/Down)
+
+Signal (Buy/Sell)
+
+Risk level (Low/Medium/High)
+
+Expected move (historical or calculated)
+
+Store alerts for stocks that meet your criteria (e.g., high win rate, favorable trend, strong signal).
+
+Save these alerts to a JSON file, e.g., Chart Monitor/alerts/stockAlerts.json.
+
+Output: List of stock alerts with all relevant data (signal, trend, expected move, etc.).
+
+2. chartOptionBridge.js — Bridges Stocks to Options
+
+Purpose: Takes stock alerts and finds corresponding options to analyze for actionable trades.
+
+Steps:
+
+Read stockAlerts.json from stockMonitor.js.
+
+For each stock alert, retrieve options from your option chain data (or call optionChainTest.js).
+
+For each option, gather key data:
+
+Strike price, type (call/put)
+
+Market price, Black-Scholes price (bsPrice)
+
+Diff percentage (diffPct)
+
+Moneyness (ITM/ATM/OTM)
+
+Implied volatility (iv)
+
+Spread and liquidity
+
+Pass the options and stock alert together into the decision-making engine.
+
+Output: Combined stock + option dataset for each alert, ready for decision evaluation.
+
+3. optionChainTest.js — Evaluates Options
+
+Purpose: Runs detailed analysis on individual options to identify underpriced/overpriced contracts and potential trades.
+
+Steps:
+
+Accept a stock symbol and its options from chartOptionBridge.js.
+
+Calculate option metrics:
+
+Black-Scholes theoretical price
+
+diffPct between market and BS price
+
+Compare implied volatility, spread, and liquidity
+
+Return a detailed JSON object with each option's analysis, including:
+
+suggestedAction
+
+riskLevel
+
+Entry, stop-loss, and take-profit suggestions (if enabled)
+
+Save or return the results to chartOptionBridge.js.
+
+Output: Option analysis results for each stock alert.
+
+4. chartOptionBridge.js — Combines Stock + Option Analysis
+
+Purpose: Merge stock signals with option evaluations to generate fully informed action recommendations.
+
+Steps:
+
+Take stock alerts + option test results.
+
+Use your decision tree or decision sheet:
+
+Match option parameters (diffPct, moneyness, iv, spread, liquidity)
+
+Consider stock signal (Buy/Sell) and trend (Up/Down)
+
+Generate a final recommendation:
+
+Suggested action (e.g., “Strong buy OTM call”, “Long stock”, “Monitor”)
+
+Risk level
+
+Entry, stop-loss, take-profit points
+
+Detailed rationale explaining why the action is suggested
+
+Save the combined output to decisionSheet.json.
+
+Output: Decision sheet with combined, actionable recommendations for all monitored stocks/options.
+
+5. Decision Sheet → Email Alerts
+
+Purpose: Notify you with a full, informed call to action.
+
+Steps:
+
+Read decisionSheet.json.
+
+Format each recommendation for email:
+
+Stock symbol and option details
+
+Suggested action
+
+Risk level
+
+Entry, stop-loss, take-profit
+
+Brief explanation of why the trade is favorable
+
+Send a structured email alert for all entries in the decision sheet.
+
+Output: Real-time email alerts for actionable stock and option trades.
+
+6. Optional: Re-iteration Loop
+
+Once a decision sheet is generated, you can:
+
+Continue monitoring updated stock prices and option chains
+
+Refresh stockAlerts.json and rerun the workflow
+
+Keep your decision tree updated dynamically with new incoming data
+
+Data Flow Diagram (Text Version)
+[stockMonitor.js]
+        |
+        v
+  stockAlerts.json
+        |
+        v
+[chartOptionBridge.js] ---> optionChainTest.js
+        |                       |
+        |                       v
+        |                 optionResults.json
+        |
+        v
+ decisionSheet.json
+        |
+        v
+     Email Alerts
+
+
+✅ Key Points of This Workflow
+
+Stock alerts trigger option analysis automatically.
+
+Options are evaluated with full metrics (diffPct, IV, moneyness, spread, liquidity).
+
+Decision tree/decision sheet references both stock trends and option analytics to generate actionable guidance.
+
+Final output includes entry points, stop-loss, take-profit, and risk assessment.

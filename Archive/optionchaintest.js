@@ -1,3 +1,6 @@
+//tests popular and random stocks,
+//saved for testing all stocks and returning info
+
 import * as math from 'mathjs';
 import axios from 'axios';
 import fs from 'fs';
@@ -42,6 +45,7 @@ const popularStocks = [
   'CRM','ACN','AVGO','COST','QCOM','NKE','WMT','TXN','MDT','NEE',
   'BMY','LIN','MCD','LOW','HON','PM','ORCL','UPS','IBM','CVS'
 ];
+
 const randomStocks = [
   'SPY','DOCU','SQ','ROKU','SNAP','SPOT','CRWD','OKTA','TWLO','FUBO',
   'PLTR','ETSY','UBER','LYFT','COIN','AFRM','F','GM','RBLX','LCID',
@@ -81,6 +85,7 @@ function parseOptionSymbol(sym) {
 // === Finnhub Spot ===
 let lastFinnhubCall = 0;
 const FINNHUB_CALL_INTERVAL = 1091;
+
 async function fetchSpot(symbol) {
   try {
     const now = Date.now();
@@ -110,6 +115,15 @@ async function getAccessToken() {
   return res.data.accessToken;
 }
 
+async function getAccountInfo(token) {
+  const res = await axios.get(`${PUBLIC_API_BASE}/userapigateway/trading/account`, {
+    headers: { Authorization: `Bearer ${token}` }
+  });
+  console.log('Account Info:', JSON.stringify(res.data, null, 2));
+  return res.data;
+}
+
+// === Fetch Option Chain via POST ===
 async function fetchOptionChain(symbol, expirationDate, token) {
   const url = `${PUBLIC_API_BASE}/userapigateway/marketdata/${ACCOUNT_ID}/option-chain`;
   try {
@@ -117,6 +131,7 @@ async function fetchOptionChain(symbol, expirationDate, token) {
     const res = await axios.post(url, body, {
       headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' }
     });
+
     const calls = res.data.calls || [];
     const puts = res.data.puts || [];
     return [...calls, ...puts];
@@ -142,7 +157,12 @@ async function analyzeSymbol(symbol, token) {
   const results = [];
   const alerts = [];
 
-  if (!options || options.length === 0) return { symbol, results, alerts };
+  if (!options || options.length === 0) {
+    append(`\n=== ${symbol} (Spot: $${spot}) ===`);
+    append('No processed options data.');
+    console.log(`No data for ${symbol}.`);
+    return { symbol, results, alerts };
+  }
 
   const T = Math.max((new Date(expISO) - now) / (365 * 24 * 3600 * 1000), 0);
 
@@ -186,19 +206,21 @@ async function analyzeSymbol(symbol, token) {
   if (results.length === 0) append('No filtered options data.');
   else for (const r of results) append(JSON.stringify(r, null, 2));
 
+  console.log(`Processed ${symbol}: ${results.length} filtered options.`);
   return { symbol, results, alerts };
 }
 
-// === MAIN ENTRY POINT ===
-export async function runOptionAnalysis(stockSymbol = null) {
+// === MAIN ===
+(async () => {
   fs.writeFileSync(LOG_FILE, '', 'utf8');
   const token = await getAccessToken();
+  await getAccountInfo(token);
 
-  const symbolsToProcess = stockSymbol ? [stockSymbol] : [...popularStocks, ...randomStocks];
+  const allSymbols = [...popularStocks, ...randomStocks];
   let allResults = [];
   let allAlerts = [];
 
-  for (const sym of symbolsToProcess) {
+  for (const sym of allSymbols) {
     console.log(`\n📈 Processing ${sym}...`);
     try {
       const { results, alerts } = await analyzeSymbol(sym, token);
@@ -221,13 +243,8 @@ export async function runOptionAnalysis(stockSymbol = null) {
   );
   fs.writeFileSync(ALERTS_CSV, csvHeader + csvRows.join('\n'), 'utf8');
 
-  console.log(`\n✅ Analysis complete. ${allResults.length} results, ${allAlerts.length} alerts.`);
-  return { allResults, allAlerts };
-}
-
-// === CLI SUPPORT ===
-if (process.argv[1].endsWith('optionchaintest.js')) {
-  const symbolArg = process.argv[2];
-  runOptionAnalysis(symbolArg).then(res => console.log(JSON.stringify(res.allAlerts, null, 2)));
-}
+  console.log(`\n✅ Analysis complete.`);
+  console.log(`Filtered JSON saved to ${RESULTS_JSON}`);
+  console.log(`CSV alerts saved to ${ALERTS_CSV}`);
+})();
 

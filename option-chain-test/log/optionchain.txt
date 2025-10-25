@@ -1,0 +1,4672 @@
+
+=== AAPL (Spot: $262.82) ===
+{
+  "symbol": "AAPL",
+  "spotPrice": "262.82",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 285,
+  "marketPrice": "0.38",
+  "bsPrice": "0.02",
+  "diffPct": "2006.59",
+  "status": "Overpriced"
+}
+{
+  "symbol": "AAPL",
+  "spotPrice": "262.82",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 242.5,
+  "marketPrice": "0.42",
+  "bsPrice": "0.02",
+  "diffPct": "2644.91",
+  "status": "Overpriced"
+}
+
+=== MSFT (Spot: $523.61) ===
+No filtered options data.
+
+=== AMZN (Spot: $224.21) ===
+No filtered options data.
+
+=== GOOG (Spot: $260.51) ===
+No filtered options data.
+
+=== FB ===
+Failed to fetch option chain.
+
+=== FB (Spot: $41.69) ===
+No processed options data.
+
+=== TSLA (Spot: $433.72) ===
+No filtered options data.
+
+=== NVDA (Spot: $186.26) ===
+{
+  "symbol": "NVDA",
+  "spotPrice": "186.26",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 200,
+  "marketPrice": "0.47",
+  "bsPrice": "0.03",
+  "diffPct": "1411.78",
+  "status": "Overpriced"
+}
+
+=== BRK.B (Spot: $492.1) ===
+{
+  "symbol": "BRK.B",
+  "spotPrice": "492.10",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 502.5,
+  "marketPrice": "0.44",
+  "bsPrice": "2.57",
+  "diffPct": "-82.85",
+  "status": "Underpriced"
+}
+{
+  "symbol": "BRK.B",
+  "spotPrice": "492.10",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 505,
+  "marketPrice": "0.24",
+  "bsPrice": "1.98",
+  "diffPct": "-87.88",
+  "status": "Underpriced"
+}
+{
+  "symbol": "BRK.B",
+  "spotPrice": "492.10",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 507.5,
+  "marketPrice": "0.11",
+  "bsPrice": "1.50",
+  "diffPct": "-92.69",
+  "status": "Underpriced"
+}
+{
+  "symbol": "BRK.B",
+  "spotPrice": "492.10",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 510,
+  "marketPrice": "0.12",
+  "bsPrice": "1.13",
+  "diffPct": "-89.79",
+  "status": "Underpriced"
+}
+{
+  "symbol": "BRK.B",
+  "spotPrice": "492.10",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 512.5,
+  "marketPrice": "0.12",
+  "bsPrice": "0.83",
+  "diffPct": "-86.14",
+  "status": "Underpriced"
+}
+{
+  "symbol": "BRK.B",
+  "spotPrice": "492.10",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 515,
+  "marketPrice": "0.12",
+  "bsPrice": "0.60",
+  "diffPct": "-80.07",
+  "status": "Underpriced"
+}
+{
+  "symbol": "BRK.B",
+  "spotPrice": "492.10",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 520,
+  "marketPrice": "0.05",
+  "bsPrice": "0.30",
+  "diffPct": "-83.45",
+  "status": "Underpriced"
+}
+{
+  "symbol": "BRK.B",
+  "spotPrice": "492.10",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 525,
+  "marketPrice": "0.11",
+  "bsPrice": "0.14",
+  "diffPct": "-26.18",
+  "status": "Underpriced"
+}
+{
+  "symbol": "BRK.B",
+  "spotPrice": "492.10",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 530,
+  "marketPrice": "0.04",
+  "bsPrice": "0.06",
+  "diffPct": "-44.27",
+  "status": "Underpriced"
+}
+{
+  "symbol": "BRK.B",
+  "spotPrice": "492.10",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 535,
+  "marketPrice": "0.03",
+  "bsPrice": "0.03",
+  "diffPct": "15.35",
+  "status": "Overpriced"
+}
+{
+  "symbol": "BRK.B",
+  "spotPrice": "492.10",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 540,
+  "marketPrice": "0.03",
+  "bsPrice": "0.01",
+  "diffPct": "246.35",
+  "status": "Overpriced"
+}
+{
+  "symbol": "BRK.B",
+  "spotPrice": "492.10",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 450,
+  "marketPrice": "0.06",
+  "bsPrice": "0.01",
+  "diffPct": "368.67",
+  "status": "Overpriced"
+}
+{
+  "symbol": "BRK.B",
+  "spotPrice": "492.10",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 455,
+  "marketPrice": "0.06",
+  "bsPrice": "0.04",
+  "diffPct": "55.25",
+  "status": "Overpriced"
+}
+{
+  "symbol": "BRK.B",
+  "spotPrice": "492.10",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 460,
+  "marketPrice": "0.08",
+  "bsPrice": "0.10",
+  "diffPct": "-16.45",
+  "status": "Underpriced"
+}
+{
+  "symbol": "BRK.B",
+  "spotPrice": "492.10",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 465,
+  "marketPrice": "0.10",
+  "bsPrice": "0.23",
+  "diffPct": "-59.24",
+  "status": "Underpriced"
+}
+{
+  "symbol": "BRK.B",
+  "spotPrice": "492.10",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 470,
+  "marketPrice": "0.13",
+  "bsPrice": "0.51",
+  "diffPct": "-74.72",
+  "status": "Underpriced"
+}
+{
+  "symbol": "BRK.B",
+  "spotPrice": "492.10",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 475,
+  "marketPrice": "0.19",
+  "bsPrice": "1.03",
+  "diffPct": "-81.63",
+  "status": "Underpriced"
+}
+{
+  "symbol": "BRK.B",
+  "spotPrice": "492.10",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 477.5,
+  "marketPrice": "0.27",
+  "bsPrice": "1.42",
+  "diffPct": "-81.35",
+  "status": "Underpriced"
+}
+{
+  "symbol": "BRK.B",
+  "spotPrice": "492.10",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 480,
+  "marketPrice": "0.40",
+  "bsPrice": "1.91",
+  "diffPct": "-79.07",
+  "status": "Underpriced"
+}
+
+=== JPM (Spot: $300.44) ===
+{
+  "symbol": "JPM",
+  "spotPrice": "300.44",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 312.5,
+  "marketPrice": "0.31",
+  "bsPrice": "0.55",
+  "diffPct": "-43.54",
+  "status": "Underpriced"
+}
+{
+  "symbol": "JPM",
+  "spotPrice": "300.44",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 315,
+  "marketPrice": "0.21",
+  "bsPrice": "0.32",
+  "diffPct": "-36.74",
+  "status": "Underpriced"
+}
+{
+  "symbol": "JPM",
+  "spotPrice": "300.44",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 317.5,
+  "marketPrice": "0.11",
+  "bsPrice": "0.18",
+  "diffPct": "-42.72",
+  "status": "Underpriced"
+}
+{
+  "symbol": "JPM",
+  "spotPrice": "300.44",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 320,
+  "marketPrice": "0.08",
+  "bsPrice": "0.10",
+  "diffPct": "-14.43",
+  "status": "Underpriced"
+}
+{
+  "symbol": "JPM",
+  "spotPrice": "300.44",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 322.5,
+  "marketPrice": "0.06",
+  "bsPrice": "0.05",
+  "diffPct": "16.36",
+  "status": "Overpriced"
+}
+{
+  "symbol": "JPM",
+  "spotPrice": "300.44",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 325,
+  "marketPrice": "0.03",
+  "bsPrice": "0.03",
+  "diffPct": "17.01",
+  "status": "Overpriced"
+}
+{
+  "symbol": "JPM",
+  "spotPrice": "300.44",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 327.5,
+  "marketPrice": "0.22",
+  "bsPrice": "0.01",
+  "diffPct": "1701.36",
+  "status": "Overpriced"
+}
+{
+  "symbol": "JPM",
+  "spotPrice": "300.44",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 277.5,
+  "marketPrice": "0.10",
+  "bsPrice": "0.02",
+  "diffPct": "436.49",
+  "status": "Overpriced"
+}
+{
+  "symbol": "JPM",
+  "spotPrice": "300.44",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 280,
+  "marketPrice": "0.23",
+  "bsPrice": "0.04",
+  "diffPct": "423.25",
+  "status": "Overpriced"
+}
+{
+  "symbol": "JPM",
+  "spotPrice": "300.44",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 282.5,
+  "marketPrice": "0.30",
+  "bsPrice": "0.10",
+  "diffPct": "212.59",
+  "status": "Overpriced"
+}
+{
+  "symbol": "JPM",
+  "spotPrice": "300.44",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 285,
+  "marketPrice": "0.38",
+  "bsPrice": "0.19",
+  "diffPct": "98.32",
+  "status": "Overpriced"
+}
+
+=== JNJ (Spot: $190.4) ===
+{
+  "symbol": "JNJ",
+  "spotPrice": "190.40",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 195,
+  "marketPrice": "0.17",
+  "bsPrice": "0.85",
+  "diffPct": "-79.46",
+  "status": "Underpriced"
+}
+{
+  "symbol": "JNJ",
+  "spotPrice": "190.40",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 197.5,
+  "marketPrice": "0.07",
+  "bsPrice": "0.41",
+  "diffPct": "-83.04",
+  "status": "Underpriced"
+}
+{
+  "symbol": "JNJ",
+  "spotPrice": "190.40",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 202.5,
+  "marketPrice": "0.27",
+  "bsPrice": "0.07",
+  "diffPct": "274.21",
+  "status": "Overpriced"
+}
+{
+  "symbol": "JNJ",
+  "spotPrice": "190.40",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 205,
+  "marketPrice": "0.07",
+  "bsPrice": "0.02",
+  "diffPct": "160.10",
+  "status": "Overpriced"
+}
+{
+  "symbol": "JNJ",
+  "spotPrice": "190.40",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 177.5,
+  "marketPrice": "0.23",
+  "bsPrice": "0.03",
+  "diffPct": "669.59",
+  "status": "Overpriced"
+}
+{
+  "symbol": "JNJ",
+  "spotPrice": "190.40",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 180,
+  "marketPrice": "0.06",
+  "bsPrice": "0.09",
+  "diffPct": "-35.88",
+  "status": "Underpriced"
+}
+{
+  "symbol": "JNJ",
+  "spotPrice": "190.40",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 182.5,
+  "marketPrice": "0.15",
+  "bsPrice": "0.25",
+  "diffPct": "-39.03",
+  "status": "Underpriced"
+}
+{
+  "symbol": "JNJ",
+  "spotPrice": "190.40",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 185,
+  "marketPrice": "0.29",
+  "bsPrice": "0.59",
+  "diffPct": "-52.05",
+  "status": "Underpriced"
+}
+
+=== V (Spot: $347.38) ===
+{
+  "symbol": "V",
+  "spotPrice": "347.38",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 375,
+  "marketPrice": "0.41",
+  "bsPrice": "0.04",
+  "diffPct": "1041.35",
+  "status": "Overpriced"
+}
+
+=== PG (Spot: $152.49) ===
+{
+  "symbol": "PG",
+  "spotPrice": "152.49",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 157.5,
+  "marketPrice": "0.31",
+  "bsPrice": "0.43",
+  "diffPct": "-27.44",
+  "status": "Underpriced"
+}
+{
+  "symbol": "PG",
+  "spotPrice": "152.49",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 160,
+  "marketPrice": "0.12",
+  "bsPrice": "0.16",
+  "diffPct": "-26.35",
+  "status": "Underpriced"
+}
+{
+  "symbol": "PG",
+  "spotPrice": "152.49",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 162.5,
+  "marketPrice": "0.06",
+  "bsPrice": "0.05",
+  "diffPct": "24.01",
+  "status": "Overpriced"
+}
+{
+  "symbol": "PG",
+  "spotPrice": "152.49",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 165,
+  "marketPrice": "0.04",
+  "bsPrice": "0.01",
+  "diffPct": "254.65",
+  "status": "Overpriced"
+}
+{
+  "symbol": "PG",
+  "spotPrice": "152.49",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 141,
+  "marketPrice": "0.12",
+  "bsPrice": "0.01",
+  "diffPct": "988.43",
+  "status": "Overpriced"
+}
+{
+  "symbol": "PG",
+  "spotPrice": "152.49",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 142,
+  "marketPrice": "0.07",
+  "bsPrice": "0.02",
+  "diffPct": "230.23",
+  "status": "Overpriced"
+}
+{
+  "symbol": "PG",
+  "spotPrice": "152.49",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 143,
+  "marketPrice": "0.09",
+  "bsPrice": "0.04",
+  "diffPct": "130.87",
+  "status": "Overpriced"
+}
+{
+  "symbol": "PG",
+  "spotPrice": "152.49",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 144,
+  "marketPrice": "0.09",
+  "bsPrice": "0.07",
+  "diffPct": "31.03",
+  "status": "Overpriced"
+}
+{
+  "symbol": "PG",
+  "spotPrice": "152.49",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 145,
+  "marketPrice": "0.13",
+  "bsPrice": "0.12",
+  "diffPct": "11.93",
+  "status": "Overpriced"
+}
+{
+  "symbol": "PG",
+  "spotPrice": "152.49",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 146,
+  "marketPrice": "0.12",
+  "bsPrice": "0.19",
+  "diffPct": "-36.44",
+  "status": "Underpriced"
+}
+{
+  "symbol": "PG",
+  "spotPrice": "152.49",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 147,
+  "marketPrice": "0.25",
+  "bsPrice": "0.30",
+  "diffPct": "-15.40",
+  "status": "Underpriced"
+}
+{
+  "symbol": "PG",
+  "spotPrice": "152.49",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 148,
+  "marketPrice": "0.36",
+  "bsPrice": "0.45",
+  "diffPct": "-19.32",
+  "status": "Underpriced"
+}
+{
+  "symbol": "PG",
+  "spotPrice": "152.49",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 149,
+  "marketPrice": "0.49",
+  "bsPrice": "0.65",
+  "diffPct": "-24.75",
+  "status": "Underpriced"
+}
+
+=== UNH (Spot: $362.5) ===
+No filtered options data.
+
+=== HD (Spot: $386.68) ===
+{
+  "symbol": "HD",
+  "spotPrice": "386.68",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 405,
+  "marketPrice": "0.32",
+  "bsPrice": "0.45",
+  "diffPct": "-27.43",
+  "status": "Underpriced"
+}
+{
+  "symbol": "HD",
+  "spotPrice": "386.68",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 412.5,
+  "marketPrice": "0.39",
+  "bsPrice": "0.11",
+  "diffPct": "242.29",
+  "status": "Overpriced"
+}
+{
+  "symbol": "HD",
+  "spotPrice": "386.68",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 415,
+  "marketPrice": "0.07",
+  "bsPrice": "0.07",
+  "diffPct": "11.31",
+  "status": "Overpriced"
+}
+{
+  "symbol": "HD",
+  "spotPrice": "386.68",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 417.5,
+  "marketPrice": "0.28",
+  "bsPrice": "0.04",
+  "diffPct": "624.69",
+  "status": "Overpriced"
+}
+{
+  "symbol": "HD",
+  "spotPrice": "386.68",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 420,
+  "marketPrice": "0.08",
+  "bsPrice": "0.02",
+  "diffPct": "280.03",
+  "status": "Overpriced"
+}
+{
+  "symbol": "HD",
+  "spotPrice": "386.68",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 422.5,
+  "marketPrice": "0.33",
+  "bsPrice": "0.01",
+  "diffPct": "2562.07",
+  "status": "Overpriced"
+}
+{
+  "symbol": "HD",
+  "spotPrice": "386.68",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 355,
+  "marketPrice": "0.22",
+  "bsPrice": "0.01",
+  "diffPct": "1488.06",
+  "status": "Overpriced"
+}
+{
+  "symbol": "HD",
+  "spotPrice": "386.68",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 357.5,
+  "marketPrice": "0.29",
+  "bsPrice": "0.03",
+  "diffPct": "967.67",
+  "status": "Overpriced"
+}
+{
+  "symbol": "HD",
+  "spotPrice": "386.68",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 360,
+  "marketPrice": "0.35",
+  "bsPrice": "0.05",
+  "diffPct": "564.22",
+  "status": "Overpriced"
+}
+{
+  "symbol": "HD",
+  "spotPrice": "386.68",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 362.5,
+  "marketPrice": "0.32",
+  "bsPrice": "0.10",
+  "diffPct": "227.32",
+  "status": "Overpriced"
+}
+{
+  "symbol": "HD",
+  "spotPrice": "386.68",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 365,
+  "marketPrice": "0.42",
+  "bsPrice": "0.17",
+  "diffPct": "146.17",
+  "status": "Overpriced"
+}
+
+=== MA (Spot: $573.67) ===
+{
+  "symbol": "MA",
+  "spotPrice": "573.67",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 627.5,
+  "marketPrice": "0.49",
+  "bsPrice": "0.02",
+  "diffPct": "2911.59",
+  "status": "Overpriced"
+}
+{
+  "symbol": "MA",
+  "spotPrice": "573.67",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 630,
+  "marketPrice": "0.16",
+  "bsPrice": "0.01",
+  "diffPct": "1374.92",
+  "status": "Overpriced"
+}
+
+=== DIS (Spot: $111.68) ===
+{
+  "symbol": "DIS",
+  "spotPrice": "111.68",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 117,
+  "marketPrice": "0.10",
+  "bsPrice": "0.13",
+  "diffPct": "-21.37",
+  "status": "Underpriced"
+}
+{
+  "symbol": "DIS",
+  "spotPrice": "111.68",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 118,
+  "marketPrice": "0.11",
+  "bsPrice": "0.07",
+  "diffPct": "52.00",
+  "status": "Overpriced"
+}
+{
+  "symbol": "DIS",
+  "spotPrice": "111.68",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 119,
+  "marketPrice": "0.06",
+  "bsPrice": "0.04",
+  "diffPct": "54.04",
+  "status": "Overpriced"
+}
+{
+  "symbol": "DIS",
+  "spotPrice": "111.68",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 120,
+  "marketPrice": "0.04",
+  "bsPrice": "0.02",
+  "diffPct": "99.34",
+  "status": "Overpriced"
+}
+{
+  "symbol": "DIS",
+  "spotPrice": "111.68",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 104,
+  "marketPrice": "0.09",
+  "bsPrice": "0.02",
+  "diffPct": "446.30",
+  "status": "Overpriced"
+}
+{
+  "symbol": "DIS",
+  "spotPrice": "111.68",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 105,
+  "marketPrice": "0.12",
+  "bsPrice": "0.04",
+  "diffPct": "239.37",
+  "status": "Overpriced"
+}
+{
+  "symbol": "DIS",
+  "spotPrice": "111.68",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 106,
+  "marketPrice": "0.17",
+  "bsPrice": "0.07",
+  "diffPct": "135.61",
+  "status": "Overpriced"
+}
+{
+  "symbol": "DIS",
+  "spotPrice": "111.68",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 107,
+  "marketPrice": "0.23",
+  "bsPrice": "0.14",
+  "diffPct": "55.36",
+  "status": "Overpriced"
+}
+{
+  "symbol": "DIS",
+  "spotPrice": "111.68",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 108,
+  "marketPrice": "0.37",
+  "bsPrice": "0.26",
+  "diffPct": "40.53",
+  "status": "Overpriced"
+}
+
+=== PYPL (Spot: $69.77) ===
+No filtered options data.
+
+=== NFLX (Spot: $1094.69) ===
+No filtered options data.
+
+=== ADBE (Spot: $353.52) ===
+{
+  "symbol": "ADBE",
+  "spotPrice": "353.52",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 325,
+  "marketPrice": "0.45",
+  "bsPrice": "0.01",
+  "diffPct": "2996.82",
+  "status": "Overpriced"
+}
+
+=== CMCSA (Spot: $29.28) ===
+{
+  "symbol": "CMCSA",
+  "spotPrice": "29.28",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 30.5,
+  "marketPrice": "0.46",
+  "bsPrice": "0.05",
+  "diffPct": "843.94",
+  "status": "Overpriced"
+}
+{
+  "symbol": "CMCSA",
+  "spotPrice": "29.28",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 31,
+  "marketPrice": "0.35",
+  "bsPrice": "0.02",
+  "diffPct": "2154.68",
+  "status": "Overpriced"
+}
+{
+  "symbol": "CMCSA",
+  "spotPrice": "29.28",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 28,
+  "marketPrice": "0.38",
+  "bsPrice": "0.03",
+  "diffPct": "1038.86",
+  "status": "Overpriced"
+}
+
+=== INTC (Spot: $38.28) ===
+{
+  "symbol": "INTC",
+  "spotPrice": "38.28",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 36,
+  "marketPrice": "0.48",
+  "bsPrice": "0.01",
+  "diffPct": "3774.38",
+  "status": "Overpriced"
+}
+
+=== PFE (Spot: $24.76) ===
+{
+  "symbol": "PFE",
+  "spotPrice": "24.76",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 25,
+  "marketPrice": "0.18",
+  "bsPrice": "0.22",
+  "diffPct": "-15.68",
+  "status": "Underpriced"
+}
+{
+  "symbol": "PFE",
+  "spotPrice": "24.76",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 25.5,
+  "marketPrice": "0.07",
+  "bsPrice": "0.08",
+  "diffPct": "-14.43",
+  "status": "Underpriced"
+}
+{
+  "symbol": "PFE",
+  "spotPrice": "24.76",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 26,
+  "marketPrice": "0.04",
+  "bsPrice": "0.02",
+  "diffPct": "45.93",
+  "status": "Overpriced"
+}
+{
+  "symbol": "PFE",
+  "spotPrice": "24.76",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 23.5,
+  "marketPrice": "0.02",
+  "bsPrice": "0.02",
+  "diffPct": "21.74",
+  "status": "Overpriced"
+}
+{
+  "symbol": "PFE",
+  "spotPrice": "24.76",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 24,
+  "marketPrice": "0.04",
+  "bsPrice": "0.07",
+  "diffPct": "-32.99",
+  "status": "Underpriced"
+}
+{
+  "symbol": "PFE",
+  "spotPrice": "24.76",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 24.5,
+  "marketPrice": "0.14",
+  "bsPrice": "0.20",
+  "diffPct": "-31.81",
+  "status": "Underpriced"
+}
+{
+  "symbol": "PFE",
+  "spotPrice": "24.76",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 25,
+  "marketPrice": "0.39",
+  "bsPrice": "0.44",
+  "diffPct": "-13.46",
+  "status": "Underpriced"
+}
+
+=== KO (Spot: $69.71) ===
+{
+  "symbol": "KO",
+  "spotPrice": "69.71",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 70,
+  "marketPrice": "0.40",
+  "bsPrice": "0.78",
+  "diffPct": "-49.24",
+  "status": "Underpriced"
+}
+{
+  "symbol": "KO",
+  "spotPrice": "69.71",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 71,
+  "marketPrice": "0.12",
+  "bsPrice": "0.41",
+  "diffPct": "-70.96",
+  "status": "Underpriced"
+}
+{
+  "symbol": "KO",
+  "spotPrice": "69.71",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 72,
+  "marketPrice": "0.06",
+  "bsPrice": "0.20",
+  "diffPct": "-71.84",
+  "status": "Underpriced"
+}
+{
+  "symbol": "KO",
+  "spotPrice": "69.71",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 73,
+  "marketPrice": "0.03",
+  "bsPrice": "0.08",
+  "diffPct": "-69.40",
+  "status": "Underpriced"
+}
+{
+  "symbol": "KO",
+  "spotPrice": "69.71",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 74,
+  "marketPrice": "0.04",
+  "bsPrice": "0.03",
+  "diffPct": "16.20",
+  "status": "Overpriced"
+}
+{
+  "symbol": "KO",
+  "spotPrice": "69.71",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 65,
+  "marketPrice": "0.07",
+  "bsPrice": "0.01",
+  "diffPct": "588.42",
+  "status": "Overpriced"
+}
+{
+  "symbol": "KO",
+  "spotPrice": "69.71",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 67,
+  "marketPrice": "0.04",
+  "bsPrice": "0.11",
+  "diffPct": "-59.64",
+  "status": "Underpriced"
+}
+{
+  "symbol": "KO",
+  "spotPrice": "69.71",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 68,
+  "marketPrice": "0.08",
+  "bsPrice": "0.27",
+  "diffPct": "-68.70",
+  "status": "Underpriced"
+}
+{
+  "symbol": "KO",
+  "spotPrice": "69.71",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 69,
+  "marketPrice": "0.22",
+  "bsPrice": "0.57",
+  "diffPct": "-60.22",
+  "status": "Underpriced"
+}
+
+=== T (Spot: $25.14) ===
+{
+  "symbol": "T",
+  "spotPrice": "25.14",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 25,
+  "marketPrice": "0.45",
+  "bsPrice": "0.41",
+  "diffPct": "12.30",
+  "status": "Overpriced"
+}
+{
+  "symbol": "T",
+  "spotPrice": "25.14",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 25.5,
+  "marketPrice": "0.22",
+  "bsPrice": "0.18",
+  "diffPct": "21.31",
+  "status": "Overpriced"
+}
+{
+  "symbol": "T",
+  "spotPrice": "25.14",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 26,
+  "marketPrice": "0.10",
+  "bsPrice": "0.07",
+  "diffPct": "45.68",
+  "status": "Overpriced"
+}
+{
+  "symbol": "T",
+  "spotPrice": "25.14",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 26.5,
+  "marketPrice": "0.04",
+  "bsPrice": "0.02",
+  "diffPct": "88.97",
+  "status": "Overpriced"
+}
+{
+  "symbol": "T",
+  "spotPrice": "25.14",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 24,
+  "marketPrice": "0.08",
+  "bsPrice": "0.03",
+  "diffPct": "194.83",
+  "status": "Overpriced"
+}
+{
+  "symbol": "T",
+  "spotPrice": "25.14",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 24.5,
+  "marketPrice": "0.13",
+  "bsPrice": "0.09",
+  "diffPct": "34.51",
+  "status": "Overpriced"
+}
+
+=== PEP (Spot: $151.55) ===
+{
+  "symbol": "PEP",
+  "spotPrice": "151.55",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 155,
+  "marketPrice": "0.39",
+  "bsPrice": "0.73",
+  "diffPct": "-46.44",
+  "status": "Underpriced"
+}
+{
+  "symbol": "PEP",
+  "spotPrice": "151.55",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 157.5,
+  "marketPrice": "0.13",
+  "bsPrice": "0.29",
+  "diffPct": "-55.50",
+  "status": "Underpriced"
+}
+{
+  "symbol": "PEP",
+  "spotPrice": "151.55",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 160,
+  "marketPrice": "0.08",
+  "bsPrice": "0.10",
+  "diffPct": "-19.53",
+  "status": "Underpriced"
+}
+{
+  "symbol": "PEP",
+  "spotPrice": "151.55",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 162.5,
+  "marketPrice": "0.36",
+  "bsPrice": "0.03",
+  "diffPct": "1176.29",
+  "status": "Overpriced"
+}
+{
+  "symbol": "PEP",
+  "spotPrice": "151.55",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 140,
+  "marketPrice": "0.20",
+  "bsPrice": "0.01",
+  "diffPct": "1946.25",
+  "status": "Overpriced"
+}
+{
+  "symbol": "PEP",
+  "spotPrice": "151.55",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 141,
+  "marketPrice": "0.11",
+  "bsPrice": "0.02",
+  "diffPct": "491.13",
+  "status": "Overpriced"
+}
+{
+  "symbol": "PEP",
+  "spotPrice": "151.55",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 142,
+  "marketPrice": "0.07",
+  "bsPrice": "0.04",
+  "diffPct": "93.87",
+  "status": "Overpriced"
+}
+{
+  "symbol": "PEP",
+  "spotPrice": "151.55",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 143,
+  "marketPrice": "0.25",
+  "bsPrice": "0.06",
+  "diffPct": "289.65",
+  "status": "Overpriced"
+}
+{
+  "symbol": "PEP",
+  "spotPrice": "151.55",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 144,
+  "marketPrice": "0.19",
+  "bsPrice": "0.11",
+  "diffPct": "73.79",
+  "status": "Overpriced"
+}
+{
+  "symbol": "PEP",
+  "spotPrice": "151.55",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 145,
+  "marketPrice": "0.15",
+  "bsPrice": "0.18",
+  "diffPct": "-16.19",
+  "status": "Underpriced"
+}
+{
+  "symbol": "PEP",
+  "spotPrice": "151.55",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 146,
+  "marketPrice": "0.20",
+  "bsPrice": "0.28",
+  "diffPct": "-29.06",
+  "status": "Underpriced"
+}
+{
+  "symbol": "PEP",
+  "spotPrice": "151.55",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 147,
+  "marketPrice": "0.27",
+  "bsPrice": "0.43",
+  "diffPct": "-36.94",
+  "status": "Underpriced"
+}
+{
+  "symbol": "PEP",
+  "spotPrice": "151.55",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 148,
+  "marketPrice": "0.40",
+  "bsPrice": "0.63",
+  "diffPct": "-36.32",
+  "status": "Underpriced"
+}
+
+=== CSCO (Spot: $70.63) ===
+{
+  "symbol": "CSCO",
+  "spotPrice": "70.63",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 73,
+  "marketPrice": "0.16",
+  "bsPrice": "0.19",
+  "diffPct": "-15.86",
+  "status": "Underpriced"
+}
+{
+  "symbol": "CSCO",
+  "spotPrice": "70.63",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 74,
+  "marketPrice": "0.10",
+  "bsPrice": "0.08",
+  "diffPct": "24.97",
+  "status": "Overpriced"
+}
+{
+  "symbol": "CSCO",
+  "spotPrice": "70.63",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 75,
+  "marketPrice": "0.04",
+  "bsPrice": "0.03",
+  "diffPct": "34.33",
+  "status": "Overpriced"
+}
+{
+  "symbol": "CSCO",
+  "spotPrice": "70.63",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 66,
+  "marketPrice": "0.05",
+  "bsPrice": "0.01",
+  "diffPct": "274.92",
+  "status": "Overpriced"
+}
+{
+  "symbol": "CSCO",
+  "spotPrice": "70.63",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 67,
+  "marketPrice": "0.07",
+  "bsPrice": "0.05",
+  "diffPct": "55.45",
+  "status": "Overpriced"
+}
+{
+  "symbol": "CSCO",
+  "spotPrice": "70.63",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 68,
+  "marketPrice": "0.10",
+  "bsPrice": "0.13",
+  "diffPct": "-20.73",
+  "status": "Underpriced"
+}
+
+=== XOM (Spot: $115.39) ===
+{
+  "symbol": "XOM",
+  "spotPrice": "115.39",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 119,
+  "marketPrice": "0.48",
+  "bsPrice": "0.35",
+  "diffPct": "37.41",
+  "status": "Overpriced"
+}
+{
+  "symbol": "XOM",
+  "spotPrice": "115.39",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 120,
+  "marketPrice": "0.31",
+  "bsPrice": "0.21",
+  "diffPct": "45.33",
+  "status": "Overpriced"
+}
+{
+  "symbol": "XOM",
+  "spotPrice": "115.39",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 121,
+  "marketPrice": "0.23",
+  "bsPrice": "0.12",
+  "diffPct": "86.71",
+  "status": "Overpriced"
+}
+{
+  "symbol": "XOM",
+  "spotPrice": "115.39",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 122,
+  "marketPrice": "0.14",
+  "bsPrice": "0.07",
+  "diffPct": "98.73",
+  "status": "Overpriced"
+}
+{
+  "symbol": "XOM",
+  "spotPrice": "115.39",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 123,
+  "marketPrice": "0.10",
+  "bsPrice": "0.04",
+  "diffPct": "193.64",
+  "status": "Overpriced"
+}
+{
+  "symbol": "XOM",
+  "spotPrice": "115.39",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 124,
+  "marketPrice": "0.08",
+  "bsPrice": "0.02",
+  "diffPct": "345.32",
+  "status": "Overpriced"
+}
+{
+  "symbol": "XOM",
+  "spotPrice": "115.39",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 107,
+  "marketPrice": "0.14",
+  "bsPrice": "0.01",
+  "diffPct": "1228.89",
+  "status": "Overpriced"
+}
+{
+  "symbol": "XOM",
+  "spotPrice": "115.39",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 108,
+  "marketPrice": "0.17",
+  "bsPrice": "0.03",
+  "diffPct": "598.91",
+  "status": "Overpriced"
+}
+{
+  "symbol": "XOM",
+  "spotPrice": "115.39",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 109,
+  "marketPrice": "0.24",
+  "bsPrice": "0.05",
+  "diffPct": "350.49",
+  "status": "Overpriced"
+}
+{
+  "symbol": "XOM",
+  "spotPrice": "115.39",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 110,
+  "marketPrice": "0.33",
+  "bsPrice": "0.11",
+  "diffPct": "212.78",
+  "status": "Overpriced"
+}
+{
+  "symbol": "XOM",
+  "spotPrice": "115.39",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 111,
+  "marketPrice": "0.42",
+  "bsPrice": "0.20",
+  "diffPct": "115.12",
+  "status": "Overpriced"
+}
+
+=== CVX (Spot: $155.56) ===
+{
+  "symbol": "CVX",
+  "spotPrice": "155.56",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 162.5,
+  "marketPrice": "0.35",
+  "bsPrice": "0.22",
+  "diffPct": "64.92",
+  "status": "Overpriced"
+}
+{
+  "symbol": "CVX",
+  "spotPrice": "155.56",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 165,
+  "marketPrice": "0.15",
+  "bsPrice": "0.07",
+  "diffPct": "102.53",
+  "status": "Overpriced"
+}
+{
+  "symbol": "CVX",
+  "spotPrice": "155.56",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 167.5,
+  "marketPrice": "0.12",
+  "bsPrice": "0.02",
+  "diffPct": "466.82",
+  "status": "Overpriced"
+}
+{
+  "symbol": "CVX",
+  "spotPrice": "155.56",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 144,
+  "marketPrice": "0.09",
+  "bsPrice": "0.01",
+  "diffPct": "579.57",
+  "status": "Overpriced"
+}
+{
+  "symbol": "CVX",
+  "spotPrice": "155.56",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 145,
+  "marketPrice": "0.18",
+  "bsPrice": "0.02",
+  "diffPct": "684.38",
+  "status": "Overpriced"
+}
+{
+  "symbol": "CVX",
+  "spotPrice": "155.56",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 146,
+  "marketPrice": "0.21",
+  "bsPrice": "0.04",
+  "diffPct": "380.96",
+  "status": "Overpriced"
+}
+{
+  "symbol": "CVX",
+  "spotPrice": "155.56",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 147,
+  "marketPrice": "0.21",
+  "bsPrice": "0.07",
+  "diffPct": "184.04",
+  "status": "Overpriced"
+}
+{
+  "symbol": "CVX",
+  "spotPrice": "155.56",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 148,
+  "marketPrice": "0.32",
+  "bsPrice": "0.12",
+  "diffPct": "159.54",
+  "status": "Overpriced"
+}
+{
+  "symbol": "CVX",
+  "spotPrice": "155.56",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 149,
+  "marketPrice": "0.44",
+  "bsPrice": "0.20",
+  "diffPct": "122.25",
+  "status": "Overpriced"
+}
+
+=== ABBV (Spot: $227.99) ===
+{
+  "symbol": "ABBV",
+  "spotPrice": "227.99",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 242.5,
+  "marketPrice": "0.44",
+  "bsPrice": "0.08",
+  "diffPct": "428.53",
+  "status": "Overpriced"
+}
+{
+  "symbol": "ABBV",
+  "spotPrice": "227.99",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 245,
+  "marketPrice": "0.30",
+  "bsPrice": "0.04",
+  "diffPct": "758.73",
+  "status": "Overpriced"
+}
+{
+  "symbol": "ABBV",
+  "spotPrice": "227.99",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 247.5,
+  "marketPrice": "0.40",
+  "bsPrice": "0.01",
+  "diffPct": "2740.84",
+  "status": "Overpriced"
+}
+{
+  "symbol": "ABBV",
+  "spotPrice": "227.99",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 210,
+  "marketPrice": "0.41",
+  "bsPrice": "0.01",
+  "diffPct": "3471.26",
+  "status": "Overpriced"
+}
+
+=== ABT (Spot: $126.85) ===
+{
+  "symbol": "ABT",
+  "spotPrice": "126.85",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 129,
+  "marketPrice": "0.48",
+  "bsPrice": "0.81",
+  "diffPct": "-40.11",
+  "status": "Underpriced"
+}
+{
+  "symbol": "ABT",
+  "spotPrice": "126.85",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 130,
+  "marketPrice": "0.27",
+  "bsPrice": "0.55",
+  "diffPct": "-50.76",
+  "status": "Underpriced"
+}
+{
+  "symbol": "ABT",
+  "spotPrice": "126.85",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 131,
+  "marketPrice": "0.12",
+  "bsPrice": "0.36",
+  "diffPct": "-66.50",
+  "status": "Underpriced"
+}
+{
+  "symbol": "ABT",
+  "spotPrice": "126.85",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 132,
+  "marketPrice": "0.06",
+  "bsPrice": "0.23",
+  "diffPct": "-73.38",
+  "status": "Underpriced"
+}
+{
+  "symbol": "ABT",
+  "spotPrice": "126.85",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 133,
+  "marketPrice": "0.07",
+  "bsPrice": "0.14",
+  "diffPct": "-45.11",
+  "status": "Underpriced"
+}
+{
+  "symbol": "ABT",
+  "spotPrice": "126.85",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 134,
+  "marketPrice": "0.04",
+  "bsPrice": "0.08",
+  "diffPct": "-43.55",
+  "status": "Underpriced"
+}
+{
+  "symbol": "ABT",
+  "spotPrice": "126.85",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 137,
+  "marketPrice": "0.07",
+  "bsPrice": "0.01",
+  "diffPct": "457.29",
+  "status": "Overpriced"
+}
+{
+  "symbol": "ABT",
+  "spotPrice": "126.85",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 118,
+  "marketPrice": "0.13",
+  "bsPrice": "0.02",
+  "diffPct": "679.21",
+  "status": "Overpriced"
+}
+{
+  "symbol": "ABT",
+  "spotPrice": "126.85",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 119,
+  "marketPrice": "0.13",
+  "bsPrice": "0.03",
+  "diffPct": "288.59",
+  "status": "Overpriced"
+}
+{
+  "symbol": "ABT",
+  "spotPrice": "126.85",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 120,
+  "marketPrice": "0.17",
+  "bsPrice": "0.07",
+  "diffPct": "151.57",
+  "status": "Overpriced"
+}
+{
+  "symbol": "ABT",
+  "spotPrice": "126.85",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 121,
+  "marketPrice": "0.10",
+  "bsPrice": "0.12",
+  "diffPct": "-17.51",
+  "status": "Underpriced"
+}
+{
+  "symbol": "ABT",
+  "spotPrice": "126.85",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 122,
+  "marketPrice": "0.16",
+  "bsPrice": "0.21",
+  "diffPct": "-22.14",
+  "status": "Underpriced"
+}
+{
+  "symbol": "ABT",
+  "spotPrice": "126.85",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 123,
+  "marketPrice": "0.28",
+  "bsPrice": "0.35",
+  "diffPct": "-20.30",
+  "status": "Underpriced"
+}
+{
+  "symbol": "ABT",
+  "spotPrice": "126.85",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 124,
+  "marketPrice": "0.39",
+  "bsPrice": "0.55",
+  "diffPct": "-30.54",
+  "status": "Underpriced"
+}
+
+=== CRM (Spot: $254.83) ===
+{
+  "symbol": "CRM",
+  "spotPrice": "254.83",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 272.5,
+  "marketPrice": "0.38",
+  "bsPrice": "0.06",
+  "diffPct": "526.42",
+  "status": "Overpriced"
+}
+{
+  "symbol": "CRM",
+  "spotPrice": "254.83",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 275,
+  "marketPrice": "0.30",
+  "bsPrice": "0.03",
+  "diffPct": "1004.43",
+  "status": "Overpriced"
+}
+{
+  "symbol": "CRM",
+  "spotPrice": "254.83",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 277.5,
+  "marketPrice": "0.27",
+  "bsPrice": "0.01",
+  "diffPct": "2212.73",
+  "status": "Overpriced"
+}
+{
+  "symbol": "CRM",
+  "spotPrice": "254.83",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 235,
+  "marketPrice": "0.34",
+  "bsPrice": "0.01",
+  "diffPct": "2323.64",
+  "status": "Overpriced"
+}
+{
+  "symbol": "CRM",
+  "spotPrice": "254.83",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 237.5,
+  "marketPrice": "0.39",
+  "bsPrice": "0.04",
+  "diffPct": "908.19",
+  "status": "Overpriced"
+}
+
+=== ACN (Spot: $247.65) ===
+{
+  "symbol": "ACN",
+  "spotPrice": "247.65",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 262.5,
+  "marketPrice": "0.47",
+  "bsPrice": "0.12",
+  "diffPct": "295.35",
+  "status": "Overpriced"
+}
+{
+  "symbol": "ACN",
+  "spotPrice": "247.65",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 265,
+  "marketPrice": "0.30",
+  "bsPrice": "0.06",
+  "diffPct": "438.62",
+  "status": "Overpriced"
+}
+{
+  "symbol": "ACN",
+  "spotPrice": "247.65",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 267.5,
+  "marketPrice": "0.20",
+  "bsPrice": "0.02",
+  "diffPct": "725.25",
+  "status": "Overpriced"
+}
+{
+  "symbol": "ACN",
+  "spotPrice": "247.65",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 230,
+  "marketPrice": "0.22",
+  "bsPrice": "0.03",
+  "diffPct": "732.47",
+  "status": "Overpriced"
+}
+{
+  "symbol": "ACN",
+  "spotPrice": "247.65",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 232.5,
+  "marketPrice": "0.20",
+  "bsPrice": "0.07",
+  "diffPct": "187.52",
+  "status": "Overpriced"
+}
+
+=== AVGO (Spot: $354.13) ===
+No filtered options data.
+
+=== COST (Spot: $932.14) ===
+{
+  "symbol": "COST",
+  "spotPrice": "932.14",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 995,
+  "marketPrice": "0.31",
+  "bsPrice": "0.26",
+  "diffPct": "20.37",
+  "status": "Overpriced"
+}
+{
+  "symbol": "COST",
+  "spotPrice": "932.14",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 1000,
+  "marketPrice": "0.46",
+  "bsPrice": "0.17",
+  "diffPct": "170.38",
+  "status": "Overpriced"
+}
+{
+  "symbol": "COST",
+  "spotPrice": "932.14",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 1005,
+  "marketPrice": "0.48",
+  "bsPrice": "0.11",
+  "diffPct": "339.77",
+  "status": "Overpriced"
+}
+{
+  "symbol": "COST",
+  "spotPrice": "932.14",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 850,
+  "marketPrice": "0.15",
+  "bsPrice": "0.02",
+  "diffPct": "778.55",
+  "status": "Overpriced"
+}
+{
+  "symbol": "COST",
+  "spotPrice": "932.14",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 855,
+  "marketPrice": "0.25",
+  "bsPrice": "0.03",
+  "diffPct": "720.66",
+  "status": "Overpriced"
+}
+{
+  "symbol": "COST",
+  "spotPrice": "932.14",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 860,
+  "marketPrice": "0.29",
+  "bsPrice": "0.05",
+  "diffPct": "432.54",
+  "status": "Overpriced"
+}
+{
+  "symbol": "COST",
+  "spotPrice": "932.14",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 865,
+  "marketPrice": "0.31",
+  "bsPrice": "0.09",
+  "diffPct": "228.53",
+  "status": "Overpriced"
+}
+{
+  "symbol": "COST",
+  "spotPrice": "932.14",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 870,
+  "marketPrice": "0.36",
+  "bsPrice": "0.16",
+  "diffPct": "130.10",
+  "status": "Overpriced"
+}
+{
+  "symbol": "COST",
+  "spotPrice": "932.14",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 875,
+  "marketPrice": "0.44",
+  "bsPrice": "0.26",
+  "diffPct": "69.92",
+  "status": "Overpriced"
+}
+
+=== QCOM (Spot: $168.94) ===
+{
+  "symbol": "QCOM",
+  "spotPrice": "168.94",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 177.5,
+  "marketPrice": "0.49",
+  "bsPrice": "0.16",
+  "diffPct": "214.67",
+  "status": "Overpriced"
+}
+{
+  "symbol": "QCOM",
+  "spotPrice": "168.94",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 180,
+  "marketPrice": "0.28",
+  "bsPrice": "0.05",
+  "diffPct": "406.22",
+  "status": "Overpriced"
+}
+{
+  "symbol": "QCOM",
+  "spotPrice": "168.94",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 182.5,
+  "marketPrice": "0.18",
+  "bsPrice": "0.02",
+  "diffPct": "999.26",
+  "status": "Overpriced"
+}
+{
+  "symbol": "QCOM",
+  "spotPrice": "168.94",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 157.5,
+  "marketPrice": "0.32",
+  "bsPrice": "0.03",
+  "diffPct": "1110.40",
+  "status": "Overpriced"
+}
+{
+  "symbol": "QCOM",
+  "spotPrice": "168.94",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 160,
+  "marketPrice": "0.49",
+  "bsPrice": "0.10",
+  "diffPct": "419.08",
+  "status": "Overpriced"
+}
+
+=== NKE (Spot: $69.11) ===
+{
+  "symbol": "NKE",
+  "spotPrice": "69.11",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 71,
+  "marketPrice": "0.47",
+  "bsPrice": "0.26",
+  "diffPct": "79.51",
+  "status": "Overpriced"
+}
+{
+  "symbol": "NKE",
+  "spotPrice": "69.11",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 72,
+  "marketPrice": "0.26",
+  "bsPrice": "0.11",
+  "diffPct": "128.17",
+  "status": "Overpriced"
+}
+{
+  "symbol": "NKE",
+  "spotPrice": "69.11",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 73,
+  "marketPrice": "0.15",
+  "bsPrice": "0.04",
+  "diffPct": "232.04",
+  "status": "Overpriced"
+}
+{
+  "symbol": "NKE",
+  "spotPrice": "69.11",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 74,
+  "marketPrice": "0.08",
+  "bsPrice": "0.01",
+  "diffPct": "478.10",
+  "status": "Overpriced"
+}
+{
+  "symbol": "NKE",
+  "spotPrice": "69.11",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 65,
+  "marketPrice": "0.13",
+  "bsPrice": "0.02",
+  "diffPct": "476.70",
+  "status": "Overpriced"
+}
+{
+  "symbol": "NKE",
+  "spotPrice": "69.11",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 66,
+  "marketPrice": "0.22",
+  "bsPrice": "0.07",
+  "diffPct": "199.76",
+  "status": "Overpriced"
+}
+{
+  "symbol": "NKE",
+  "spotPrice": "69.11",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 67,
+  "marketPrice": "0.38",
+  "bsPrice": "0.19",
+  "diffPct": "100.72",
+  "status": "Overpriced"
+}
+
+=== WMT (Spot: $106.17) ===
+{
+  "symbol": "WMT",
+  "spotPrice": "106.17",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 109,
+  "marketPrice": "0.36",
+  "bsPrice": "0.42",
+  "diffPct": "-13.72",
+  "status": "Underpriced"
+}
+{
+  "symbol": "WMT",
+  "spotPrice": "106.17",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 111,
+  "marketPrice": "0.16",
+  "bsPrice": "0.14",
+  "diffPct": "15.21",
+  "status": "Overpriced"
+}
+{
+  "symbol": "WMT",
+  "spotPrice": "106.17",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 112,
+  "marketPrice": "0.12",
+  "bsPrice": "0.07",
+  "diffPct": "62.39",
+  "status": "Overpriced"
+}
+{
+  "symbol": "WMT",
+  "spotPrice": "106.17",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 113,
+  "marketPrice": "0.07",
+  "bsPrice": "0.04",
+  "diffPct": "88.06",
+  "status": "Overpriced"
+}
+{
+  "symbol": "WMT",
+  "spotPrice": "106.17",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 114,
+  "marketPrice": "0.05",
+  "bsPrice": "0.02",
+  "diffPct": "181.80",
+  "status": "Overpriced"
+}
+{
+  "symbol": "WMT",
+  "spotPrice": "106.17",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 99,
+  "marketPrice": "0.07",
+  "bsPrice": "0.02",
+  "diffPct": "320.62",
+  "status": "Overpriced"
+}
+{
+  "symbol": "WMT",
+  "spotPrice": "106.17",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 100,
+  "marketPrice": "0.08",
+  "bsPrice": "0.04",
+  "diffPct": "105.53",
+  "status": "Overpriced"
+}
+{
+  "symbol": "WMT",
+  "spotPrice": "106.17",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 101,
+  "marketPrice": "0.12",
+  "bsPrice": "0.08",
+  "diffPct": "37.69",
+  "status": "Overpriced"
+}
+{
+  "symbol": "WMT",
+  "spotPrice": "106.17",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 104,
+  "marketPrice": "0.45",
+  "bsPrice": "0.52",
+  "diffPct": "-13.07",
+  "status": "Underpriced"
+}
+
+=== TXN (Spot: $169.13) ===
+{
+  "symbol": "TXN",
+  "spotPrice": "169.13",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 177.5,
+  "marketPrice": "0.23",
+  "bsPrice": "0.17",
+  "diffPct": "37.89",
+  "status": "Overpriced"
+}
+{
+  "symbol": "TXN",
+  "spotPrice": "169.13",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 180,
+  "marketPrice": "0.18",
+  "bsPrice": "0.06",
+  "diffPct": "202.17",
+  "status": "Overpriced"
+}
+{
+  "symbol": "TXN",
+  "spotPrice": "169.13",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 182.5,
+  "marketPrice": "0.12",
+  "bsPrice": "0.02",
+  "diffPct": "532.58",
+  "status": "Overpriced"
+}
+{
+  "symbol": "TXN",
+  "spotPrice": "169.13",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 157.5,
+  "marketPrice": "0.24",
+  "bsPrice": "0.02",
+  "diffPct": "918.30",
+  "status": "Overpriced"
+}
+
+=== MDT (Spot: $93.67) ===
+{
+  "symbol": "MDT",
+  "spotPrice": "93.67",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 95,
+  "marketPrice": "0.45",
+  "bsPrice": "0.68",
+  "diffPct": "-34.51",
+  "status": "Underpriced"
+}
+{
+  "symbol": "MDT",
+  "spotPrice": "93.67",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 96,
+  "marketPrice": "0.24",
+  "bsPrice": "0.40",
+  "diffPct": "-41.84",
+  "status": "Underpriced"
+}
+{
+  "symbol": "MDT",
+  "spotPrice": "93.67",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 97,
+  "marketPrice": "0.12",
+  "bsPrice": "0.22",
+  "diffPct": "-48.86",
+  "status": "Underpriced"
+}
+{
+  "symbol": "MDT",
+  "spotPrice": "93.67",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 98,
+  "marketPrice": "0.15",
+  "bsPrice": "0.12",
+  "diffPct": "28.33",
+  "status": "Overpriced"
+}
+{
+  "symbol": "MDT",
+  "spotPrice": "93.67",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 99,
+  "marketPrice": "0.08",
+  "bsPrice": "0.06",
+  "diffPct": "32.36",
+  "status": "Overpriced"
+}
+{
+  "symbol": "MDT",
+  "spotPrice": "93.67",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 100,
+  "marketPrice": "0.06",
+  "bsPrice": "0.03",
+  "diffPct": "114.87",
+  "status": "Overpriced"
+}
+{
+  "symbol": "MDT",
+  "spotPrice": "93.67",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 101,
+  "marketPrice": "0.03",
+  "bsPrice": "0.01",
+  "diffPct": "132.08",
+  "status": "Overpriced"
+}
+{
+  "symbol": "MDT",
+  "spotPrice": "93.67",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 87,
+  "marketPrice": "0.13",
+  "bsPrice": "0.01",
+  "diffPct": "1115.28",
+  "status": "Overpriced"
+}
+{
+  "symbol": "MDT",
+  "spotPrice": "93.67",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 89,
+  "marketPrice": "0.10",
+  "bsPrice": "0.07",
+  "diffPct": "41.00",
+  "status": "Overpriced"
+}
+{
+  "symbol": "MDT",
+  "spotPrice": "93.67",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 91,
+  "marketPrice": "0.24",
+  "bsPrice": "0.29",
+  "diffPct": "-15.49",
+  "status": "Underpriced"
+}
+{
+  "symbol": "MDT",
+  "spotPrice": "93.67",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 92,
+  "marketPrice": "0.42",
+  "bsPrice": "0.52",
+  "diffPct": "-20.74",
+  "status": "Underpriced"
+}
+
+=== NEE (Spot: $84.41) ===
+{
+  "symbol": "NEE",
+  "spotPrice": "84.41",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 88,
+  "marketPrice": "0.43",
+  "bsPrice": "0.13",
+  "diffPct": "222.95",
+  "status": "Overpriced"
+}
+{
+  "symbol": "NEE",
+  "spotPrice": "84.41",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 89,
+  "marketPrice": "0.32",
+  "bsPrice": "0.06",
+  "diffPct": "416.54",
+  "status": "Overpriced"
+}
+{
+  "symbol": "NEE",
+  "spotPrice": "84.41",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 90,
+  "marketPrice": "0.20",
+  "bsPrice": "0.03",
+  "diffPct": "661.40",
+  "status": "Overpriced"
+}
+{
+  "symbol": "NEE",
+  "spotPrice": "84.41",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 79,
+  "marketPrice": "0.13",
+  "bsPrice": "0.02",
+  "diffPct": "612.95",
+  "status": "Overpriced"
+}
+{
+  "symbol": "NEE",
+  "spotPrice": "84.41",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 80,
+  "marketPrice": "0.38",
+  "bsPrice": "0.05",
+  "diffPct": "655.61",
+  "status": "Overpriced"
+}
+{
+  "symbol": "NEE",
+  "spotPrice": "84.41",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 81,
+  "marketPrice": "0.47",
+  "bsPrice": "0.12",
+  "diffPct": "290.56",
+  "status": "Overpriced"
+}
+
+=== BMY (Spot: $43.83) ===
+{
+  "symbol": "BMY",
+  "spotPrice": "43.83",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 46,
+  "marketPrice": "0.48",
+  "bsPrice": "0.04",
+  "diffPct": "988.37",
+  "status": "Overpriced"
+}
+{
+  "symbol": "BMY",
+  "spotPrice": "43.83",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 46.5,
+  "marketPrice": "0.39",
+  "bsPrice": "0.02",
+  "diffPct": "1866.98",
+  "status": "Overpriced"
+}
+{
+  "symbol": "BMY",
+  "spotPrice": "43.83",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 41.5,
+  "marketPrice": "0.36",
+  "bsPrice": "0.02",
+  "diffPct": "1404.42",
+  "status": "Overpriced"
+}
+{
+  "symbol": "BMY",
+  "spotPrice": "43.83",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 42,
+  "marketPrice": "0.49",
+  "bsPrice": "0.06",
+  "diffPct": "752.92",
+  "status": "Overpriced"
+}
+
+=== LIN ===
+Failed to fetch option chain.
+
+=== LIN (Spot: $446) ===
+No processed options data.
+
+=== MCD (Spot: $305.79) ===
+{
+  "symbol": "MCD",
+  "spotPrice": "305.79",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 315,
+  "marketPrice": "0.36",
+  "bsPrice": "1.00",
+  "diffPct": "-63.41",
+  "status": "Underpriced"
+}
+{
+  "symbol": "MCD",
+  "spotPrice": "305.79",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 317.5,
+  "marketPrice": "0.23",
+  "bsPrice": "0.62",
+  "diffPct": "-63.17",
+  "status": "Underpriced"
+}
+{
+  "symbol": "MCD",
+  "spotPrice": "305.79",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 320,
+  "marketPrice": "0.15",
+  "bsPrice": "0.38",
+  "diffPct": "-60.07",
+  "status": "Underpriced"
+}
+{
+  "symbol": "MCD",
+  "spotPrice": "305.79",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 322.5,
+  "marketPrice": "0.18",
+  "bsPrice": "0.22",
+  "diffPct": "-14.68",
+  "status": "Underpriced"
+}
+{
+  "symbol": "MCD",
+  "spotPrice": "305.79",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 325,
+  "marketPrice": "0.15",
+  "bsPrice": "0.12",
+  "diffPct": "29.05",
+  "status": "Overpriced"
+}
+{
+  "symbol": "MCD",
+  "spotPrice": "305.79",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 327.5,
+  "marketPrice": "0.38",
+  "bsPrice": "0.06",
+  "diffPct": "495.41",
+  "status": "Overpriced"
+}
+{
+  "symbol": "MCD",
+  "spotPrice": "305.79",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 330,
+  "marketPrice": "0.06",
+  "bsPrice": "0.03",
+  "diffPct": "69.06",
+  "status": "Overpriced"
+}
+{
+  "symbol": "MCD",
+  "spotPrice": "305.79",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 282.5,
+  "marketPrice": "0.11",
+  "bsPrice": "0.02",
+  "diffPct": "441.48",
+  "status": "Overpriced"
+}
+{
+  "symbol": "MCD",
+  "spotPrice": "305.79",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 285,
+  "marketPrice": "0.11",
+  "bsPrice": "0.05",
+  "diffPct": "139.65",
+  "status": "Overpriced"
+}
+{
+  "symbol": "MCD",
+  "spotPrice": "305.79",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 287.5,
+  "marketPrice": "0.14",
+  "bsPrice": "0.10",
+  "diffPct": "49.77",
+  "status": "Overpriced"
+}
+{
+  "symbol": "MCD",
+  "spotPrice": "305.79",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 290,
+  "marketPrice": "0.15",
+  "bsPrice": "0.19",
+  "diffPct": "-21.56",
+  "status": "Underpriced"
+}
+{
+  "symbol": "MCD",
+  "spotPrice": "305.79",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 292.5,
+  "marketPrice": "0.20",
+  "bsPrice": "0.35",
+  "diffPct": "-42.24",
+  "status": "Underpriced"
+}
+{
+  "symbol": "MCD",
+  "spotPrice": "305.79",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 295,
+  "marketPrice": "0.33",
+  "bsPrice": "0.62",
+  "diffPct": "-46.04",
+  "status": "Underpriced"
+}
+
+=== LOW (Spot: $242.71) ===
+{
+  "symbol": "LOW",
+  "spotPrice": "242.71",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 255,
+  "marketPrice": "0.29",
+  "bsPrice": "0.23",
+  "diffPct": "28.05",
+  "status": "Overpriced"
+}
+{
+  "symbol": "LOW",
+  "spotPrice": "242.71",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 260,
+  "marketPrice": "0.10",
+  "bsPrice": "0.05",
+  "diffPct": "91.19",
+  "status": "Overpriced"
+}
+{
+  "symbol": "LOW",
+  "spotPrice": "242.71",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 262.5,
+  "marketPrice": "0.26",
+  "bsPrice": "0.02",
+  "diffPct": "1133.17",
+  "status": "Overpriced"
+}
+{
+  "symbol": "LOW",
+  "spotPrice": "242.71",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 225,
+  "marketPrice": "0.32",
+  "bsPrice": "0.02",
+  "diffPct": "1331.08",
+  "status": "Overpriced"
+}
+{
+  "symbol": "LOW",
+  "spotPrice": "242.71",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 230,
+  "marketPrice": "0.28",
+  "bsPrice": "0.14",
+  "diffPct": "92.04",
+  "status": "Overpriced"
+}
+{
+  "symbol": "LOW",
+  "spotPrice": "242.71",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 232.5,
+  "marketPrice": "0.41",
+  "bsPrice": "0.31",
+  "diffPct": "30.17",
+  "status": "Overpriced"
+}
+
+=== HON (Spot: $216.14) ===
+{
+  "symbol": "HON",
+  "spotPrice": "216.14",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 222.5,
+  "marketPrice": "0.50",
+  "bsPrice": "0.73",
+  "diffPct": "-31.72",
+  "status": "Underpriced"
+}
+{
+  "symbol": "HON",
+  "spotPrice": "216.14",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 225,
+  "marketPrice": "0.28",
+  "bsPrice": "0.37",
+  "diffPct": "-26.66",
+  "status": "Underpriced"
+}
+{
+  "symbol": "HON",
+  "spotPrice": "216.14",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 227.5,
+  "marketPrice": "0.33",
+  "bsPrice": "0.18",
+  "diffPct": "83.59",
+  "status": "Overpriced"
+}
+{
+  "symbol": "HON",
+  "spotPrice": "216.14",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 230,
+  "marketPrice": "0.25",
+  "bsPrice": "0.08",
+  "diffPct": "224.84",
+  "status": "Overpriced"
+}
+{
+  "symbol": "HON",
+  "spotPrice": "216.14",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 232.5,
+  "marketPrice": "0.17",
+  "bsPrice": "0.03",
+  "diffPct": "468.36",
+  "status": "Overpriced"
+}
+{
+  "symbol": "HON",
+  "spotPrice": "216.14",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 235,
+  "marketPrice": "0.15",
+  "bsPrice": "0.01",
+  "diffPct": "1223.18",
+  "status": "Overpriced"
+}
+{
+  "symbol": "HON",
+  "spotPrice": "216.14",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 200,
+  "marketPrice": "0.13",
+  "bsPrice": "0.02",
+  "diffPct": "646.47",
+  "status": "Overpriced"
+}
+{
+  "symbol": "HON",
+  "spotPrice": "216.14",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 202.5,
+  "marketPrice": "0.23",
+  "bsPrice": "0.05",
+  "diffPct": "340.62",
+  "status": "Overpriced"
+}
+{
+  "symbol": "HON",
+  "spotPrice": "216.14",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 205,
+  "marketPrice": "0.25",
+  "bsPrice": "0.14",
+  "diffPct": "83.56",
+  "status": "Overpriced"
+}
+{
+  "symbol": "HON",
+  "spotPrice": "216.14",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 210,
+  "marketPrice": "0.47",
+  "bsPrice": "0.67",
+  "diffPct": "-29.40",
+  "status": "Underpriced"
+}
+
+=== PM (Spot: $157.62) ===
+{
+  "symbol": "PM",
+  "spotPrice": "157.62",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 165,
+  "marketPrice": "0.22",
+  "bsPrice": "0.19",
+  "diffPct": "18.89",
+  "status": "Overpriced"
+}
+{
+  "symbol": "PM",
+  "spotPrice": "157.62",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 167.5,
+  "marketPrice": "0.28",
+  "bsPrice": "0.06",
+  "diffPct": "339.64",
+  "status": "Overpriced"
+}
+{
+  "symbol": "PM",
+  "spotPrice": "157.62",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 170,
+  "marketPrice": "0.08",
+  "bsPrice": "0.02",
+  "diffPct": "324.05",
+  "status": "Overpriced"
+}
+{
+  "symbol": "PM",
+  "spotPrice": "157.62",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 146,
+  "marketPrice": "0.07",
+  "bsPrice": "0.01",
+  "diffPct": "457.36",
+  "status": "Overpriced"
+}
+{
+  "symbol": "PM",
+  "spotPrice": "157.62",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 147,
+  "marketPrice": "0.10",
+  "bsPrice": "0.03",
+  "diffPct": "298.83",
+  "status": "Overpriced"
+}
+{
+  "symbol": "PM",
+  "spotPrice": "157.62",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 148,
+  "marketPrice": "0.07",
+  "bsPrice": "0.04",
+  "diffPct": "67.30",
+  "status": "Overpriced"
+}
+{
+  "symbol": "PM",
+  "spotPrice": "157.62",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 149,
+  "marketPrice": "0.10",
+  "bsPrice": "0.08",
+  "diffPct": "29.83",
+  "status": "Overpriced"
+}
+{
+  "symbol": "PM",
+  "spotPrice": "157.62",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 150,
+  "marketPrice": "0.17",
+  "bsPrice": "0.13",
+  "diffPct": "37.40",
+  "status": "Overpriced"
+}
+{
+  "symbol": "PM",
+  "spotPrice": "157.62",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 152.5,
+  "marketPrice": "0.50",
+  "bsPrice": "0.38",
+  "diffPct": "30.66",
+  "status": "Overpriced"
+}
+
+=== ORCL (Spot: $283.33) ===
+No filtered options data.
+
+=== UPS (Spot: $87.22) ===
+No filtered options data.
+
+=== IBM (Spot: $307.46) ===
+{
+  "symbol": "IBM",
+  "spotPrice": "307.46",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 282.5,
+  "marketPrice": "0.40",
+  "bsPrice": "0.01",
+  "diffPct": "3246.30",
+  "status": "Overpriced"
+}
+
+=== CVS (Spot: $81.93) ===
+No filtered options data.
+
+=== SPY (Spot: $677.25) ===
+{
+  "symbol": "SPY",
+  "spotPrice": "677.25",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 690,
+  "marketPrice": "0.46",
+  "bsPrice": "3.95",
+  "diffPct": "-88.49",
+  "status": "Underpriced"
+}
+{
+  "symbol": "SPY",
+  "spotPrice": "677.25",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 691,
+  "marketPrice": "0.34",
+  "bsPrice": "3.68",
+  "diffPct": "-90.62",
+  "status": "Underpriced"
+}
+{
+  "symbol": "SPY",
+  "spotPrice": "677.25",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 692,
+  "marketPrice": "0.27",
+  "bsPrice": "3.42",
+  "diffPct": "-92.25",
+  "status": "Underpriced"
+}
+{
+  "symbol": "SPY",
+  "spotPrice": "677.25",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 693,
+  "marketPrice": "0.20",
+  "bsPrice": "3.17",
+  "diffPct": "-93.86",
+  "status": "Underpriced"
+}
+{
+  "symbol": "SPY",
+  "spotPrice": "677.25",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 694,
+  "marketPrice": "0.15",
+  "bsPrice": "2.94",
+  "diffPct": "-94.73",
+  "status": "Underpriced"
+}
+{
+  "symbol": "SPY",
+  "spotPrice": "677.25",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 695,
+  "marketPrice": "0.11",
+  "bsPrice": "2.72",
+  "diffPct": "-95.78",
+  "status": "Underpriced"
+}
+{
+  "symbol": "SPY",
+  "spotPrice": "677.25",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 696,
+  "marketPrice": "0.10",
+  "bsPrice": "2.52",
+  "diffPct": "-96.23",
+  "status": "Underpriced"
+}
+{
+  "symbol": "SPY",
+  "spotPrice": "677.25",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 697,
+  "marketPrice": "0.08",
+  "bsPrice": "2.33",
+  "diffPct": "-96.78",
+  "status": "Underpriced"
+}
+{
+  "symbol": "SPY",
+  "spotPrice": "677.25",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 698,
+  "marketPrice": "0.07",
+  "bsPrice": "2.15",
+  "diffPct": "-96.97",
+  "status": "Underpriced"
+}
+{
+  "symbol": "SPY",
+  "spotPrice": "677.25",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 699,
+  "marketPrice": "0.06",
+  "bsPrice": "1.98",
+  "diffPct": "-97.22",
+  "status": "Underpriced"
+}
+{
+  "symbol": "SPY",
+  "spotPrice": "677.25",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 700,
+  "marketPrice": "0.04",
+  "bsPrice": "1.82",
+  "diffPct": "-97.53",
+  "status": "Underpriced"
+}
+{
+  "symbol": "SPY",
+  "spotPrice": "677.25",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 701,
+  "marketPrice": "0.04",
+  "bsPrice": "1.67",
+  "diffPct": "-97.31",
+  "status": "Underpriced"
+}
+{
+  "symbol": "SPY",
+  "spotPrice": "677.25",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 702,
+  "marketPrice": "0.04",
+  "bsPrice": "1.53",
+  "diffPct": "-97.72",
+  "status": "Underpriced"
+}
+{
+  "symbol": "SPY",
+  "spotPrice": "677.25",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 703,
+  "marketPrice": "0.04",
+  "bsPrice": "1.41",
+  "diffPct": "-97.51",
+  "status": "Underpriced"
+}
+{
+  "symbol": "SPY",
+  "spotPrice": "677.25",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 704,
+  "marketPrice": "0.03",
+  "bsPrice": "1.29",
+  "diffPct": "-98.06",
+  "status": "Underpriced"
+}
+{
+  "symbol": "SPY",
+  "spotPrice": "677.25",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 705,
+  "marketPrice": "0.03",
+  "bsPrice": "1.18",
+  "diffPct": "-97.87",
+  "status": "Underpriced"
+}
+{
+  "symbol": "SPY",
+  "spotPrice": "677.25",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 706,
+  "marketPrice": "0.03",
+  "bsPrice": "1.07",
+  "diffPct": "-97.67",
+  "status": "Underpriced"
+}
+{
+  "symbol": "SPY",
+  "spotPrice": "677.25",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 707,
+  "marketPrice": "0.03",
+  "bsPrice": "0.98",
+  "diffPct": "-97.45",
+  "status": "Underpriced"
+}
+{
+  "symbol": "SPY",
+  "spotPrice": "677.25",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 708,
+  "marketPrice": "0.03",
+  "bsPrice": "0.89",
+  "diffPct": "-97.19",
+  "status": "Underpriced"
+}
+{
+  "symbol": "SPY",
+  "spotPrice": "677.25",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 709,
+  "marketPrice": "0.03",
+  "bsPrice": "0.81",
+  "diffPct": "-96.91",
+  "status": "Underpriced"
+}
+{
+  "symbol": "SPY",
+  "spotPrice": "677.25",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 710,
+  "marketPrice": "0.03",
+  "bsPrice": "0.74",
+  "diffPct": "-96.60",
+  "status": "Underpriced"
+}
+{
+  "symbol": "SPY",
+  "spotPrice": "677.25",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 711,
+  "marketPrice": "0.01",
+  "bsPrice": "0.67",
+  "diffPct": "-97.75",
+  "status": "Underpriced"
+}
+{
+  "symbol": "SPY",
+  "spotPrice": "677.25",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 712,
+  "marketPrice": "0.01",
+  "bsPrice": "0.60",
+  "diffPct": "-97.52",
+  "status": "Underpriced"
+}
+{
+  "symbol": "SPY",
+  "spotPrice": "677.25",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 713,
+  "marketPrice": "0.01",
+  "bsPrice": "0.55",
+  "diffPct": "-97.25",
+  "status": "Underpriced"
+}
+{
+  "symbol": "SPY",
+  "spotPrice": "677.25",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 714,
+  "marketPrice": "0.01",
+  "bsPrice": "0.49",
+  "diffPct": "-96.96",
+  "status": "Underpriced"
+}
+{
+  "symbol": "SPY",
+  "spotPrice": "677.25",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 715,
+  "marketPrice": "0.01",
+  "bsPrice": "0.44",
+  "diffPct": "-96.63",
+  "status": "Underpriced"
+}
+{
+  "symbol": "SPY",
+  "spotPrice": "677.25",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 716,
+  "marketPrice": "0.01",
+  "bsPrice": "0.40",
+  "diffPct": "-96.26",
+  "status": "Underpriced"
+}
+{
+  "symbol": "SPY",
+  "spotPrice": "677.25",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 718,
+  "marketPrice": "0.01",
+  "bsPrice": "0.32",
+  "diffPct": "-95.36",
+  "status": "Underpriced"
+}
+{
+  "symbol": "SPY",
+  "spotPrice": "677.25",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 720,
+  "marketPrice": "0.01",
+  "bsPrice": "0.26",
+  "diffPct": "-94.23",
+  "status": "Underpriced"
+}
+{
+  "symbol": "SPY",
+  "spotPrice": "677.25",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 725,
+  "marketPrice": "0.01",
+  "bsPrice": "0.15",
+  "diffPct": "-89.79",
+  "status": "Underpriced"
+}
+{
+  "symbol": "SPY",
+  "spotPrice": "677.25",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 730,
+  "marketPrice": "0.01",
+  "bsPrice": "0.08",
+  "diffPct": "-81.32",
+  "status": "Underpriced"
+}
+{
+  "symbol": "SPY",
+  "spotPrice": "677.25",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 735,
+  "marketPrice": "0.01",
+  "bsPrice": "0.04",
+  "diffPct": "-64.64",
+  "status": "Underpriced"
+}
+{
+  "symbol": "SPY",
+  "spotPrice": "677.25",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 617,
+  "marketPrice": "0.11",
+  "bsPrice": "0.01",
+  "diffPct": "959.34",
+  "status": "Overpriced"
+}
+{
+  "symbol": "SPY",
+  "spotPrice": "677.25",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 618,
+  "marketPrice": "0.11",
+  "bsPrice": "0.01",
+  "diffPct": "790.71",
+  "status": "Overpriced"
+}
+{
+  "symbol": "SPY",
+  "spotPrice": "677.25",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 619,
+  "marketPrice": "0.13",
+  "bsPrice": "0.02",
+  "diffPct": "716.07",
+  "status": "Overpriced"
+}
+{
+  "symbol": "SPY",
+  "spotPrice": "677.25",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 620,
+  "marketPrice": "0.13",
+  "bsPrice": "0.02",
+  "diffPct": "589.57",
+  "status": "Overpriced"
+}
+{
+  "symbol": "SPY",
+  "spotPrice": "677.25",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 621,
+  "marketPrice": "0.14",
+  "bsPrice": "0.02",
+  "diffPct": "530.83",
+  "status": "Overpriced"
+}
+{
+  "symbol": "SPY",
+  "spotPrice": "677.25",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 622,
+  "marketPrice": "0.15",
+  "bsPrice": "0.03",
+  "diffPct": "475.33",
+  "status": "Overpriced"
+}
+{
+  "symbol": "SPY",
+  "spotPrice": "677.25",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 623,
+  "marketPrice": "0.15",
+  "bsPrice": "0.03",
+  "diffPct": "389.71",
+  "status": "Overpriced"
+}
+{
+  "symbol": "SPY",
+  "spotPrice": "677.25",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 624,
+  "marketPrice": "0.15",
+  "bsPrice": "0.03",
+  "diffPct": "346.64",
+  "status": "Overpriced"
+}
+{
+  "symbol": "SPY",
+  "spotPrice": "677.25",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 625,
+  "marketPrice": "0.15",
+  "bsPrice": "0.04",
+  "diffPct": "281.98",
+  "status": "Overpriced"
+}
+{
+  "symbol": "SPY",
+  "spotPrice": "677.25",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 626,
+  "marketPrice": "0.17",
+  "bsPrice": "0.05",
+  "diffPct": "248.59",
+  "status": "Overpriced"
+}
+{
+  "symbol": "SPY",
+  "spotPrice": "677.25",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 627,
+  "marketPrice": "0.17",
+  "bsPrice": "0.06",
+  "diffPct": "217.68",
+  "status": "Overpriced"
+}
+{
+  "symbol": "SPY",
+  "spotPrice": "677.25",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 628,
+  "marketPrice": "0.18",
+  "bsPrice": "0.06",
+  "diffPct": "189.24",
+  "status": "Overpriced"
+}
+{
+  "symbol": "SPY",
+  "spotPrice": "677.25",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 629,
+  "marketPrice": "0.18",
+  "bsPrice": "0.07",
+  "diffPct": "149.69",
+  "status": "Overpriced"
+}
+{
+  "symbol": "SPY",
+  "spotPrice": "677.25",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 630,
+  "marketPrice": "0.21",
+  "bsPrice": "0.09",
+  "diffPct": "139.39",
+  "status": "Overpriced"
+}
+{
+  "symbol": "SPY",
+  "spotPrice": "677.25",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 631,
+  "marketPrice": "0.21",
+  "bsPrice": "0.10",
+  "diffPct": "107.60",
+  "status": "Overpriced"
+}
+{
+  "symbol": "SPY",
+  "spotPrice": "677.25",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 632,
+  "marketPrice": "0.23",
+  "bsPrice": "0.11",
+  "diffPct": "98.04",
+  "status": "Overpriced"
+}
+{
+  "symbol": "SPY",
+  "spotPrice": "677.25",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 633,
+  "marketPrice": "0.23",
+  "bsPrice": "0.13",
+  "diffPct": "72.51",
+  "status": "Overpriced"
+}
+{
+  "symbol": "SPY",
+  "spotPrice": "677.25",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 634,
+  "marketPrice": "0.24",
+  "bsPrice": "0.15",
+  "diffPct": "63.99",
+  "status": "Overpriced"
+}
+{
+  "symbol": "SPY",
+  "spotPrice": "677.25",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 635,
+  "marketPrice": "0.26",
+  "bsPrice": "0.17",
+  "diffPct": "49.33",
+  "status": "Overpriced"
+}
+{
+  "symbol": "SPY",
+  "spotPrice": "677.25",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 636,
+  "marketPrice": "0.27",
+  "bsPrice": "0.19",
+  "diffPct": "36.07",
+  "status": "Overpriced"
+}
+{
+  "symbol": "SPY",
+  "spotPrice": "677.25",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 637,
+  "marketPrice": "0.28",
+  "bsPrice": "0.22",
+  "diffPct": "24.08",
+  "status": "Overpriced"
+}
+{
+  "symbol": "SPY",
+  "spotPrice": "677.25",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 638,
+  "marketPrice": "0.29",
+  "bsPrice": "0.25",
+  "diffPct": "17.21",
+  "status": "Overpriced"
+}
+{
+  "symbol": "SPY",
+  "spotPrice": "677.25",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 642,
+  "marketPrice": "0.36",
+  "bsPrice": "0.41",
+  "diffPct": "-10.94",
+  "status": "Underpriced"
+}
+{
+  "symbol": "SPY",
+  "spotPrice": "677.25",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 643,
+  "marketPrice": "0.39",
+  "bsPrice": "0.46",
+  "diffPct": "-16.42",
+  "status": "Underpriced"
+}
+{
+  "symbol": "SPY",
+  "spotPrice": "677.25",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 644,
+  "marketPrice": "0.41",
+  "bsPrice": "0.52",
+  "diffPct": "-21.60",
+  "status": "Underpriced"
+}
+{
+  "symbol": "SPY",
+  "spotPrice": "677.25",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 645,
+  "marketPrice": "0.42",
+  "bsPrice": "0.58",
+  "diffPct": "-26.50",
+  "status": "Underpriced"
+}
+{
+  "symbol": "SPY",
+  "spotPrice": "677.25",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 646,
+  "marketPrice": "0.46",
+  "bsPrice": "0.65",
+  "diffPct": "-29.57",
+  "status": "Underpriced"
+}
+{
+  "symbol": "SPY",
+  "spotPrice": "677.25",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 647,
+  "marketPrice": "0.48",
+  "bsPrice": "0.72",
+  "diffPct": "-32.66",
+  "status": "Underpriced"
+}
+
+=== DOCU (Spot: $71.49) ===
+{
+  "symbol": "DOCU",
+  "spotPrice": "71.49",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 75,
+  "marketPrice": "0.36",
+  "bsPrice": "0.07",
+  "diffPct": "393.74",
+  "status": "Overpriced"
+}
+{
+  "symbol": "DOCU",
+  "spotPrice": "71.49",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 76,
+  "marketPrice": "0.26",
+  "bsPrice": "0.03",
+  "diffPct": "844.55",
+  "status": "Overpriced"
+}
+{
+  "symbol": "DOCU",
+  "spotPrice": "71.49",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 67,
+  "marketPrice": "0.25",
+  "bsPrice": "0.02",
+  "diffPct": "1340.52",
+  "status": "Overpriced"
+}
+{
+  "symbol": "DOCU",
+  "spotPrice": "71.49",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 68,
+  "marketPrice": "0.35",
+  "bsPrice": "0.06",
+  "diffPct": "537.23",
+  "status": "Overpriced"
+}
+
+=== SQ ===
+Failed to fetch option chain.
+
+=== SQ (Spot: $0) ===
+No processed options data.
+
+=== ROKU (Spot: $96.29) ===
+No filtered options data.
+
+=== SNAP (Spot: $7.95) ===
+{
+  "symbol": "SNAP",
+  "spotPrice": "7.95",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 8,
+  "marketPrice": "0.23",
+  "bsPrice": "0.08",
+  "diffPct": "176.58",
+  "status": "Overpriced"
+}
+{
+  "symbol": "SNAP",
+  "spotPrice": "7.95",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 8,
+  "marketPrice": "0.28",
+  "bsPrice": "0.13",
+  "diffPct": "120.99",
+  "status": "Overpriced"
+}
+
+=== SPOT (Spot: $645.78) ===
+{
+  "symbol": "SPOT",
+  "spotPrice": "645.78",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 710,
+  "marketPrice": "0.34",
+  "bsPrice": "0.01",
+  "diffPct": "3045.95",
+  "status": "Overpriced"
+}
+
+=== CRWD (Spot: $527.32) ===
+No filtered options data.
+
+=== OKTA (Spot: $89.07) ===
+{
+  "symbol": "OKTA",
+  "spotPrice": "89.07",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 94,
+  "marketPrice": "0.38",
+  "bsPrice": "0.06",
+  "diffPct": "532.10",
+  "status": "Overpriced"
+}
+{
+  "symbol": "OKTA",
+  "spotPrice": "89.07",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 95,
+  "marketPrice": "0.31",
+  "bsPrice": "0.03",
+  "diffPct": "1078.82",
+  "status": "Overpriced"
+}
+{
+  "symbol": "OKTA",
+  "spotPrice": "89.07",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 96,
+  "marketPrice": "0.20",
+  "bsPrice": "0.01",
+  "diffPct": "1780.28",
+  "status": "Overpriced"
+}
+{
+  "symbol": "OKTA",
+  "spotPrice": "89.07",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 83,
+  "marketPrice": "0.28",
+  "bsPrice": "0.01",
+  "diffPct": "1988.99",
+  "status": "Overpriced"
+}
+{
+  "symbol": "OKTA",
+  "spotPrice": "89.07",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 84,
+  "marketPrice": "0.26",
+  "bsPrice": "0.04",
+  "diffPct": "605.71",
+  "status": "Overpriced"
+}
+
+=== TWLO (Spot: $112.56) ===
+No filtered options data.
+
+=== FUBO (Spot: $3.62) ===
+{
+  "symbol": "FUBO",
+  "spotPrice": "3.62",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 3.5,
+  "marketPrice": "0.24",
+  "bsPrice": "0.13",
+  "diffPct": "87.80",
+  "status": "Overpriced"
+}
+{
+  "symbol": "FUBO",
+  "spotPrice": "3.62",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 4,
+  "marketPrice": "0.48",
+  "bsPrice": "0.38",
+  "diffPct": "28.40",
+  "status": "Overpriced"
+}
+
+=== PLTR (Spot: $184.63) ===
+No filtered options data.
+
+=== ETSY (Spot: $73.9) ===
+No filtered options data.
+
+=== UBER (Spot: $94.07) ===
+{
+  "symbol": "UBER",
+  "spotPrice": "94.07",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 98,
+  "marketPrice": "0.47",
+  "bsPrice": "0.16",
+  "diffPct": "202.31",
+  "status": "Overpriced"
+}
+{
+  "symbol": "UBER",
+  "spotPrice": "94.07",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 99,
+  "marketPrice": "0.33",
+  "bsPrice": "0.08",
+  "diffPct": "317.53",
+  "status": "Overpriced"
+}
+{
+  "symbol": "UBER",
+  "spotPrice": "94.07",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 100,
+  "marketPrice": "0.23",
+  "bsPrice": "0.04",
+  "diffPct": "532.79",
+  "status": "Overpriced"
+}
+{
+  "symbol": "UBER",
+  "spotPrice": "94.07",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 101,
+  "marketPrice": "0.17",
+  "bsPrice": "0.02",
+  "diffPct": "974.44",
+  "status": "Overpriced"
+}
+{
+  "symbol": "UBER",
+  "spotPrice": "94.07",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 88,
+  "marketPrice": "0.16",
+  "bsPrice": "0.02",
+  "diffPct": "745.11",
+  "status": "Overpriced"
+}
+{
+  "symbol": "UBER",
+  "spotPrice": "94.07",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 89,
+  "marketPrice": "0.23",
+  "bsPrice": "0.05",
+  "diffPct": "368.94",
+  "status": "Overpriced"
+}
+{
+  "symbol": "UBER",
+  "spotPrice": "94.07",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 90,
+  "marketPrice": "0.38",
+  "bsPrice": "0.11",
+  "diffPct": "243.24",
+  "status": "Overpriced"
+}
+
+=== LYFT (Spot: $20.47) ===
+{
+  "symbol": "LYFT",
+  "spotPrice": "20.47",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 21,
+  "marketPrice": "0.35",
+  "bsPrice": "0.08",
+  "diffPct": "317.96",
+  "status": "Overpriced"
+}
+{
+  "symbol": "LYFT",
+  "spotPrice": "20.47",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 21.5,
+  "marketPrice": "0.22",
+  "bsPrice": "0.02",
+  "diffPct": "1027.47",
+  "status": "Overpriced"
+}
+{
+  "symbol": "LYFT",
+  "spotPrice": "20.47",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 19.5,
+  "marketPrice": "0.21",
+  "bsPrice": "0.02",
+  "diffPct": "1052.53",
+  "status": "Overpriced"
+}
+{
+  "symbol": "LYFT",
+  "spotPrice": "20.47",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 20,
+  "marketPrice": "0.35",
+  "bsPrice": "0.09",
+  "diffPct": "302.11",
+  "status": "Overpriced"
+}
+
+=== COIN (Spot: $354.46) ===
+No filtered options data.
+
+=== AFRM (Spot: $75.39) ===
+No filtered options data.
+
+=== F (Spot: $13.84) ===
+{
+  "symbol": "F",
+  "spotPrice": "13.84",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 13.5,
+  "marketPrice": "0.47",
+  "bsPrice": "0.40",
+  "diffPct": "17.02",
+  "status": "Overpriced"
+}
+{
+  "symbol": "F",
+  "spotPrice": "13.84",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 14,
+  "marketPrice": "0.18",
+  "bsPrice": "0.11",
+  "diffPct": "59.26",
+  "status": "Overpriced"
+}
+{
+  "symbol": "F",
+  "spotPrice": "13.84",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 14.5,
+  "marketPrice": "0.07",
+  "bsPrice": "0.02",
+  "diffPct": "313.93",
+  "status": "Overpriced"
+}
+{
+  "symbol": "F",
+  "spotPrice": "13.84",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 13.5,
+  "marketPrice": "0.13",
+  "bsPrice": "0.05",
+  "diffPct": "132.32",
+  "status": "Overpriced"
+}
+{
+  "symbol": "F",
+  "spotPrice": "13.84",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 14,
+  "marketPrice": "0.34",
+  "bsPrice": "0.26",
+  "diffPct": "30.24",
+  "status": "Overpriced"
+}
+
+=== GM (Spot: $69.66) ===
+{
+  "symbol": "GM",
+  "spotPrice": "69.66",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 72,
+  "marketPrice": "0.31",
+  "bsPrice": "0.19",
+  "diffPct": "62.98",
+  "status": "Overpriced"
+}
+{
+  "symbol": "GM",
+  "spotPrice": "69.66",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 73,
+  "marketPrice": "0.16",
+  "bsPrice": "0.08",
+  "diffPct": "105.90",
+  "status": "Overpriced"
+}
+{
+  "symbol": "GM",
+  "spotPrice": "69.66",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 74,
+  "marketPrice": "0.09",
+  "bsPrice": "0.03",
+  "diffPct": "216.51",
+  "status": "Overpriced"
+}
+{
+  "symbol": "GM",
+  "spotPrice": "69.66",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 65,
+  "marketPrice": "0.11",
+  "bsPrice": "0.01",
+  "diffPct": "805.59",
+  "status": "Overpriced"
+}
+{
+  "symbol": "GM",
+  "spotPrice": "69.66",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 66,
+  "marketPrice": "0.17",
+  "bsPrice": "0.04",
+  "diffPct": "307.16",
+  "status": "Overpriced"
+}
+{
+  "symbol": "GM",
+  "spotPrice": "69.66",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 67,
+  "marketPrice": "0.26",
+  "bsPrice": "0.12",
+  "diffPct": "122.73",
+  "status": "Overpriced"
+}
+{
+  "symbol": "GM",
+  "spotPrice": "69.66",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 68,
+  "marketPrice": "0.45",
+  "bsPrice": "0.28",
+  "diffPct": "57.67",
+  "status": "Overpriced"
+}
+
+=== RBLX (Spot: $127.71) ===
+No filtered options data.
+
+=== LCID (Spot: $18.48) ===
+{
+  "symbol": "LCID",
+  "spotPrice": "18.48",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 19,
+  "marketPrice": "0.47",
+  "bsPrice": "0.07",
+  "diffPct": "607.79",
+  "status": "Overpriced"
+}
+{
+  "symbol": "LCID",
+  "spotPrice": "18.48",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 19.5,
+  "marketPrice": "0.32",
+  "bsPrice": "0.01",
+  "diffPct": "2437.99",
+  "status": "Overpriced"
+}
+{
+  "symbol": "LCID",
+  "spotPrice": "18.48",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 17.5,
+  "marketPrice": "0.27",
+  "bsPrice": "0.01",
+  "diffPct": "2512.35",
+  "status": "Overpriced"
+}
+{
+  "symbol": "LCID",
+  "spotPrice": "18.48",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 18,
+  "marketPrice": "0.44",
+  "bsPrice": "0.07",
+  "diffPct": "563.54",
+  "status": "Overpriced"
+}
+
+=== NVAX (Spot: $8.52) ===
+{
+  "symbol": "NVAX",
+  "spotPrice": "8.52",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 8.5,
+  "marketPrice": "0.36",
+  "bsPrice": "0.12",
+  "diffPct": "198.63",
+  "status": "Overpriced"
+}
+{
+  "symbol": "NVAX",
+  "spotPrice": "8.52",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 8.5,
+  "marketPrice": "0.34",
+  "bsPrice": "0.10",
+  "diffPct": "254.62",
+  "status": "Overpriced"
+}
+
+=== BIDU (Spot: $122.76) ===
+No filtered options data.
+
+=== TME ===
+Failed to fetch option chain.
+
+=== TME (Spot: $22.9) ===
+No processed options data.
+
+=== JD (Spot: $33.19) ===
+{
+  "symbol": "JD",
+  "spotPrice": "33.19",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 34,
+  "marketPrice": "0.46",
+  "bsPrice": "0.15",
+  "diffPct": "217.05",
+  "status": "Overpriced"
+}
+{
+  "symbol": "JD",
+  "spotPrice": "33.19",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 34.5,
+  "marketPrice": "0.32",
+  "bsPrice": "0.06",
+  "diffPct": "414.56",
+  "status": "Overpriced"
+}
+{
+  "symbol": "JD",
+  "spotPrice": "33.19",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 35,
+  "marketPrice": "0.23",
+  "bsPrice": "0.02",
+  "diffPct": "891.01",
+  "status": "Overpriced"
+}
+{
+  "symbol": "JD",
+  "spotPrice": "33.19",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 31.5,
+  "marketPrice": "0.17",
+  "bsPrice": "0.02",
+  "diffPct": "674.00",
+  "status": "Overpriced"
+}
+{
+  "symbol": "JD",
+  "spotPrice": "33.19",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 32,
+  "marketPrice": "0.30",
+  "bsPrice": "0.06",
+  "diffPct": "354.34",
+  "status": "Overpriced"
+}
+{
+  "symbol": "JD",
+  "spotPrice": "33.19",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 32.5,
+  "marketPrice": "0.45",
+  "bsPrice": "0.16",
+  "diffPct": "186.51",
+  "status": "Overpriced"
+}
+
+=== PDD (Spot: $133.96) ===
+{
+  "symbol": "PDD",
+  "spotPrice": "133.96",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 141,
+  "marketPrice": "0.47",
+  "bsPrice": "0.11",
+  "diffPct": "328.27",
+  "status": "Overpriced"
+}
+{
+  "symbol": "PDD",
+  "spotPrice": "133.96",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 142,
+  "marketPrice": "0.34",
+  "bsPrice": "0.06",
+  "diffPct": "433.09",
+  "status": "Overpriced"
+}
+{
+  "symbol": "PDD",
+  "spotPrice": "133.96",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 143,
+  "marketPrice": "0.28",
+  "bsPrice": "0.04",
+  "diffPct": "659.47",
+  "status": "Overpriced"
+}
+{
+  "symbol": "PDD",
+  "spotPrice": "133.96",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 144,
+  "marketPrice": "0.33",
+  "bsPrice": "0.02",
+  "diffPct": "1501.98",
+  "status": "Overpriced"
+}
+{
+  "symbol": "PDD",
+  "spotPrice": "133.96",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 145,
+  "marketPrice": "0.30",
+  "bsPrice": "0.01",
+  "diffPct": "2681.98",
+  "status": "Overpriced"
+}
+{
+  "symbol": "PDD",
+  "spotPrice": "133.96",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 124,
+  "marketPrice": "0.48",
+  "bsPrice": "0.01",
+  "diffPct": "4422.30",
+  "status": "Overpriced"
+}
+{
+  "symbol": "PDD",
+  "spotPrice": "133.96",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 125,
+  "marketPrice": "0.41",
+  "bsPrice": "0.02",
+  "diffPct": "1714.63",
+  "status": "Overpriced"
+}
+{
+  "symbol": "PDD",
+  "spotPrice": "133.96",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 126,
+  "marketPrice": "0.46",
+  "bsPrice": "0.04",
+  "diffPct": "959.89",
+  "status": "Overpriced"
+}
+
+=== NTES ===
+Failed to fetch option chain.
+
+=== NTES (Spot: $146.71) ===
+No processed options data.
+
+=== BABA (Spot: $174.7) ===
+No filtered options data.
+
+=== XPEV (Spot: $21.62) ===
+{
+  "symbol": "XPEV",
+  "spotPrice": "21.62",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 22,
+  "marketPrice": "0.48",
+  "bsPrice": "0.13",
+  "diffPct": "258.29",
+  "status": "Overpriced"
+}
+{
+  "symbol": "XPEV",
+  "spotPrice": "21.62",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 22.5,
+  "marketPrice": "0.33",
+  "bsPrice": "0.04",
+  "diffPct": "751.46",
+  "status": "Overpriced"
+}
+{
+  "symbol": "XPEV",
+  "spotPrice": "21.62",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 20.5,
+  "marketPrice": "0.23",
+  "bsPrice": "0.01",
+  "diffPct": "1624.21",
+  "status": "Overpriced"
+}
+{
+  "symbol": "XPEV",
+  "spotPrice": "21.62",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 21,
+  "marketPrice": "0.40",
+  "bsPrice": "0.07",
+  "diffPct": "504.01",
+  "status": "Overpriced"
+}
+
+=== NIO (Spot: $6.9) ===
+{
+  "symbol": "NIO",
+  "spotPrice": "6.90",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 6.5,
+  "marketPrice": "0.48",
+  "bsPrice": "0.41",
+  "diffPct": "19.36",
+  "status": "Overpriced"
+}
+{
+  "symbol": "NIO",
+  "spotPrice": "6.90",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 7,
+  "marketPrice": "0.18",
+  "bsPrice": "0.05",
+  "diffPct": "274.66",
+  "status": "Overpriced"
+}
+{
+  "symbol": "NIO",
+  "spotPrice": "6.90",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 7,
+  "marketPrice": "0.27",
+  "bsPrice": "0.15",
+  "diffPct": "82.36",
+  "status": "Overpriced"
+}
+
+=== LI (Spot: $21.92) ===
+{
+  "symbol": "LI",
+  "spotPrice": "21.92",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 22.5,
+  "marketPrice": "0.41",
+  "bsPrice": "0.09",
+  "diffPct": "371.10",
+  "status": "Overpriced"
+}
+{
+  "symbol": "LI",
+  "spotPrice": "21.92",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 23,
+  "marketPrice": "0.22",
+  "bsPrice": "0.02",
+  "diffPct": "904.20",
+  "status": "Overpriced"
+}
+{
+  "symbol": "LI",
+  "spotPrice": "21.92",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 21,
+  "marketPrice": "0.24",
+  "bsPrice": "0.03",
+  "diffPct": "766.11",
+  "status": "Overpriced"
+}
+{
+  "symbol": "LI",
+  "spotPrice": "21.92",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 21.5,
+  "marketPrice": "0.39",
+  "bsPrice": "0.11",
+  "diffPct": "236.73",
+  "status": "Overpriced"
+}
+
+=== PLUG (Spot: $2.95) ===
+{
+  "symbol": "PLUG",
+  "spotPrice": "2.95",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 3,
+  "marketPrice": "0.15",
+  "bsPrice": "0.02",
+  "diffPct": "723.10",
+  "status": "Overpriced"
+}
+{
+  "symbol": "PLUG",
+  "spotPrice": "2.95",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 3,
+  "marketPrice": "0.22",
+  "bsPrice": "0.07",
+  "diffPct": "220.47",
+  "status": "Overpriced"
+}
+
+=== BLNK ===
+Failed to fetch option chain.
+
+=== BLNK (Spot: $1.93) ===
+No processed options data.
+
+=== NKLA ===
+Failed to fetch option chain.
+
+=== NKLA (Spot: $0) ===
+No processed options data.
+
+=== FSLR (Spot: $241.41) ===
+No filtered options data.
+
+=== ENPH (Spot: $36.23) ===
+No filtered options data.
+
+=== SEDG (Spot: $39.7) ===
+No filtered options data.
+
+=== SPWR ===
+Failed to fetch option chain.
+
+=== SPWR (Spot: $2.11) ===
+No processed options data.
+
+=== RUN (Spot: $20.85) ===
+No filtered options data.
+
+=== TSM (Spot: $294.96) ===
+{
+  "symbol": "TSM",
+  "spotPrice": "294.96",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 317.5,
+  "marketPrice": "0.47",
+  "bsPrice": "0.04",
+  "diffPct": "1088.42",
+  "status": "Overpriced"
+}
+{
+  "symbol": "TSM",
+  "spotPrice": "294.96",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 320,
+  "marketPrice": "0.39",
+  "bsPrice": "0.02",
+  "diffPct": "1915.92",
+  "status": "Overpriced"
+}
+
+=== ASML (Spot: $1033.1) ===
+No filtered options data.
+
+=== ORLY ===
+Failed to fetch option chain.
+
+=== ORLY (Spot: $97.27) ===
+No processed options data.
+
+=== REGN (Spot: $577.95) ===
+No filtered options data.
+
+=== VRTX (Spot: $421.39) ===
+{
+  "symbol": "VRTX",
+  "spotPrice": "421.39",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 457.5,
+  "marketPrice": "0.28",
+  "bsPrice": "0.03",
+  "diffPct": "982.10",
+  "status": "Overpriced"
+}
+
+=== BIIB (Spot: $149.89) ===
+No filtered options data.
+
+=== GILD (Spot: $120.94) ===
+{
+  "symbol": "GILD",
+  "spotPrice": "120.94",
+  "expiration": "2025-10-31",
+  "type": "call",
+  "strike": 130,
+  "marketPrice": "0.44",
+  "bsPrice": "0.02",
+  "diffPct": "2295.87",
+  "status": "Overpriced"
+}
+{
+  "symbol": "GILD",
+  "spotPrice": "120.94",
+  "expiration": "2025-10-31",
+  "type": "put",
+  "strike": 112,
+  "marketPrice": "0.45",
+  "bsPrice": "0.01",
+  "diffPct": "4349.42",
+  "status": "Overpriced"
+}
+
+=== AMAT (Spot: $228.75) ===
+No filtered options data.
+
+=== LRCX (Spot: $151.68) ===
+No filtered options data.
+
+=== MU (Spot: $219.02) ===
+No filtered options data.
+
+=== SWKS ===
+Failed to fetch option chain.
+
+=== SWKS (Spot: $74.04) ===
+No processed options data.
+
+=== ON (Spot: $50.71) ===
+No filtered options data.

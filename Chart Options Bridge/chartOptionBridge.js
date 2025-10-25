@@ -1,135 +1,188 @@
-// chartOptionBridge.js
 require('dotenv').config();
 const fs = require('fs');
 const path = require('path');
+const nodemailer = require('nodemailer');
+
+// Import the option analysis function
+const { runOptionAnalysis } = require(path.join(__dirname, '..', 'option-chain-test', 'optionchaintest.js'));
 
 // ---- Paths ----
 const decisionTablePath = path.join(__dirname, 'decisionSheets.json');
-const stockAlertsPath = path.join(__dirname, '..', 'stock_strat_test', 'log', 'results.json');
+const stockResultsPath = path.join(__dirname, '..', 'stock_strat_test', 'log', 'results.json');
+
+const logDir = path.join(__dirname, 'log');
+const logTxtPath = path.join(logDir, 'alerts.txt');
+const logJsonPath = path.join(logDir, 'results.json');
+
+// Ensure log folder exists
+if (!fs.existsSync(logDir)) fs.mkdirSync(logDir, { recursive: true });
 
 // ---- Load Decision Table ----
 const decisionTable = JSON.parse(fs.readFileSync(decisionTablePath, 'utf-8'));
 
-// ---- Helper to pick suggested action from decision table ----
-function getSuggestedAction(optData) {
+// ---- Utility: get suggested action ----
+function getSuggestedAction(opt) {
   for (const scenario of decisionTable) {
-    if (
-      optData.diffPct >= scenario.diffPctMin &&
-      optData.diffPct <= scenario.diffPctMax &&
-      optData.volRatio >= scenario.volRatioMin &&
-      optData.volRatio <= scenario.volRatioMax &&
-      optData.spreadPct >= scenario.spreadPctMin &&
-      optData.spreadPct <= scenario.spreadPctMax &&
-      optData.openInterest >= scenario.liquidityMin &&
-      optData.openInterest <= scenario.liquidityMax &&
-      scenario.type.toLowerCase() === optData.type.toLowerCase() &&
-      scenario.moneyness === optData.moneyness
-    ) {
-      return scenario.suggestedAction;
-    }
+    if (scenario.type.toLowerCase() !== opt.type.toLowerCase()) continue;
+    if (scenario.moneyness !== opt.moneyness) continue;
+
+    let diffCategory = '';
+    const diff = opt.diffPct;
+    if (diff > 50) diffCategory = '>50';
+    else if (diff > 25) diffCategory = '25-50';
+    else if (diff > 0) diffCategory = '0-25';
+    else if (diff > -25) diffCategory = '0-25';
+    else if (diff > -50) diffCategory = '<-25';
+    else diffCategory = '<-50';
+
+    if (scenario.diffPct.includes(diffCategory)) return scenario.suggestedAction;
   }
   return 'Hold / Review';
 }
 
-// ---- Analyze Options ----
-async function analyzeOptions(symbol, underlyingPrice, histVol, fetchOptionChain, blackScholes) {
-  const chain = await fetchOptionChain(symbol);
-  if (!chain) return [];
+// ---- Merge Stock & Option Data ----
+function mergeStockOptionData(stockAlerts, optionAlerts) {
+  const merged = [];
+  const batchTimestamp = new Date().toISOString();
+  for (const opt of optionAlerts) {
+    const stock = stockAlerts.find(s => s.symbol === opt.symbol);
+    if (!stock) continue;
 
-  const r = 0.05; // risk-free rate
-  const Tdays = 30; // default for missing days to expiration
-  const flaggedOptions = [];
-
-  const allStrikes = [
-    ...(chain.callExpDateMap ? Object.values(chain.callExpDateMap) : []),
-    ...(chain.putExpDateMap ? Object.values(chain.putExpDateMap) : [])
-  ].flatMap(e => Object.values(e).flat());
-
-  for (const opt of allStrikes) {
-    const type = opt.putCall.toLowerCase();
-    const strike = parseFloat(opt.strikePrice);
-    const lastPrice = parseFloat(opt.last);
-    const iv = parseFloat(opt.impliedVolatility) || 0;
-    const bid = parseFloat(opt.bid) || 0;
-    const ask = parseFloat(opt.ask) || 0;
-    const openInterest = parseInt(opt.openInterest) || 0;
-    const daysToExp = (opt.daysToExpiration || Tdays);
-    const T = daysToExp / 252;
-
-    const sigma = iv || histVol || 0.3;
-    const theoPrice = blackScholes(type, underlyingPrice, strike, T, r, sigma);
-    if (!theoPrice || lastPrice === 0) continue;
-
-    const diffPct = ((theoPrice - lastPrice) / lastPrice) * 100;
-    if (Math.abs(diffPct) < 25) continue;
-
-    const volRatio = histVol ? iv / histVol : null;
-    const spreadPct = lastPrice ? ((ask - bid) / lastPrice) * 100 : null;
-
-    let moneyness = 'OTM';
-    if ((type === 'call' && underlyingPrice > strike) || (type === 'put' && underlyingPrice < strike)) {
-      moneyness = 'ITM';
-    } else if (Math.abs(underlyingPrice - strike) / underlyingPrice <= 0.05) {
-      moneyness = 'ATM';
-    }
-
-    const optionDataForDecision = { type, diffPct, volRatio, spreadPct, openInterest, moneyness };
-    const suggestedAction = getSuggestedAction(optionDataForDecision);
-
-    flaggedOptions.push({
-      symbol,
-      type,
-      strike,
-      expiration: opt.expirationDate,
-      lastPrice,
-      theoPrice: parseFloat(theoPrice.toFixed(2)),
-      diffPct: parseFloat(diffPct.toFixed(2)),
-      status: diffPct > 0 ? 'Undervalued' : 'Overvalued',
-      histVol: parseFloat(histVol?.toFixed(4)) || null,
-      iv: parseFloat(iv.toFixed(4)),
-      volRatio: volRatio ? parseFloat(volRatio.toFixed(4)) : null,
-      bid,
-      ask,
-      spreadPct: spreadPct ? parseFloat(spreadPct.toFixed(2)) : null,
-      openInterest,
-      suggestedAction
+    merged.push({
+      ...opt,
+      stockSignal: stock.signal,
+      stockTrend: stock.trend,
+      stockRiskLevel: stock.riskLevel,
+      stockExpectedMove: stock.expectedMovePercent,
+      suggestedAction: getSuggestedAction(opt),
+      timestamp: new Date().toISOString(),
+      batchTimestamp
     });
   }
-
-  return flaggedOptions;
+  return merged;
 }
 
-// ---- Build HTML for Alerts ----
-function buildOptionAlertEmail(flaggedOptions) {
-  let html = `<h1>Option Alert</h1>`;
-  flaggedOptions.forEach(opt => {
+// ---- Build HTML Email ----
+function buildAlertEmail(mergedAlerts) {
+  if (mergedAlerts.length === 0) return '';
+  const batchTime = mergedAlerts[0].batchTimestamp;
+  let html = `<h1>Stock & Option Alerts</h1>`;
+  html += `<p><b>Batch Generated:</b> ${batchTime}</p><hr>`;
+  mergedAlerts.forEach(alert => {
     html += `
-      <h2>${opt.symbol} - ${opt.type.toUpperCase()} ${opt.strike} (${opt.status})</h2>
+      <h2>${alert.symbol} - ${alert.type.toUpperCase()} ${alert.strike} (${alert.status})</h2>
       <ul>
-        <li>Last Price: ${opt.lastPrice}</li>
-        <li>Theoretical Price: ${opt.theoPrice}</li>
-        <li>Difference: ${opt.diffPct}%</li>
-        <li>Suggested Action: <b>${opt.suggestedAction}</b></li>
-        <li>IV: ${opt.iv}, Historical Volatility: ${opt.histVol}</li>
-        <li>Vol Ratio (IV/HistVol): ${opt.volRatio}</li>
-        <li>Bid: ${opt.bid}, Ask: ${opt.ask}, Spread%: ${opt.spreadPct}</li>
-        <li>Open Interest: ${opt.openInterest}</li>
-        <li>Expiration: ${opt.expiration}</li>
+        <li>Alert Timestamp: ${alert.timestamp}</li>
+        <li>Stock Signal: ${alert.stockSignal}</li>
+        <li>Trend: ${alert.stockTrend}</li>
+        <li>Risk Level: ${alert.stockRiskLevel}</li>
+        <li>Expected Move: ${alert.stockExpectedMove}%</li>
+        <li>Option Last Price: ${alert.marketPrice}</li>
+        <li>Black-Scholes Price: ${alert.bsPrice}</li>
+        <li>Difference %: ${alert.diffPct}%</li>
+        <li>Type: ${alert.type}, Strike: ${alert.strike}, Expiration: ${alert.expiration}</li>
+        <li>Status: ${alert.status}</li>
+        <li>Suggested Action: <b>${alert.suggestedAction}</b></li>
       </ul>
       <hr>`;
   });
   return html;
 }
 
-// ---- Save Alerts to Stock Log ----
-function saveAlerts(flaggedOptions) {
+// ---- Save Alerts to Logs ----
+function saveAlertsToLogs(mergedAlerts) {
   let existingAlerts = [];
-  if (fs.existsSync(stockAlertsPath)) {
-    try { existingAlerts = JSON.parse(fs.readFileSync(stockAlertsPath, 'utf-8')); }
+  if (fs.existsSync(logJsonPath)) {
+    try { existingAlerts = JSON.parse(fs.readFileSync(logJsonPath, 'utf-8')); }
     catch { existingAlerts = []; }
   }
-  const updatedAlerts = existingAlerts.concat(flaggedOptions);
-  fs.writeFileSync(stockAlertsPath, JSON.stringify(updatedAlerts, null, 2));
+  const updatedAlerts = existingAlerts.concat(mergedAlerts);
+  fs.writeFileSync(logJsonPath, JSON.stringify(updatedAlerts, null, 2));
+
+  let txtContent = '';
+  mergedAlerts.forEach(alert => {
+    txtContent += `⚡ [${alert.timestamp}] ${alert.symbol} | ${alert.type.toUpperCase()} ${alert.strike} (${alert.status})\n`;
+    txtContent += `Stock Signal: ${alert.stockSignal}, Trend: ${alert.stockTrend}, Risk: ${alert.stockRiskLevel}, Expected Move: ${alert.stockExpectedMove}%\n`;
+    txtContent += `Option Last Price: ${alert.marketPrice}, BS Price: ${alert.bsPrice}, Diff%: ${alert.diffPct}%\n`;
+    txtContent += `Suggested Action: ${alert.suggestedAction}\n`;
+    txtContent += `Expiration: ${alert.expiration}\n`;
+    txtContent += `-------------------------------------------\n`;
+  });
+  fs.writeFileSync(logTxtPath, txtContent);
 }
 
-module.exports = { analyzeOptions, buildOptionAlertEmail, saveAlerts };
+// ---- Send Email ----
+async function sendEmail(htmlContent) {
+  if (!htmlContent) return;
+  const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: process.env.EMAIL_USER || 'nlpChartMonitor@gmail.com',
+      pass: process.env.EMAIL_PASS
+    }
+  });
+
+  const mailOptions = {
+    from: 'nlpChartMonitor@gmail.com',
+    to: 'nlpChartMonitor@gmail.com',
+    subject: 'Stock & Option Alerts',
+    html: htmlContent
+  };
+
+  try {
+    await transporter.sendMail(mailOptions);
+    console.log('✅ Alert email sent successfully!');
+  } catch (err) {
+    console.error('❌ Error sending email:', err.message);
+  }
+}
+
+// ---- Queue System for Stock Alerts ----
+const stockQueue = [];
+let processing = false;
+
+async function processQueue() {
+  if (processing) return;
+  processing = true;
+
+  while (stockQueue.length > 0) {
+    const stock = stockQueue.shift();
+    console.log(`🔔 Processing stock: ${stock.symbol}`);
+    try {
+      const { allResults: optionResults, allAlerts: optionAlerts } = await runOptionAnalysis(stock.symbol);
+
+      const merged = mergeStockOptionData([stock], optionAlerts);
+      if (merged.length > 0) {
+        saveAlertsToLogs(merged);
+        const html = buildAlertEmail(merged);
+        await sendEmail(html);
+      }
+    } catch (err) {
+      console.error(`Error processing ${stock.symbol}:`, err.message);
+    }
+
+    // Respect 55 calls/min (~1.1s per stock)
+    await new Promise(r => setTimeout(r, 1200));
+  }
+
+  processing = false;
+}
+
+// ---- Watch Stock Results ----
+let processedSymbols = new Set();
+fs.watch(stockResultsPath, async (eventType) => {
+  if (eventType !== 'change') return;
+  try {
+    const allStockAlerts = JSON.parse(fs.readFileSync(stockResultsPath, 'utf-8'));
+    const newAlerts = allStockAlerts.filter(a => (a.riskLevel === 'Low' || a.riskLevel === 'Medium') && !processedSymbols.has(a.symbol));
+    for (const stock of newAlerts) {
+      processedSymbols.add(stock.symbol);
+      stockQueue.push(stock);
+    }
+    processQueue(); // Trigger processing if not already running
+  } catch (err) {
+    console.error('Error reading stock results:', err.message);
+  }
+});
+
+console.log('📡 Chart Option Bridge listening for stock alerts...');

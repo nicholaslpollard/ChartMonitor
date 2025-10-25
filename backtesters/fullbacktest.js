@@ -1,8 +1,9 @@
 // fullbacktest.js
-require('dotenv').config();
+const path = require('path'); // <-- require path first
+require('dotenv').config({ path: path.join(__dirname, '..', '.env') });
+
 const Alpaca = require('@alpacahq/alpaca-trade-api');
 const fs = require('fs');
-const path = require('path');
 const { parse: csvParse } = require('csv-parse/sync');
 const { exec } = require('child_process');
 const { SMA, smaSlope, RSI, ATR, trendDirection, BollingerBands, ADX } = require('./helpers');

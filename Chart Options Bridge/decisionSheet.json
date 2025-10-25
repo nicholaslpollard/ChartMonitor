@@ -1,48 +1,219 @@
 [
-  {"diffPct":"extreme>50","type":"call","moneyness":"OTM","iv":"Low","spread":"Narrow","liquidity":"High","suggestedAction":"Strong buy call (extremely undervalued, low IV, narrow spread, high liquidity)"},
-  {"diffPct":"extreme>50","type":"put","moneyness":"OTM","iv":"Low","spread":"Narrow","liquidity":"High","suggestedAction":"Strong buy put (extremely undervalued, low IV, narrow spread, high liquidity)"},
-  {"diffPct":"50-25","type":"call","moneyness":"OTM","iv":"Low","spread":"Narrow","liquidity":"High","suggestedAction":"Buy call (undervalued, low IV, narrow spread, good liquidity)"},
-  {"diffPct":"50-25","type":"put","moneyness":"OTM","iv":"Low","spread":"Narrow","liquidity":"High","suggestedAction":"Buy put (undervalued, low IV, narrow spread, good liquidity)"},
-  {"diffPct":"50-25","type":"call","moneyness":"ITM","iv":"Low","spread":"Narrow","liquidity":"Medium","suggestedAction":"Consider buying call ITM (undervalued, monitor delta risk)"},
-  {"diffPct":"50-25","type":"put","moneyness":"ITM","iv":"Low","spread":"Narrow","liquidity":"Medium","suggestedAction":"Consider buying put ITM (undervalued, monitor delta risk)"},
-  {"diffPct":">50","type":"call","moneyness":"OTM","iv":"High","spread":"Narrow","liquidity":"High","suggestedAction":"Cautious buy (undervalued but high IV, watch risk)"},
-  {"diffPct":">50","type":"put","moneyness":"OTM","iv":"High","spread":"Narrow","liquidity":"High","suggestedAction":"Cautious buy (undervalued but high IV, watch risk)"},
-  {"diffPct":"<-25","type":"call","moneyness":"ITM","iv":"High","spread":"Moderate","liquidity":"Low","suggestedAction":"Avoid / sell call (overvalued, high IV, low liquidity)"},
-  {"diffPct":"<-25","type":"put","moneyness":"ITM","iv":"High","spread":"Moderate","liquidity":"Low","suggestedAction":"Avoid / sell put (overvalued, high IV, low liquidity)"},
-  {"diffPct":"<-25","type":"call","moneyness":"OTM","iv":"Low","spread":"Narrow","liquidity":"High","suggestedAction":"Avoid / sell call (overvalued, low IV, narrow spread)"},
-  {"diffPct":"<-25","type":"put","moneyness":"OTM","iv":"Low","spread":"Narrow","liquidity":"High","suggestedAction":"Avoid / sell put (overvalued, low IV, narrow spread)"},
-  {"diffPct":"0-25","type":"call","moneyness":"ATM","iv":"Low","spread":"Narrow","liquidity":"High","suggestedAction":"Hold or wait (slightly undervalued, narrow spread)"},
-  {"diffPct":"0-25","type":"put","moneyness":"ATM","iv":"Low","spread":"Narrow","liquidity":"High","suggestedAction":"Hold or wait (slightly undervalued, narrow spread)"},
-  {"diffPct":"25-50","type":"call","moneyness":"OTM","iv":"Low","spread":"Wide","liquidity":"High","suggestedAction":"Consider buying (undervalued, wide spread alert)"},
-  {"diffPct":"25-50","type":"put","moneyness":"OTM","iv":"Low","spread":"Wide","liquidity":"High","suggestedAction":"Consider buying (undervalued, wide spread alert)"},
-  {"diffPct":">50","type":"call","moneyness":"OTM","iv":"High","spread":"Wide","liquidity":"Low","suggestedAction":"Cautious buy (high IV, wide spread, low liquidity)"},
-  {"diffPct":">50","type":"put","moneyness":"OTM","iv":"High","spread":"Wide","liquidity":"Low","suggestedAction":"Cautious buy (high IV, wide spread, low liquidity)"},
-  {"diffPct":"0-25","type":"call","moneyness":"ITM","iv":"High","spread":"Narrow","liquidity":"High","suggestedAction":"Consider buying ITM (slightly undervalued, high IV)"},
-  {"diffPct":"0-25","type":"put","moneyness":"ITM","iv":"High","spread":"Narrow","liquidity":"High","suggestedAction":"Consider buying ITM (slightly undervalued, high IV)"},
-  {"diffPct":"50-25","type":"call","moneyness":"OTM","iv":"Normal","spread":"Narrow","liquidity":"Medium","suggestedAction":"Buy call (undervalued, normal IV, moderate liquidity)"},
-  {"diffPct":"50-25","type":"put","moneyness":"OTM","iv":"Normal","spread":"Narrow","liquidity":"Medium","suggestedAction":"Buy put (undervalued, normal IV, moderate liquidity)"},
-  {"diffPct":"25-50","type":"call","moneyness":"OTM","iv":"High","spread":"Narrow","liquidity":"Low","suggestedAction":"Cautious buy (undervalued, high IV, low liquidity)"},
-  {"diffPct":"25-50","type":"put","moneyness":"OTM","iv":"High","spread":"Narrow","liquidity":"Low","suggestedAction":"Cautious buy (undervalued, high IV, low liquidity)"},
-  {"diffPct":"<-50","type":"call","moneyness":"ITM","iv":"Extreme","spread":"Wide","liquidity":"Low","suggestedAction":"Strong sell call (extremely overvalued, extreme IV, wide spread, low liquidity)"},
-  {"diffPct":"<-50","type":"put","moneyness":"ITM","iv":"Extreme","spread":"Wide","liquidity":"Low","suggestedAction":"Strong sell put (extremely overvalued, extreme IV, wide spread, low liquidity)"},
-  {"diffPct":"0-25","type":"call","moneyness":"ATM","iv":"High","spread":"Wide","liquidity":"High","suggestedAction":"Monitor, slight undervalue but high IV and wide spread"},
-  {"diffPct":"0-25","type":"put","moneyness":"ATM","iv":"High","spread":"Wide","liquidity":"High","suggestedAction":"Monitor, slight undervalue but high IV and wide spread"},
-  {"diffPct":"50-25","type":"call","moneyness":"ITM","iv":"Normal","spread":"Narrow","liquidity":"Medium","suggestedAction":"Consider buying ITM call (moderate undervalue, normal IV)"},
-  {"diffPct":"50-25","type":"put","moneyness":"ITM","iv":"Normal","spread":"Narrow","liquidity":"Medium","suggestedAction":"Consider buying ITM put (moderate undervalue, normal IV)"},
-  {"diffPct":"25-50","type":"call","moneyness":"OTM","iv":"Extreme","spread":"Moderate","liquidity":"Low","suggestedAction":"High risk buy (undervalued, extreme IV, low liquidity)"},
-  {"diffPct":"25-50","type":"put","moneyness":"OTM","iv":"Extreme","spread":"Moderate","liquidity":"Low","suggestedAction":"High risk buy (undervalued, extreme IV, low liquidity)"},
-  {"diffPct":"<-25","type":"call","moneyness":"OTM","iv":"Normal","spread":"Moderate","liquidity":"Medium","suggestedAction":"Sell call (overvalued, normal IV, moderate liquidity)"},
-  {"diffPct":"<-25","type":"put","moneyness":"OTM","iv":"Normal","spread":"Moderate","liquidity":"Medium","suggestedAction":"Sell put (overvalued, normal IV, moderate liquidity)"},
-  {"diffPct":"0-25","type":"call","moneyness":"ITM","iv":"Low","spread":"Moderate","liquidity":"High","suggestedAction":"Hold ITM call (slightly undervalued, moderate spread)"},
-  {"diffPct":"0-25","type":"put","moneyness":"ITM","iv":"Low","spread":"Moderate","liquidity":"High","suggestedAction":"Hold ITM put (slightly undervalued, moderate spread)"},
-  {"diffPct":">50","type":"call","moneyness":"ITM","iv":"High","spread":"Moderate","liquidity":"Low","suggestedAction":"Cautious buy ITM (extremely undervalued, high IV, low liquidity)"},
-  {"diffPct":">50","type":"put","moneyness":"ITM","iv":"High","spread":"Moderate","liquidity":"Low","suggestedAction":"Cautious buy ITM (extremely undervalued, high IV, low liquidity)"},
-  {"diffPct":"25-50","type":"call","moneyness":"ATM","iv":"Normal","spread":"Narrow","liquidity":"Medium","suggestedAction":"Consider buying ATM call (undervalued, normal IV, medium liquidity)"},
-  {"diffPct":"25-50","type":"put","moneyness":"ATM","iv":"Normal","spread":"Narrow","liquidity":"Medium","suggestedAction":"Consider buying ATM put (undervalued, normal IV, medium liquidity)"},
-  {"diffPct":"<-25","type":"call","moneyness":"ATM","iv":"High","spread":"Wide","liquidity":"Low","suggestedAction":"Avoid / sell ATM call (overvalued, high IV, wide spread, low liquidity)"},
-  {"diffPct":"<-25","type":"put","moneyness":"ATM","iv":"High","spread":"Wide","liquidity":"Low","suggestedAction":"Avoid / sell ATM put (overvalued, high IV, wide spread, low liquidity)"},
-  {"diffPct":"0-25","type":"call","moneyness":"OTM","iv":"Normal","spread":"Moderate","liquidity":"Medium","suggestedAction":"Monitor OTM call (slightly undervalued, normal IV, moderate spread)"},
-  {"diffPct":"0-25","type":"put","moneyness":"OTM","iv":"Normal","spread":"Moderate","liquidity":"Medium","suggestedAction":"Monitor OTM put (slightly undervalued, normal IV, moderate spread)"},
-  {"diffPct":"50-25","type":"call","moneyness":"OTM","iv":"Extreme","spread":"Wide","liquidity":"Low","suggestedAction":"High risk buy (undervalued, extreme IV, wide spread, low liquidity)"},
-  {"diffPct":"50-25","type":"put","moneyness":"OTM","iv":"Extreme","spread":"Wide","liquidity":"Low","suggestedAction":"High risk buy (undervalued, extreme IV, wide spread, low liquidity)"}
+  {
+    "diffPct": "extreme>50",
+    "type": "call",
+    "moneyness": "OTM",
+    "iv": "Low",
+    "spread": "Narrow",
+    "liquidity": "High",
+    "suggestedAction": "Strong buy call (extremely undervalued, low IV, narrow spread, high liquidity)"
+  },
+  {
+    "diffPct": "extreme>50",
+    "type": "put",
+    "moneyness": "OTM",
+    "iv": "Low",
+    "spread": "Narrow",
+    "liquidity": "High",
+    "suggestedAction": "Strong buy put (extremely undervalued, low IV, narrow spread, high liquidity)"
+  },
+  {
+    "diffPct": "extreme>50",
+    "type": "call",
+    "moneyness": "ITM",
+    "iv": "Low",
+    "spread": "Narrow",
+    "liquidity": "Medium",
+    "suggestedAction": "Strong buy ITM call (extremely undervalued, monitor delta risk)"
+  },
+  {
+    "diffPct": "extreme>50",
+    "type": "put",
+    "moneyness": "ITM",
+    "iv": "Low",
+    "spread": "Narrow",
+    "liquidity": "Medium",
+    "suggestedAction": "Strong buy ITM put (extremely undervalued, monitor delta risk)"
+  },
+  {
+    "diffPct": "extreme>50",
+    "type": "call",
+    "moneyness": "ATM",
+    "iv": "Low",
+    "spread": "Narrow",
+    "liquidity": "High",
+    "suggestedAction": "Strong buy ATM call (extremely undervalued, low IV, narrow spread)"
+  },
+  {
+    "diffPct": "extreme>50",
+    "type": "put",
+    "moneyness": "ATM",
+    "iv": "Low",
+    "spread": "Narrow",
+    "liquidity": "High",
+    "suggestedAction": "Strong buy ATM put (extremely undervalued, low IV, narrow spread)"
+  },
+  {
+    "diffPct": "50-25",
+    "type": "call",
+    "moneyness": "OTM",
+    "iv": "Low",
+    "spread": "Narrow",
+    "liquidity": "High",
+    "suggestedAction": "Buy call (moderately undervalued, low IV, narrow spread, good liquidity)"
+  },
+  {
+    "diffPct": "50-25",
+    "type": "put",
+    "moneyness": "OTM",
+    "iv": "Low",
+    "spread": "Narrow",
+    "liquidity": "High",
+    "suggestedAction": "Buy put (moderately undervalued, low IV, narrow spread, good liquidity)"
+  },
+  {
+    "diffPct": "50-25",
+    "type": "call",
+    "moneyness": "ITM",
+    "iv": "Low",
+    "spread": "Narrow",
+    "liquidity": "Medium",
+    "suggestedAction": "Consider buying ITM call (moderately undervalued, monitor delta risk)"
+  },
+  {
+    "diffPct": "50-25",
+    "type": "put",
+    "moneyness": "ITM",
+    "iv": "Low",
+    "spread": "Narrow",
+    "liquidity": "Medium",
+    "suggestedAction": "Consider buying ITM put (moderately undervalued, monitor delta risk)"
+  },
+  {
+    "diffPct": "50-25",
+    "type": "call",
+    "moneyness": "ATM",
+    "iv": "Low",
+    "spread": "Narrow",
+    "liquidity": "High",
+    "suggestedAction": "Buy ATM call (moderately undervalued, low IV, narrow spread)"
+  },
+  {
+    "diffPct": "50-25",
+    "type": "put",
+    "moneyness": "ATM",
+    "iv": "Low",
+    "spread": "Narrow",
+    "liquidity": "High",
+    "suggestedAction": "Buy ATM put (moderately undervalued, low IV, narrow spread)"
+  },
+  {
+    "diffPct": "25-50",
+    "type": "call",
+    "moneyness": "OTM",
+    "iv": "Low",
+    "spread": "Narrow",
+    "liquidity": "High",
+    "suggestedAction": "Cautious buy call (moderate undervaluation, low IV, narrow spread)"
+  },
+  {
+    "diffPct": "25-50",
+    "type": "put",
+    "moneyness": "OTM",
+    "iv": "Low",
+    "spread": "Narrow",
+    "liquidity": "High",
+    "suggestedAction": "Cautious buy put (moderate undervaluation, low IV, narrow spread)"
+  },
+  {
+    "diffPct": "25-50",
+    "type": "call",
+    "moneyness": "ITM",
+    "iv": "Low",
+    "spread": "Narrow",
+    "liquidity": "Medium",
+    "suggestedAction": "Consider buying ITM call (moderate undervaluation, delta risk)"
+  },
+  {
+    "diffPct": "25-50",
+    "type": "put",
+    "moneyness": "ITM",
+    "iv": "Low",
+    "spread": "Narrow",
+    "liquidity": "Medium",
+    "suggestedAction": "Consider buying ITM put (moderate undervaluation, delta risk)"
+  },
+  {
+    "diffPct": "25-50",
+    "type": "call",
+    "moneyness": "ATM",
+    "iv": "Low",
+    "spread": "Narrow",
+    "liquidity": "Medium",
+    "suggestedAction": "Consider buying ATM call (moderately undervalued, low IV)"
+  },
+  {
+    "diffPct": "25-50",
+    "type": "put",
+    "moneyness": "ATM",
+    "iv": "Low",
+    "spread": "Narrow",
+    "liquidity": "Medium",
+    "suggestedAction": "Consider buying ATM put (moderately undervalued, low IV)"
+  },
+  {
+    "diffPct": "0-25",
+    "type": "call",
+    "moneyness": "OTM",
+    "iv": "Low",
+    "spread": "Narrow",
+    "liquidity": "High",
+    "suggestedAction": "Monitor OTM call (slightly undervalued, narrow spread)"
+  },
+  {
+    "diffPct": "0-25",
+    "type": "put",
+    "moneyness": "OTM",
+    "iv": "Low",
+    "spread": "Narrow",
+    "liquidity": "High",
+    "suggestedAction": "Monitor OTM put (slightly undervalued, narrow spread)"
+  },
+  {
+    "diffPct": "0-25",
+    "type": "call",
+    "moneyness": "ITM",
+    "iv": "Low",
+    "spread": "Narrow",
+    "liquidity": "High",
+    "suggestedAction": "Consider small ITM call (slightly undervalued, low IV)"
+  },
+  {
+    "diffPct": "0-25",
+    "type": "put",
+    "moneyness": "ITM",
+    "iv": "Low",
+    "spread": "Narrow",
+    "liquidity": "High",
+    "suggestedAction": "Consider small ITM put (slightly undervalued, low IV)"
+  },
+  {
+    "diffPct": "0-25",
+    "type": "call",
+    "moneyness": "ATM",
+    "iv": "Low",
+    "spread": "Narrow",
+    "liquidity": "High",
+    "suggestedAction": "Monitor ATM call (slightly undervalued, low IV)"
+  },
+  {
+    "diffPct": "0-25",
+    "type": "put",
+    "moneyness": "ATM",
+    "iv": "Low",
+    "spread": "Narrow",
+    "liquidity": "High",
+    "suggestedAction": "Monitor ATM put (slightly undervalued, low IV)"
+  }
 ]
+
