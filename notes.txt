@@ -42,6 +42,11 @@ Chart Monitor/
 │       ├── components/        # React/Vue/Vanilla JS components
 │       └── pages/             # Frontend API calls to backend             
 │
+├── Historical/               
+│   ├── historicalDBBuilder.js  
+│   ├── progress.json 
+│   └── 6monthdb.json
+|
 ├── logs/                     # includes old logs from archived singlebacktest /may be used in the future
 │
 ├── node_modules/             # has all node modules
@@ -87,7 +92,7 @@ PUBLIC_API_BASE = 'https://api.public.com'
 to run optionchaintest.js
 node option-chain-test/optionchaintest.js
 to run fullbacktest.js
-node ./backtesters/fullbacktest.js
+node ./backtesters/fullbacktest.jsgit add *
 
 email: nlpChartMonitor@gmail.com
 
