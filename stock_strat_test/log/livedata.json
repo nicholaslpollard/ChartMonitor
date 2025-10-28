@@ -1,0 +1,443 @@
+{
+  "REXR.PRB": {
+    "symbol": "REXR.PRB",
+    "lastPrice": null,
+    "bid": null,
+    "ask": null,
+    "time": "2025-10-28T23:00:57.789Z"
+  },
+  "NOV": {
+    "symbol": "NOV",
+    "lastPrice": null,
+    "bid": null,
+    "ask": null,
+    "time": "2025-10-28T23:00:57.911Z"
+  },
+  "DERM": {
+    "symbol": "DERM",
+    "lastPrice": null,
+    "bid": null,
+    "ask": null,
+    "time": "2025-10-28T23:01:00.617Z"
+  },
+  "QQQG": {
+    "symbol": "QQQG",
+    "lastPrice": null,
+    "bid": null,
+    "ask": null,
+    "time": "2025-10-28T23:01:00.756Z"
+  },
+  "DWAW": {
+    "symbol": "DWAW",
+    "lastPrice": null,
+    "bid": null,
+    "ask": null,
+    "time": "2025-10-28T23:01:01.882Z"
+  },
+  "KMPB": {
+    "symbol": "KMPB",
+    "lastPrice": null,
+    "bid": null,
+    "ask": null,
+    "time": "2025-10-28T23:01:01.976Z"
+  },
+  "BYFC": {
+    "symbol": "BYFC",
+    "lastPrice": null,
+    "bid": null,
+    "ask": null,
+    "time": "2025-10-28T23:01:02.175Z"
+  },
+  "MAXN": {
+    "symbol": "MAXN",
+    "lastPrice": null,
+    "bid": null,
+    "ask": null,
+    "time": "2025-10-28T23:01:02.266Z"
+  },
+  "ALIL": {
+    "symbol": "ALIL",
+    "lastPrice": null,
+    "bid": null,
+    "ask": null,
+    "time": "2025-10-28T23:01:02.461Z"
+  },
+  "VWAV": {
+    "symbol": "VWAV",
+    "lastPrice": null,
+    "bid": null,
+    "ask": null,
+    "time": "2025-10-28T23:01:02.536Z"
+  },
+  "DMAA": {
+    "symbol": "DMAA",
+    "lastPrice": null,
+    "bid": null,
+    "ask": null,
+    "time": "2025-10-28T23:01:02.784Z"
+  },
+  "ANTX": {
+    "symbol": "ANTX",
+    "lastPrice": null,
+    "bid": null,
+    "ask": null,
+    "time": "2025-10-28T23:01:02.909Z"
+  },
+  "OPTZ": {
+    "symbol": "OPTZ",
+    "lastPrice": null,
+    "bid": null,
+    "ask": null,
+    "time": "2025-10-28T23:01:03.071Z"
+  },
+  "GFL": {
+    "symbol": "GFL",
+    "lastPrice": null,
+    "bid": null,
+    "ask": null,
+    "time": "2025-10-28T23:01:03.375Z"
+  },
+  "OOQB": {
+    "symbol": "OOQB",
+    "lastPrice": null,
+    "bid": null,
+    "ask": null,
+    "time": "2025-10-28T23:01:03.465Z"
+  },
+  "BRZE": {
+    "symbol": "BRZE",
+    "lastPrice": null,
+    "bid": null,
+    "ask": null,
+    "time": "2025-10-28T23:01:03.656Z"
+  },
+  "AVUQ": {
+    "symbol": "AVUQ",
+    "lastPrice": null,
+    "bid": null,
+    "ask": null,
+    "time": "2025-10-28T23:01:03.763Z"
+  },
+  "AHL": {
+    "symbol": "AHL",
+    "lastPrice": null,
+    "bid": null,
+    "ask": null,
+    "time": "2025-10-28T23:01:04.270Z"
+  },
+  "CTEC": {
+    "symbol": "CTEC",
+    "lastPrice": null,
+    "bid": null,
+    "ask": null,
+    "time": "2025-10-28T23:01:04.288Z"
+  },
+  "CIFRW": {
+    "symbol": "CIFRW",
+    "lastPrice": null,
+    "bid": null,
+    "ask": null,
+    "time": "2025-10-28T23:01:04.556Z"
+  },
+  "MSDD": {
+    "symbol": "MSDD",
+    "lastPrice": null,
+    "bid": null,
+    "ask": null,
+    "time": "2025-10-28T23:01:04.586Z"
+  },
+  "EXG": {
+    "symbol": "EXG",
+    "lastPrice": null,
+    "bid": null,
+    "ask": null,
+    "time": "2025-10-28T23:01:04.844Z"
+  },
+  "CRESW": {
+    "symbol": "CRESW",
+    "lastPrice": null,
+    "bid": null,
+    "ask": null,
+    "time": "2025-10-28T23:01:04.879Z"
+  },
+  "RAIL": {
+    "symbol": "RAIL",
+    "lastPrice": null,
+    "bid": null,
+    "ask": null,
+    "time": "2025-10-28T23:01:05.163Z"
+  },
+  "COWS": {
+    "symbol": "COWS",
+    "lastPrice": null,
+    "bid": null,
+    "ask": null,
+    "time": "2025-10-28T23:01:05.172Z"
+  },
+  "ELTX": {
+    "symbol": "ELTX",
+    "lastPrice": null,
+    "bid": null,
+    "ask": null,
+    "time": "2025-10-28T23:01:05.440Z"
+  },
+  "LIQT": {
+    "symbol": "LIQT",
+    "lastPrice": null,
+    "bid": null,
+    "ask": null,
+    "time": "2025-10-28T23:01:05.452Z"
+  },
+  "BBD": {
+    "symbol": "BBD",
+    "lastPrice": null,
+    "bid": null,
+    "ask": null,
+    "time": "2025-10-28T23:01:05.721Z"
+  },
+  "LDEM": {
+    "symbol": "LDEM",
+    "lastPrice": null,
+    "bid": null,
+    "ask": null,
+    "time": "2025-10-28T23:01:05.847Z"
+  },
+  "KBWR": {
+    "symbol": "KBWR",
+    "lastPrice": null,
+    "bid": null,
+    "ask": null,
+    "time": "2025-10-28T23:01:06.166Z"
+  },
+  "ZENV": {
+    "symbol": "ZENV",
+    "lastPrice": null,
+    "bid": null,
+    "ask": null,
+    "time": "2025-10-28T23:01:06.180Z"
+  },
+  "ABIG": {
+    "symbol": "ABIG",
+    "lastPrice": null,
+    "bid": null,
+    "ask": null,
+    "time": "2025-10-28T23:01:06.442Z"
+  },
+  "PCAPW": {
+    "symbol": "PCAPW",
+    "lastPrice": null,
+    "bid": null,
+    "ask": null,
+    "time": "2025-10-28T23:01:06.458Z"
+  },
+  "JACS": {
+    "symbol": "JACS",
+    "lastPrice": null,
+    "bid": null,
+    "ask": null,
+    "time": "2025-10-28T23:01:06.727Z"
+  },
+  "ARKR": {
+    "symbol": "ARKR",
+    "lastPrice": null,
+    "bid": null,
+    "ask": null,
+    "time": "2025-10-28T23:01:06.738Z"
+  },
+  "ZIONP": {
+    "symbol": "ZIONP",
+    "lastPrice": null,
+    "bid": null,
+    "ask": null,
+    "time": "2025-10-28T23:01:07.009Z"
+  },
+  "FUBO": {
+    "symbol": "FUBO",
+    "lastPrice": null,
+    "bid": null,
+    "ask": null,
+    "time": "2025-10-28T23:01:07.023Z"
+  },
+  "YMT": {
+    "symbol": "YMT",
+    "lastPrice": null,
+    "bid": null,
+    "ask": null,
+    "time": "2025-10-28T23:01:07.290Z"
+  },
+  "APED": {
+    "symbol": "APED",
+    "lastPrice": null,
+    "bid": null,
+    "ask": null,
+    "time": "2025-10-28T23:01:07.308Z"
+  },
+  "UHAL": {
+    "symbol": "UHAL",
+    "lastPrice": null,
+    "bid": null,
+    "ask": null,
+    "time": "2025-10-28T23:01:07.827Z"
+  },
+  "ANL": {
+    "symbol": "ANL",
+    "lastPrice": null,
+    "bid": null,
+    "ask": null,
+    "time": "2025-10-28T23:01:08.026Z"
+  },
+  "PSA.PRR": {
+    "symbol": "PSA.PRR",
+    "lastPrice": null,
+    "bid": null,
+    "ask": null,
+    "time": "2025-10-28T23:01:08.124Z"
+  },
+  "AFSC": {
+    "symbol": "AFSC",
+    "lastPrice": null,
+    "bid": null,
+    "ask": null,
+    "time": "2025-10-28T23:01:08.313Z"
+  },
+  "SREA": {
+    "symbol": "SREA",
+    "lastPrice": null,
+    "bid": null,
+    "ask": null,
+    "time": "2025-10-28T23:01:08.407Z"
+  },
+  "APWC": {
+    "symbol": "APWC",
+    "lastPrice": null,
+    "bid": null,
+    "ask": null,
+    "time": "2025-10-28T23:01:08.587Z"
+  },
+  "SOPH": {
+    "symbol": "SOPH",
+    "lastPrice": null,
+    "bid": null,
+    "ask": null,
+    "time": "2025-10-28T23:01:08.690Z"
+  },
+  "BACQ": {
+    "symbol": "BACQ",
+    "lastPrice": null,
+    "bid": null,
+    "ask": null,
+    "time": "2025-10-28T23:01:09.031Z"
+  },
+  "EQBK": {
+    "symbol": "EQBK",
+    "lastPrice": null,
+    "bid": null,
+    "ask": null,
+    "time": "2025-10-28T23:01:09.039Z"
+  },
+  "ABSI": {
+    "symbol": "ABSI",
+    "lastPrice": null,
+    "bid": null,
+    "ask": null,
+    "time": "2025-10-28T23:01:09.331Z"
+  },
+  "GXDW": {
+    "symbol": "GXDW",
+    "lastPrice": null,
+    "bid": null,
+    "ask": null,
+    "time": "2025-10-28T23:01:09.385Z"
+  },
+  "FDIF": {
+    "symbol": "FDIF",
+    "lastPrice": null,
+    "bid": null,
+    "ask": null,
+    "time": "2025-10-28T23:01:09.816Z"
+  },
+  "POLE": {
+    "symbol": "POLE",
+    "lastPrice": null,
+    "bid": null,
+    "ask": null,
+    "time": "2025-10-28T23:01:09.852Z"
+  },
+  "CMCSA": {
+    "symbol": "CMCSA",
+    "lastPrice": null,
+    "bid": null,
+    "ask": null,
+    "time": "2025-10-28T23:01:10.130Z"
+  },
+  "FTXH": {
+    "symbol": "FTXH",
+    "lastPrice": null,
+    "bid": null,
+    "ask": null,
+    "time": "2025-10-28T23:01:10.174Z"
+  },
+  "FUFUW": {
+    "symbol": "FUFUW",
+    "lastPrice": null,
+    "bid": null,
+    "ask": null,
+    "time": "2025-10-28T23:01:10.461Z"
+  },
+  "FLDDW": {
+    "symbol": "FLDDW",
+    "lastPrice": null,
+    "bid": null,
+    "ask": null,
+    "time": "2025-10-28T23:01:10.475Z"
+  },
+  "RZLV": {
+    "symbol": "RZLV",
+    "lastPrice": null,
+    "bid": null,
+    "ask": null,
+    "time": "2025-10-28T23:01:10.807Z"
+  },
+  "GTENU": {
+    "symbol": "GTENU",
+    "lastPrice": null,
+    "bid": null,
+    "ask": null,
+    "time": "2025-10-28T23:01:10.911Z"
+  },
+  "MSFU": {
+    "symbol": "MSFU",
+    "lastPrice": null,
+    "bid": null,
+    "ask": null,
+    "time": "2025-10-28T23:01:11.089Z"
+  },
+  "STXV": {
+    "symbol": "STXV",
+    "lastPrice": null,
+    "bid": null,
+    "ask": null,
+    "time": "2025-10-28T23:01:11.273Z"
+  },
+  "TMUSI": {
+    "symbol": "TMUSI",
+    "lastPrice": null,
+    "bid": null,
+    "ask": null,
+    "time": "2025-10-28T23:01:11.503Z"
+  },
+  "TCI": {
+    "symbol": "TCI",
+    "lastPrice": null,
+    "bid": null,
+    "ask": null,
+    "time": "2025-10-28T23:01:11.569Z"
+  },
+  "WHLRD": {
+    "symbol": "WHLRD",
+    "lastPrice": null,
+    "bid": null,
+    "ask": null,
+    "time": "2025-10-28T23:01:11.891Z"
+  }
+}

@@ -1,148 +1,118 @@
-// historicalDBBuilder.js
+// Chart Monitor/Historical/historicalDBBuilder.js
 
-const axios = require('axios');
-const fs = require('fs');
-const path = require('path');
-const rateLimit = require('axios-rate-limit');
-const { parse } = require('csv-parse');
-require('dotenv').config();
+const axios = require("axios");
+const fs = require("fs");
+const path = require("path");
+require("dotenv").config({ path: path.resolve(__dirname, "../.env") });
 
-// Initialize API Key and Set Rate Limiter
-const API_KEY = process.env.FINNHUB_API_KEY;
-const api = rateLimit(axios.create(), { maxRequests: 55, perMilliseconds: 60 * 1000, maxRPS: 55 });
+// === CONFIGURATION ===
+const POLYGON_API_KEY = process.env.POLYGON_API_KEY;
 
-// Paths for storing data
-const DATA_PATH = path.join(__dirname, '6monthDB.json');
-const PROGRESS_PATH = path.join(__dirname, 'progress.json');
-const OPTIONABLE_PATH = path.join(__dirname, '../backtesters/optionable_stocks.csv'); // Adjusted relative path
+// === FILE PATHS ===
+const DB_PATH = path.join(__dirname, "6monthDB.json");
 
-// Timeframe options
-const timeframes = ['15', '60', '240', 'D']; // 15 min, 1 hr, 4 hr, 1 day
+// === TEST SYMBOLS (50 popular tickers) ===
+const testTickers = [
+  "AAPL","MSFT","AMZN","GOOG","META","TSLA","NVDA","AMD","NFLX","INTC",
+  "BABA","PYPL","CSCO","PEP","KO","WMT","DIS","NKE","XOM","CVX",
+  "JPM","BAC","GS","V","MA","UNH","PFE","MRNA","ABNB","UBER",
+  "SQ","SHOP","ADBE","CRM","ORCL","T","VZ","QCOM","MCD","COST",
+  "TGT","SBUX","BA","GE","CAT","DE","HON","MMM","AMAT","INTU"
+];
 
-// Load progress
-let progress = {};
-if (fs.existsSync(PROGRESS_PATH)) {
-  progress = JSON.parse(fs.readFileSync(PROGRESS_PATH, 'utf-8'));
+// === TIMEFRAMES ===
+const timeframes = [
+  { name: "15m", multiplier: 15, timespan: "minute" },
+  { name: "1h", multiplier: 1, timespan: "hour" },
+  { name: "4h", multiplier: 4, timespan: "hour" },
+  { name: "1d", multiplier: 1, timespan: "day" }
+];
+
+// === CREATE 6monthDB.json IF NOT EXISTS ===
+if (!fs.existsSync(DB_PATH)) {
+  fs.writeFileSync(DB_PATH, JSON.stringify({}, null, 2), "utf-8");
 }
 
-// Initialize JSON database structure
-if (!fs.existsSync(DATA_PATH)) {
-  fs.writeFileSync(DATA_PATH, JSON.stringify({}), 'utf-8');
+// === HELPER FUNCTIONS ===
+function getDateRange() {
+  const end = new Date();
+  const start = new Date();
+  start.setMonth(end.getMonth() - 6); // last 6 months
+  return {
+    start: start.toISOString().split("T")[0],
+    end: end.toISOString().split("T")[0]
+  };
 }
 
-// Fetch historical data (from optional start timestamp)
-async function fetchHistoricalData(symbol, timeframe, start, end) {
+async function fetchCandles(symbol, multiplier, timespan, start, end) {
+  const url = `https://api.polygon.io/v2/aggs/ticker/${symbol}/range/${multiplier}/${timespan}/${start}/${end}?adjusted=true&sort=asc&apiKey=${POLYGON_API_KEY}`;
   try {
-    const url = `https://finnhub.io/api/v1/stock/candle?symbol=${symbol}&resolution=${timeframe}&from=${start}&to=${end}&token=${API_KEY}`;
-    const response = await api.get(url);
-    const data = response.data;
-
-    if (data.s === 'no_data') {
-      console.log(`No data for ${symbol} on ${timeframe}`);
-      return [];
-    }
-
-    return data.t.map((timestamp, i) => ({
-      symbol,
-      timeframe,
-      timestamp,
-      open: data.o[i],
-      high: data.h[i],
-      low: data.l[i],
-      close: data.c[i],
-      volume: data.v[i],
+    const response = await axios.get(url);
+    const data = response.data.results || [];
+    return data.map(bar => ({
+      symbol,                   // Added symbol
+      timeframe: `${multiplier}${timespan}`, // Added timeframe
+      t: bar.t,
+      o: bar.o,
+      h: bar.h,
+      l: bar.l,
+      c: bar.c,
+      v: bar.v,
+      dateUTC: new Date(bar.t).toUTCString(),
+      dateLocal: new Date(bar.t).toLocaleString()
     }));
   } catch (err) {
-    console.error(`Error fetching data for ${symbol} (${timeframe}): ${err.message}`);
+    if (err.response?.status === 429) {
+      const elapsed = ((Date.now() - globalStartTime) / 1000).toFixed(2);
+      console.error(`❌ 429 Rate Limit hit for ${symbol} (${multiplier}${timespan}) after ${elapsed} seconds`);
+      process.exit(1); // stop execution immediately
+    } else {
+      console.error(`❌ ${symbol} (${multiplier}${timespan}) - ${err.message}`);
+    }
     return [];
   }
 }
 
-// Save progress
-function saveProgress() {
-  fs.writeFileSync(PROGRESS_PATH, JSON.stringify(progress, null, 2), 'utf-8');
+function saveData(symbol, timeframe, candles) {
+  const db = JSON.parse(fs.readFileSync(DB_PATH, "utf-8"));
+  if (!db[symbol]) db[symbol] = {};
+  db[symbol][timeframe] = candles;
+  fs.writeFileSync(DB_PATH, JSON.stringify(db, null, 2), "utf-8");
 }
 
-// Insert data into JSON DB
-function insertData(candles) {
-  const data = JSON.parse(fs.readFileSync(DATA_PATH, 'utf-8'));
-  candles.forEach(candle => {
-    if (!data[candle.symbol]) data[candle.symbol] = {};
-    if (!data[candle.symbol][candle.timeframe]) data[candle.symbol][candle.timeframe] = [];
-    // Avoid duplicates
-    if (!data[candle.symbol][candle.timeframe].some(c => c.timestamp === candle.timestamp)) {
-      data[candle.symbol][candle.timeframe].push(candle);
-    }
-  });
-  fs.writeFileSync(DATA_PATH, JSON.stringify(data, null, 2), 'utf-8');
-}
+// === MAIN EXECUTION ===
+let globalStartTime;
 
-// Load active symbols from CSV
-async function getActiveSymbols() {
-  return new Promise((resolve, reject) => {
-    const symbols = [];
-    fs.createReadStream(OPTIONABLE_PATH)
-      .pipe(parse({ columns: true, skip_empty_lines: true }))
-      .on('data', row => {
-        if (row.Symbol) symbols.push(row.Symbol);
-      })
-      .on('end', () => resolve(symbols))
-      .on('error', err => reject(err));
-  });
-}
-
-// Get timestamps for last 6 months
-function getTimestamps() {
-  const end = Math.floor(Date.now() / 1000);
-  const start = end - 6 * 30 * 24 * 60 * 60;
-  return { start, end };
-}
-
-// Process one symbol with full resume support
-async function processSymbol(symbol, start, end) {
-  for (const timeframe of timeframes) {
-    let timeframeStart = start;
-
-    // Resume from last timestamp if available
-    if (
-      progress[symbol] &&
-      progress[symbol][timeframe] &&
-      progress[symbol][timeframe].lastTimestamp
-    ) {
-      timeframeStart = progress[symbol][timeframe].lastTimestamp + 1; // Start after last candle
-      console.log(`Resuming ${symbol} (${timeframe}) from timestamp ${timeframeStart}`);
-    }
-
-    const candles = await fetchHistoricalData(symbol, timeframe, timeframeStart, end);
-
-    if (candles.length > 0) {
-      insertData(candles);
-
-      // Update progress per symbol & timeframe
-      if (!progress[symbol]) progress[symbol] = {};
-      progress[symbol][timeframe] = {
-        lastTimestamp: candles[candles.length - 1].timestamp
-      };
-      saveProgress();
-
-      console.log(`Stored ${candles.length} candles for ${symbol} (${timeframe})`);
-    }
-  }
-}
-
-// Main runner
 async function run() {
-  const { start, end } = getTimestamps();
-  const symbols = await getActiveSymbols();
+  globalStartTime = Date.now();
+  const { start, end } = getDateRange();
+  console.log(`🚀 Fetching 6-month history (${start} → ${end}) for ${testTickers.length} symbols...\n`);
 
-  for (let i = 0; i < symbols.length; i++) {
-    const symbol = symbols[i];
-    console.log(`Processing symbol ${i + 1}/${symbols.length}: ${symbol}`);
-    await processSymbol(symbol, start, end);
-    console.log(`Finished processing ${symbol}`);
+  // Calculate delay for 5 requests per minute
+  const delayMs = 12_000; // 12 seconds per request
+
+  for (const symbol of testTickers) {
+    console.log(`📈 Processing ${symbol}...`);
+    for (const tf of timeframes) {
+      const candles = await fetchCandles(symbol, tf.multiplier, tf.timespan, start, end);
+      if (candles.length > 0) {
+        saveData(symbol, tf.name, candles);
+        console.log(`✅ ${symbol} (${tf.name}) — ${candles.length} bars`);
+      } else {
+        console.log(`⚠️ No data for ${symbol} (${tf.name})`);
+      }
+
+      // --- Enforce 5 calls per minute ---
+      await new Promise(r => setTimeout(r, delayMs));
+    }
+    console.log(`--- Finished ${symbol} ---\n`);
   }
 
-  console.log('All data fetched and saved successfully!');
+  console.log("🎯 All done! Data stored in 6monthDB.json");
 }
 
 run().catch(console.error);
+
+
+
+

@@ -1,25 +1,38 @@
-require('dotenv').config();
-const fs = require('fs');
+// ---- CONFIG ----
 const path = require('path');
-const csvParse = require('csv-parse/lib/sync');
-const Finnhub = require('finnhub');
+require('dotenv').config({ path: path.join(__dirname, '..', '.env') });
+const fs = require('fs');
+const axios = require('axios');
+const { parse: csvParse } = require('csv-parse/sync'); // updated import
 
-// ---- Finnhub API Setup ----
-const apiKey = process.env.FINNHUB_API_KEY;
-if (!apiKey) throw new Error('FINNHUB_API_KEY not set in .env');
+// ------------------- USER CONFIG -------------------
+const DELAY_MS = 200; // per-request delay
 
-const finnhubClient = new Finnhub.DefaultApi();
-finnhubClient.apiClient.authentications['apiKey'].apiKey = apiKey;
+// Public API keys from .env
+const SECRET_KEY_1 = process.env.PUBLIC_API_KEY;
+const ACCOUNT_ID_1 = process.env.PUBLIC_API_ID;
+const BASE_1 = process.env.PUBLIC_API_BASE || "https://api.public.com";
 
-// ---- Paths ----
-const backtesterLogPath = path.join(__dirname, '..', 'backtester', 'log', 'results.json');
-const optionableCsvPath = path.join(__dirname, '..', 'backtester', 'optionable_stocks.csv');
+const SECRET_KEY_2 = process.env.PUBLIC_API_KEY_2;
+const ACCOUNT_ID_2 = process.env.PUBLIC_API_ID_2;
+const BASE_2 = process.env.PUBLIC_API_BASE_2 || "https://api.public.com";
+
+// ------------------- PATHS -------------------
+const backtesterLogPath = path.join(__dirname, '..', 'backtesters', 'log', 'results.json');
+const optionableCsvPath = path.join(__dirname, '..', 'backtesters', 'optionable_stocks.csv');
 const resultsPath = path.join(__dirname, 'log', 'results.json');
 const alertsTxtPath = path.join(__dirname, '..', '..', 'Chart Monitor', 'stock_strat_test', 'alerts.txt');
+const liveDataPath = path.join(__dirname, '..', '..', 'Chart Monitor', 'stock_strat_test', 'log', 'livedata.json');
 
 // Ensure folders exist
-if (!fs.existsSync(path.dirname(resultsPath))) fs.mkdirSync(path.dirname(resultsPath), { recursive: true });
-if (!fs.existsSync(path.dirname(alertsTxtPath))) fs.mkdirSync(path.dirname(alertsTxtPath), { recursive: true });
+for (const dir of [path.dirname(resultsPath), path.dirname(alertsTxtPath), path.dirname(liveDataPath)]) {
+  if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+}
+
+// ---- Initialize liveData file if missing ----
+if (!fs.existsSync(liveDataPath)) {
+  fs.writeFileSync(liveDataPath, JSON.stringify({}, null, 2), 'utf-8');
+}
 
 // ---- Load Backtester Results ----
 let backtesterResults = [];
@@ -35,68 +48,91 @@ if (fs.existsSync(optionableCsvPath)) {
 } else { console.error('Optionable stocks CSV missing!'); process.exit(1); }
 
 // ---- Load Strategies ----
-const strategyDir = path.join(__dirname, '..', 'backtester', 'strategies');
+const strategyDir = path.join(__dirname, '..', 'backtesters', 'strategies');
 const strategies = {};
 for (const file of fs.readdirSync(strategyDir).filter(f => f.endsWith('.js'))) {
   strategies[path.basename(file, '.js')] = require(path.join(strategyDir, file));
 }
 
 // ---- Load Helper Functions ----
-const { SMA, smaSlope, RSI, ATR, trendDirection, BollingerBands, ADX } = require(path.join(__dirname, '..', 'backtester', 'helper.js'));
+const { SMA, smaSlope, RSI, ATR, trendDirection, BollingerBands, ADX } = require(path.join(__dirname, '..', 'backtesters', 'helpers.js'));
 
-// ---- Results Storage ----
-let alertResults = [];
-if (fs.existsSync(resultsPath)) {
-  try { alertResults = JSON.parse(fs.readFileSync(resultsPath, 'utf-8')); } 
-  catch { alertResults = []; }
-}
-
-// ---- Rate limiter (55 calls per minute) ----
+// ---- Utility ----
 const wait = ms => new Promise(res => setTimeout(res, ms));
-let apiCallCount = 0;
-async function rateLimitedCall(fn) {
-  if (apiCallCount >= 55) {
-    await wait(60000); // wait 1 minute
-    apiCallCount = 0;
+
+// ---- PUBLIC API AUTH ----
+async function getAccessToken(secretKey, base) {
+  try {
+    const res = await axios.post(
+      `${base}/userapiauthservice/personal/access-tokens`,
+      { validityInMinutes: 60, secret: secretKey },
+      { headers: { "Content-Type": "application/json" } }
+    );
+    return res.data.accessToken;
+  } catch (err) {
+    console.error('Error fetching access token:', err.response ? err.response.data : err.message);
+    return null;
   }
-  apiCallCount++;
-  return fn();
 }
 
-// ---- Helper: Get Current Price ----
-async function getCurrentPrice(symbol) {
-  return rateLimitedCall(() => new Promise((resolve, reject) => {
-    finnhubClient.quote(symbol, (error, data) => {
-      if (error) return reject(error);
-      resolve(data.c);
-    });
-  }));
+// ---- Append/Update liveData file ----
+function logLiveData(symbolData) {
+  let currentData = {};
+  if (fs.existsSync(liveDataPath)) {
+    try { currentData = JSON.parse(fs.readFileSync(liveDataPath, 'utf-8')); } 
+    catch (e) { console.error('Failed to read livedata.json, resetting file.'); currentData = {}; }
+  }
+  for (const sym in symbolData) currentData[sym] = symbolData[sym];
+  fs.writeFileSync(liveDataPath, JSON.stringify(currentData, null, 2), 'utf-8');
 }
 
-// ---- Helper: Get Historical Data ----
-async function getHistoricalData(symbol, resolution = '15', fromDaysAgo = 30) {
-  return rateLimitedCall(() => {
-    const to = Math.floor(Date.now() / 1000);
-    const from = to - fromDaysAgo * 24 * 60 * 60;
-    return new Promise((resolve, reject) => {
-      finnhubClient.stockCandles(symbol, resolution, from, to, (error, data) => {
-        if (error) return reject(error);
-        if (data.s !== 'ok') return reject(new Error(`Failed to get candles for ${symbol}`));
-        const candles = data.t.map((time, idx) => ({
-          time: new Date(time * 1000),
-          open: data.o[idx],
-          high: data.h[idx],
-          low: data.l[idx],
-          close: data.c[idx],
-          volume: data.v[idx]
-        }));
-        resolve(candles);
-      });
-    });
-  });
+// ---- FETCH LIVE QUOTES ----
+async function fetchLiveQuotes(symbols, token, accountId, base, label) {
+  const liveData = {};
+  for (let i = 0; i < symbols.length; i++) {
+    const symbol = symbols[i];
+    try {
+      const res = await axios.post(
+        `${base}/userapigateway/marketdata/${accountId}/quotes`,
+        { instruments: [{ symbol, type: 'EQUITY' }] },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+
+      const quote = res.data?.[0]?.quote || res.data;
+      liveData[symbol] = {
+        symbol,
+        lastPrice: quote.last ?? null,
+        bid: quote.bid ?? null,
+        ask: quote.ask ?? null,
+        time: new Date().toISOString(),
+      };
+
+      // Save immediately after fetching
+      logLiveData({ [symbol]: liveData[symbol] });
+      console.log(`✅ ${symbol} live price retrieved and logged (${label})`);
+    } catch (err) {
+      console.log(`❌ ${symbol} error (${label}):`, err.response ? err.response.data : err.message);
+    }
+    await wait(DELAY_MS);
+  }
+  return liveData;
 }
 
-// ---- Helper: Risk Score ----
+// ---- RUN TWO KEYS IN PARALLEL ----
+async function getAllLiveData(symbols, tokens, accountIds, bases) {
+  const half = Math.ceil(symbols.length / 2);
+  const list1 = symbols.slice(0, half);
+  const list2 = symbols.slice(half);
+
+  const [data1, data2] = await Promise.all([
+    fetchLiveQuotes(list1, tokens[0], accountIds[0], bases[0], "key 1"),
+    fetchLiveQuotes(list2, tokens[1], accountIds[1], bases[1], "key 2"),
+  ]);
+
+  return { ...data1, ...data2 };
+}
+
+// ---- Risk Score Helper ----
 function calculateRiskScore(atr, currentPrice) {
   let score = (atr / currentPrice) * 100 * 2;
   score = Math.min(100, Math.max(0, score));
@@ -108,7 +144,7 @@ function calculateRiskScore(atr, currentPrice) {
   return { score: score.toFixed(1), level };
 }
 
-// ---- Helper: Interpret Technical Indicators ----
+// ---- Interpret Indicators ----
 function interpretIndicators({ signal, rsi, adx, trend, atr, expectedMovePercent, stopLoss, takeProfit, currentPrice }) {
   let interpretation = '';
   if (signal === 'long') {
@@ -139,91 +175,21 @@ function interpretIndicators({ signal, rsi, adx, trend, atr, expectedMovePercent
   return { text: interpretation.trim(), risk, signal };
 }
 
-// ---- Main Stock Monitoring (Multi-Timeframe Summary) ----
-const timeframes = ['15', '60', 'D']; // 15-min, 1-hour, daily
-
+// ---- MAIN MONITOR FUNCTION ----
 async function monitorStocks() {
-  console.log(`Monitoring ${backtesterResults.length} stocks across ${timeframes.join(', ')} timeframes...\n`);
-  fs.writeFileSync(alertsTxtPath, '');
+  console.log(`Fetching live market data via Public API...`);
+  const token1 = await getAccessToken(SECRET_KEY_1, BASE_1);
+  const token2 = await getAccessToken(SECRET_KEY_2, BASE_2);
 
-  for (const stock of backtesterResults) {
-    const { symbol, strategy: strategyName } = stock;
-    if (!optionableSymbols.includes(symbol)) continue;
-    const strategyFunc = strategies[strategyName];
-    if (!strategyFunc) { console.warn(`Strategy ${strategyName} not found for ${symbol}`); continue; }
-
-    const currentPrice = await getCurrentPrice(symbol);
-    const timeframeResults = [];
-
-    for (const tf of timeframes) {
-      try {
-        const candles = await getHistoricalData(symbol, tf, tf === 'D' ? 365 : 30);
-        if (!candles || candles.length < 20) continue;
-
-        const prices = candles.map(c => c.close);
-        const volumes = candles.map(c => c.volume);
-        const signal = strategyFunc(prices, candles, volumes);
-        if (!signal) continue;
-
-        const atr = ATR(candles);
-        const rsiValue = RSI(prices, 14);
-        const adxValue = ADX(candles);
-        const trend = trendDirection(prices);
-
-        const stopLoss = signal === 'long' ? currentPrice - atr : currentPrice + atr;
-        const takeProfit = signal === 'long' ? currentPrice + 2 * atr : currentPrice - 2 * atr;
-        const expectedMovePercent = ((takeProfit - currentPrice) / currentPrice) * 100;
-
-        const { text: interpretation, risk } = interpretIndicators({
-          signal, rsi: rsiValue, adx: adxValue, trend, atr,
-          expectedMovePercent, stopLoss, takeProfit, currentPrice
-        });
-
-        timeframeResults.push({ tf, interpretation, risk, signal, stopLoss, takeProfit });
-
-      } catch (err) {
-        console.error(`Error processing ${symbol} at ${tf} timeframe: ${err.message}`);
-      }
-    }
-
-    // ---- Combine timeframe signals to give overall outlook ----
-    if (timeframeResults.length === 0) continue;
-
-    // Filter out High/Very High risk
-    const filteredResults = timeframeResults.filter(r => r.risk.level === 'Low' || r.risk.level === 'Medium');
-    if (filteredResults.length === 0) continue;
-
-    const signals = filteredResults.map(r => r.signal);
-    let overallSignal = 'neutral';
-    if (signals.every(s => s === 'long')) overallSignal = 'long';
-    else if (signals.every(s => s === 'short')) overallSignal = 'short';
-    else if (signals.includes('long')) overallSignal = 'mixed bullish';
-    else if (signals.includes('short')) overallSignal = 'mixed bearish';
-
-    const summaryText = `Multi-timeframe outlook: ${overallSignal}. Trends per timeframe: ${filteredResults.map(r => `${r.tf}=${r.signal}`).join(', ')}.`;
-
-    // Save alerts per timeframe
-    for (const r of filteredResults) {
-      const alert = {
-        symbol, strategy: strategyName, signal: r.signal, currentPrice,
-        stopLoss: Number(r.stopLoss.toFixed(2)), takeProfit: Number(r.takeProfit.toFixed(2)),
-        timeframe: r.tf, summary: r.interpretation, riskScore: Number(r.risk.score), riskLevel: r.risk.level,
-        overallOutlook: summaryText,
-        timestamp: new Date().toISOString()
-      };
-      alertResults.push(alert);
-      fs.appendFileSync(alertsTxtPath, `⚡ ${symbol} | ${r.tf}-timeframe | $${currentPrice.toFixed(2)} | ${r.interpretation}\n`);
-    }
-
-    // Append the overall summary
-    fs.appendFileSync(alertsTxtPath, `📝 ${symbol} | ${summaryText}\n\n`);
-    console.log(`📝 ${symbol} | ${summaryText}\n`);
+  if (!token1 || !token2) {
+    console.error("❌ Failed to get access tokens.");
+    process.exit(1);
   }
 
-  fs.writeFileSync(resultsPath, JSON.stringify(alertResults, null, 2));
-  console.log('✅ Stock monitoring complete. Alerts saved to JSON and TXT.');
+  const allSymbols = backtesterResults.map(s => s.symbol).filter(sym => optionableSymbols.includes(sym));
+  await getAllLiveData(allSymbols, [token1, token2], [ACCOUNT_ID_1, ACCOUNT_ID_2], [BASE_1, BASE_2]);
+
+  console.log("✅ Live data fetch complete — all stocks logged in livedata.json");
 }
 
-// ---- Run Monitor ----
 monitorStocks();
-
