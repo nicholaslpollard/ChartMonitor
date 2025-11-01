@@ -1,0 +1,60 @@
+[2025-10-31T19:24:33.443Z] 🕒 Chart Monitor Scheduler initialized.
+[2025-10-31T19:30:00.019Z] 🏁 Running intraday cycle...
+[2025-10-31T19:30:00.021Z] 🚀 Starting StockMonitor...
+[2025-10-31T19:30:01.137Z] [StockMonitor] [dotenv@17.2.3] injecting env (18) from .env -- tip: 👥 sync secrets across teammates & machines: https://dotenvx.com/ops
+[2025-10-31T19:30:01.302Z] [StockMonitor ERROR] node:internal/modules/cjs/loader:1228
+  throw err;
+  ^
+
+Error: Cannot find module 'parquetjs-lite'
+Require stack:
+- C:\Users\skynet\Desktop\Chart Monitor\stock_strat_test\stockmonitor.js
+    at Function._resolveFilename (node:internal/modules/cjs/loader:1225:15)
+    at Function._load (node:internal/modules/cjs/loader:1055:27)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:220:24)
+    at Module.require (node:internal/modules/cjs/loader:1311:12)
+    at require (node:internal/modules/helpers:136:16)
+    at Object.<anonymous> (C:\Users\skynet\Desktop\Chart Monitor\stock_strat_test\stockmonitor.js:5:17)
+    at Module._compile (node:internal/modules/cjs/loader:1554:14)
+    at Object..js (node:internal/modules/cjs/loader:1706:10)
+    at Module.load (node:internal/modules/cjs/loader:1289:32) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [
+    'C:\\Users\\skynet\\Desktop\\Chart Monitor\\stock_strat_test\\stockmonitor.js'
+  ]
+}
+
+Node.js v22.14.0
+[2025-10-31T19:30:01.318Z] ❌ StockMonitor exited with code 1.
+[2025-10-31T19:30:01.319Z] ⚠️ IntradayCycle failed: StockMonitor failed
+[2025-10-31T19:45:00.017Z] 🏁 Running intraday cycle...
+[2025-10-31T19:45:00.018Z] 🚀 Starting StockMonitor...
+[2025-10-31T19:45:01.448Z] [StockMonitor] [dotenv@17.2.3] injecting env (18) from .env -- tip: ⚙️  suppress all logs with { quiet: true }
+[2025-10-31T19:45:01.586Z] [StockMonitor ERROR] node:internal/modules/cjs/loader:1228
+  throw err;
+  ^
+
+Error: Cannot find module 'parquetjs-lite'
+Require stack:
+- C:\Users\skynet\Desktop\Chart Monitor\stock_strat_test\stockmonitor.js
+    at Function._resolveFilename (node:internal/modules/cjs/loader:1225:15)
+    at Function._load (node:internal/modules/cjs/loader:1055:27)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:220:24)
+    at Module.require (node:internal/modules/cjs/loader:1311:12)
+    at require (node:internal/modules/helpers:136:16)
+    at Object.<anonymous> (C:\Users\skynet\Desktop\Chart Monitor\stock_strat_test\stockmonitor.js:5:17)
+    at Module._compile (node:internal/modules/cjs/loader:1554:14)
+    at Object..js (node:internal/modules/cjs/loader:1706:10)
+    at Module.load (node:internal/modules/cjs/loader:1289:32) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [
+    'C:\\Users\\skynet\\Desktop\\Chart Monitor\\stock_strat_test\\stockmonitor.js'
+  ]
+}
+
+Node.js v22.14.0
+[2025-10-31T19:45:01.606Z] ❌ StockMonitor exited with code 1.
+[2025-10-31T19:45:01.608Z] ⚠️ IntradayCycle failed: StockMonitor failed
+[2025-10-31T20:00:00.016Z] 📘 Market closed. Scheduler entering idle mode until next day.

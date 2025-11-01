@@ -1,20 +1,11 @@
 // fullbacktest.js
-const path = require('path'); // <-- require path first
+const path = require('path');
 require('dotenv').config({ path: path.join(__dirname, '..', '.env') });
 
-const Alpaca = require('@alpacahq/alpaca-trade-api');
 const fs = require('fs');
-const { parse: csvParse } = require('csv-parse/sync');
+const parquet = require('parquets');
 const { exec } = require('child_process');
 const { SMA, smaSlope, RSI, ATR, trendDirection, BollingerBands, ADX } = require('./helpers');
-
-// ---------------- Alpaca API Setup ----------------
-const alpaca = new Alpaca({
-  keyId: process.env.ALPACA_API_KEY,
-  secretKey: process.env.ALPACA_SECRET_KEY,
-  paper: true,
-  baseUrl: process.env.ALPACA_BASE_URL || 'https://paper-api.alpaca.markets',
-});
 
 // ---------------- Results File Setup ----------------
 let allResults = [];
@@ -37,48 +28,41 @@ const sleep = (ms) => new Promise((res) => setTimeout(res, ms));
 const dynamicDelay = 1200;
 const concurrency = 2;
 let retryQueue = [];
-let globalPause = false;
 
-// ---------------- Global Throttle Pause ----------------
-async function globalThrottlePause(reason = '') {
-  if (globalPause) return;
-  globalPause = true;
-  console.log(`🛑 Global pause triggered (${reason}) — waiting 25 seconds...`);
-  await sleep(25000);
-  console.log(`Resuming...`);
-  globalPause = false;
-}
+// ---------------- Fetch Historical Data from Parquet ----------------
+async function fetchHistoricalDataFromParquet(symbol, timeframe) {
+  try {
+    const basePath = path.join(__dirname, '..', 'Historical', 'data');
+    const tfMap = {
+      '1day': '1day',
+      '1week': '1week',
+      '1hour': '1hour',
+      '4hour': '4hour',
+      '15Min': '15min',
+    };
+    const parquetPath = path.join(basePath, tfMap[timeframe], `${symbol}.parquet`);
+    if (!fs.existsSync(parquetPath)) throw new Error(`Parquet not found: ${parquetPath}`);
 
-// ---------------- Fetch Historical Data ----------------
-async function fetchHistoricalData(symbol, timeframe, start, end, retries = 5) {
-  for (let attempt = 0; attempt < retries; attempt++) {
-    if (globalPause) await sleep(dynamicDelay);
-    await sleep(dynamicDelay);
-    try {
-      const resp = await alpaca.getBarsV2(
-        symbol,
-        { start: new Date(start).toISOString(), end: new Date(end).toISOString(), timeframe },
-        alpaca.configuration
-      );
-      const bars = [];
-      for await (let bar of resp) {
-        bars.push({
-          time: bar.Timestamp,
-          open: bar.OpenPrice,
-          high: bar.HighPrice,
-          low: bar.LowPrice,
-          close: bar.ClosePrice,
-          volume: bar.Volume,
-        });
-      }
-      return bars;
-    } catch (err) {
-      if (err.code === 429) { await globalThrottlePause(`${symbol} ${timeframe}`); continue; }
-      if (attempt === retries - 1) throw err;
-      await sleep(dynamicDelay * 2);
+    const reader = await parquet.ParquetReader.openFile(parquetPath);
+    const cursor = reader.getCursor();
+    const rows = [];
+    let row = null;
+    while (row = await cursor.next()) {
+      rows.push({
+        time: row.time,
+        open: row.open,
+        high: row.high,
+        low: row.low,
+        close: row.close,
+        volume: row.volume
+      });
     }
+    await reader.close();
+    return rows;
+  } catch (err) {
+    console.error(`❌ Failed reading ${symbol} ${timeframe}: ${err.message}`);
+    return [];
   }
-  throw new Error(`Failed fetching ${symbol} after ${retries} retries`);
 }
 
 // ---------------- Dynamic Risk Calculation ----------------
@@ -91,10 +75,11 @@ function dynamicRisk(entry, setup, atr) {
 }
 
 // ---------------- Run Backtest for Single Strategy ----------------
-async function runBacktest(symbol, timeframe, start, end, strategyFunc) {
+async function runBacktestFromParquet(symbol, timeframe, strategyFunc) {
   try {
-    const lower = await fetchHistoricalData(symbol, timeframe === '15Min' ? '15Min' : '1Hour', start, end);
-    const higher = await fetchHistoricalData(symbol, timeframe === '15Min' ? '1Hour' : '1Day', start, end);
+    const lower = await fetchHistoricalDataFromParquet(symbol, timeframe);
+    const higherTimeframe = (timeframe === '15Min') ? '1hour' : '1day';
+    const higher = await fetchHistoricalDataFromParquet(symbol, higherTimeframe);
 
     const prices = [], volumes = [], candles = [];
     let trades = 0, wins = 0, losses = 0, totalDuration = 0, totalRR = 0;
@@ -178,10 +163,8 @@ async function runBacktest(symbol, timeframe, start, end, strategyFunc) {
       avgDuration: parseFloat(avgDuration),
       avgRR
     };
-
   } catch (err) {
-    if (err.code === 429) throw err;
-    console.error(`Error backtesting ${symbol}: ${err.message}`);
+    console.error(`Error backtesting ${symbol} ${timeframe}: ${err.message}`);
     return { trades: 0, wins: 0, losses: 0, winRate: 0, avgDuration: 0, avgRR: 0 };
   }
 }
@@ -190,47 +173,22 @@ async function runBacktest(symbol, timeframe, start, end, strategyFunc) {
 function saveResult(symbol, result) {
   const idx = allResults.findIndex(r => r.symbol === symbol);
   const newEntry = {
-    symbol: symbol,
+    symbol,
     name: result.name || '',
-    strategy: result.strategy || '',
-    winRate: result.winRate || 0,
-    trades: result.trades || 0,
-    wins: result.wins || 0,
-    losses: result.losses || 0,
-    avgDuration: result.avgDuration || 0,
-    avgRR: result.avgRR || 0,
+    overallWinRate: result.overallWinRate || 0,
+    timeframes: result.timeframes || {},
     replaced: "new",
-    retested: "yes" // Default value for all new entries
+    retested: "yes"
   };
 
   let replacedStatus = "new";
-
   if (idx >= 0) {
     const old = allResults[idx];
-
-    // Update retested flag if missing or "no"
-    if (!old.hasOwnProperty('retested') || old.retested === "no") {
-      old.retested = "yes";
-    }
-
-    // Replace only if new winRate is higher
-    if (newEntry.winRate > old.winRate) {
-      newEntry.retested = "yes";
-      newEntry.replaced = "yes";
-      allResults[idx] = newEntry;
-      replacedStatus = "yes";
-      console.log(`💾 ${symbol} replaced old result (winRate improved to ${newEntry.winRate}%)`);
-    } else {
-      // Keep old result, mark as retested yes and replaced no
-      old.replaced = "no";
-      old.retested = "yes";
-      allResults[idx] = old;
-      replacedStatus = "no";
-    }
+    if (!old.hasOwnProperty('retested') || old.retested === "no") old.retested = "yes";
+    allResults[idx] = newEntry;
+    replacedStatus = "yes";
   } else {
     allResults.push(newEntry);
-    replacedStatus = "new";
-    console.log(`💾 ${symbol} added as new entry`);
   }
 
   fs.writeFileSync(resultsPath, JSON.stringify(allResults, null, 2));
@@ -255,72 +213,67 @@ function updateOptionableList(optionablePath) {
 }
 
 // ---------------- Run Single Stock with Multiple Strategies ----------------
-async function processStockConcurrent(stock, strategies, start, end) {
-  let best = {
-    symbol: stock.symbol,
-    name: stock.name,
-    strategy: '',
-    winRate: 0,
-    trades: 0,
-    wins: 0,
-    losses: 0,
-    avgDuration: 0,
-    avgRR: 0
-  };
+async function processStockConcurrent(stock, strategies) {
+  const timeframes = ['15Min','1Hour','4Hour','1day','1week'];
+  const timeframeResults = {};
 
-  for (const [strategyName, strategyFunc] of Object.entries(strategies)) {
-    const result15 = await runBacktest(stock.symbol, '15Min', start, end, strategyFunc);
-    const result1h = await runBacktest(stock.symbol, '1Hour', start, end, strategyFunc);
-    const avgWinRate = (result15.winRate + result1h.winRate) / 2;
-
-    if (avgWinRate > best.winRate) {
-      best = {
-        symbol: stock.symbol,
-        name: stock.name,
-        strategy: strategyName,
-        winRate: parseFloat(avgWinRate.toFixed(2)),
-        trades: result15.trades + result1h.trades,
-        wins: result15.wins + result1h.wins,
-        losses: result15.losses + result1h.losses,
-        avgDuration: ((result15.avgDuration + result1h.avgDuration) / 2).toFixed(2),
-        avgRR: ((result15.avgRR + result1h.avgRR) / 2).toFixed(2)
-      };
+  for (const tf of timeframes) {
+    let bestForTF = { strategy: '', winRate: 0 };
+    for (const [strategyName, strategyFunc] of Object.entries(strategies)) {
+      const result = await runBacktestFromParquet(stock.symbol, tf, strategyFunc);
+      if (result.winRate > bestForTF.winRate) {
+        bestForTF = { ...result, strategy: strategyName };
+      }
     }
+    timeframeResults[tf] = bestForTF;
   }
 
-  const replacedStatus = saveResult(stock.symbol, best);
+  const allWinRates = Object.values(timeframeResults).map(r => r.winRate);
+  const overallWinRate = allWinRates.reduce((a,b)=>a+b,0)/allWinRates.length;
 
-  console.log(`📊 ${best.symbol} | Strategy: ${best.strategy} | Win Rate: ${best.winRate}% | Trades: ${best.trades} | Wins: ${best.wins} | Replaced: ${replacedStatus}`);
-  return best;
+  const output = {
+    symbol: stock.symbol,
+    name: stock.name,
+    overallWinRate: parseFloat(overallWinRate.toFixed(2)),
+    timeframes: timeframeResults
+  };
+
+  const replacedStatus = saveResult(stock.symbol, output);
+
+  console.log(`📊 ${stock.symbol} | Overall Win Rate: ${output.overallWinRate}% | Replaced: ${replacedStatus}`);
+  return output;
 }
 
 // ---------------- Concurrent Backtester ----------------
-async function runConcurrentBacktests(tradableStocks, strategies, start, end) {
+async function runConcurrentBacktests(tradableStocks, strategies) {
   tradableStocks = tradableStocks.filter(s => !alreadyRetestedSymbols.has(s.symbol));
   console.log(`Skipping ${alreadyRetestedSymbols.size} already-retested stocks`);
   console.log(`Stocks to run: ${tradableStocks.length}`);
 
-  const rerunQueue = [];
+  const totalStocks = tradableStocks.length + retryQueue.length;
+  let processedCount = 0;
+  const startTime = Date.now();
 
   while (tradableStocks.length > 0 || retryQueue.length > 0) {
     const active = [];
     const batch = [];
-
     while (batch.length < concurrency && (tradableStocks.length > 0 || retryQueue.length > 0)) {
       const stock = retryQueue.length ? retryQueue.shift() : tradableStocks.shift();
       batch.push(stock);
     }
 
     for (const stock of batch) {
-      const task = processStockConcurrent(stock, strategies, start, end)
-        .then((result) => {
-          if (result && result.winRate === 0 && !result.rerunOnce) {
-            rerunQueue.push({ ...stock, rerunOnce: true });
-          }
+      const task = processStockConcurrent(stock, strategies)
+        .then(() => {
+          processedCount++;
+          const elapsed = (Date.now() - startTime) / 1000;
+          const avgTime = elapsed / processedCount;
+          const remaining = totalStocks - processedCount;
+          const eta = (avgTime * remaining / 60).toFixed(1);
+          console.log(`⏱ Progress: ${processedCount}/${totalStocks} | ETA: ~${eta} min`);
         })
         .catch((err) => {
-          if (err.code === 429) retryQueue.push(stock);
-          else console.error(`❌ ${stock.symbol} failed: ${err.message}`);
+          console.error(`❌ ${stock.symbol} failed: ${err.message}`);
         });
       active.push(task);
     }
@@ -329,7 +282,7 @@ async function runConcurrentBacktests(tradableStocks, strategies, start, end) {
     await sleep(dynamicDelay);
   }
 
-  allResults.sort((a, b) => b.winRate - a.winRate);
+  allResults.sort((a, b) => b.overallWinRate - a.overallWinRate);
   fs.writeFileSync(resultsPath, JSON.stringify(allResults, null, 2));
 }
 
@@ -346,29 +299,25 @@ async function runConcurrentBacktests(tradableStocks, strategies, start, end) {
     await updateOptionableList(optionablePath);
 
     if (!fs.existsSync(optionablePath)) throw new Error('Optionable CSV missing.');
+
+    // ---------------- CSV Parsing Fix ----------------
     const csvData = fs.readFileSync(optionablePath, 'utf-8').trim();
-    const records = csvParse(csvData, { columns: true, skip_empty_lines: true });
-    const optionableSymbols = records.map((r) => r.Symbol);
+    const lines = csvData.split(/\r?\n/).filter(line => line);
+    const optionableSymbols = lines.slice(); // copy of symbols
+    const assets = lines.map(symbol => ({ symbol, name: symbol }));
+    let tradableStocks = assets.filter(a => optionableSymbols.includes(a.symbol));
 
-    const assets = await alpaca.getAssets({ status: 'active' });
-    let tradableStocks = assets.filter(
-      (a) => a.tradable && ['NASDAQ', 'NYSE', 'AMEX'].includes(a.exchange) && optionableSymbols.includes(a.symbol)
-    );
-
-    const spyAsset = assets.find(a => a.symbol === 'SPY');
-    if (spyAsset && !tradableStocks.some(s => s.symbol === 'SPY')) {
-      tradableStocks.push(spyAsset);
-      console.log('SPY added to tradableStocks');
-    }
+    // Ensure SPY is included
+    const spyAsset = { symbol: 'SPY', name: 'SPY' };
+    if (!tradableStocks.some(s => s.symbol === 'SPY')) tradableStocks.push(spyAsset);
 
     console.log(`Tradable optionable stocks count: ${tradableStocks.length}`);
 
-    const start = '2025-04-10';
-    const end = '2025-10-09';
-    await runConcurrentBacktests(tradableStocks, strategies, start, end);
+    await runConcurrentBacktests(tradableStocks, strategies);
 
     console.log(`Backtesting complete! Total results: ${allResults.length}`);
   } catch (err) {
     console.error('Fatal error:', err);
   }
 })();
+

@@ -13,17 +13,13 @@ const __dirname = path.dirname(__filename);
 dotenv.config({ path: path.resolve(__dirname, '../.env') });
 
 // === CONFIG ===
-const SECRET_KEY = process.env.PUBLIC_API_KEY;
 const FINNHUB_KEY = process.env.FINNHUB_API_KEY;
-const ACCOUNT_ID = process.env.PUBLIC_API_ID;
-const PUBLIC_API_BASE = process.env.PUBLIC_API_BASE || 'https://api.public.com';
 const FINNHUB_BASE = process.env.FINNHUB_BASE_URL || 'https://finnhub.io/api/v1';
+const POLYGON_KEY = process.env.POLYGON_API_KEY;
 const RISK_FREE_RATE = 0.035;
 
-// === Checks ===
-if (!SECRET_KEY) throw new Error('PUBLIC_API_KEY missing');
 if (!FINNHUB_KEY) throw new Error('FINNHUB_API_KEY missing');
-if (!ACCOUNT_ID) throw new Error('PUBLIC_API_ID missing');
+if (!POLYGON_KEY) throw new Error('POLYGON_API_KEY missing');
 
 // === Logging ===
 const LOG_DIR = path.join(__dirname, 'log');
@@ -34,27 +30,10 @@ const ALERTS_CSV = path.join(LOG_DIR, 'alerts.csv');
 if (!fs.existsSync(LOG_DIR)) fs.mkdirSync(LOG_DIR, { recursive: true });
 const append = text => fs.appendFileSync(LOG_FILE, text + '\n', 'utf8');
 
-// === Stocks to Analyze ===
-const popularStocks = [
-  'AAPL','MSFT','AMZN','GOOG','FB','TSLA','NVDA','BRK.B','JPM','JNJ',
-  'V','PG','UNH','HD','MA','DIS','PYPL','NFLX','ADBE','CMCSA',
-  'INTC','PFE','KO','T','PEP','CSCO','XOM','CVX','ABBV','ABT',
-  'CRM','ACN','AVGO','COST','QCOM','NKE','WMT','TXN','MDT','NEE',
-  'BMY','LIN','MCD','LOW','HON','PM','ORCL','UPS','IBM','CVS'
-];
-const randomStocks = [
-  'SPY','DOCU','SQ','ROKU','SNAP','SPOT','CRWD','OKTA','TWLO','FUBO',
-  'PLTR','ETSY','UBER','LYFT','COIN','AFRM','F','GM','RBLX','LCID',
-  'NVAX','BIDU','TME','JD','PDD','NTES','BABA','XPEV','NIO','LI',
-  'PLUG','BLNK','NKLA','FSLR','ENPH','SEDG','SPWR','RUN','TSM','ASML',
-  'ORLY','REGN','VRTX','BIIB','GILD','AMAT','LRCX','MU','SWKS','ON'
-];
-
 const MIN_OPTION_PRICE = 0.01;
-const DIFF_THRESHOLD = 10; // 10% difference
+const DIFF_THRESHOLD = 10;
 const MAX_MARKET_PRICE = 0.50;
 
-// === Helper ===
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 
 // === Black-Scholes ===
@@ -78,17 +57,13 @@ function parseOptionSymbol(sym) {
   return { type: typeChar === 'C' ? 'call' : 'put', strike: parseInt(strikeRaw, 10) / 1000 };
 }
 
-// === Finnhub Spot ===
-let lastFinnhubCall = 0;
-const FINNHUB_CALL_INTERVAL = 1091;
+// === Polygon Spot Price ===
 async function fetchSpot(symbol) {
   try {
-    const now = Date.now();
-    const wait = FINNHUB_CALL_INTERVAL - (now - lastFinnhubCall);
-    if (wait > 0) await sleep(wait);
-    const res = await axios.get(`${FINNHUB_BASE}/quote`, { params: { symbol, token: FINNHUB_KEY } });
-    lastFinnhubCall = Date.now();
-    const spot = parseFloat(res.data.c);
+    const res = await axios.get(`https://api.polygon.io/v3/reference/tickers/${symbol}`, {
+      params: { apiKey: POLYGON_KEY }
+    });
+    const spot = parseFloat(res.data.results.last_quote?.price || res.data.results.day?.c);
     console.log(`${symbol} Spot Price: $${spot}`);
     return spot;
   } catch (err) {
@@ -99,91 +74,130 @@ async function fetchSpot(symbol) {
   }
 }
 
-// === Public.com Access Token ===
-async function getAccessToken() {
-  const res = await axios.post(
-    `${PUBLIC_API_BASE}/userapiauthservice/personal/access-tokens`,
-    { validityInMinutes: 120, secret: SECRET_KEY, scopes: ['marketdata'] },
-    { headers: { 'Content-Type': 'application/json' } }
-  );
-  console.log('✅ Access Token retrieved');
-  return res.data.accessToken;
-}
+// === Failed Calls Cache ===
+let failedPolygonCalls = [];
 
-async function fetchOptionChain(symbol, expirationDate, token) {
-  const url = `${PUBLIC_API_BASE}/userapigateway/marketdata/${ACCOUNT_ID}/option-chain`;
+// === Finnhub Option Chain Fetch with Polygon Fallback ===
+let lastFinnhubCall = 0;
+const FINNHUB_CALL_INTERVAL = 1091; // ms
+async function fetchOptionChain(symbol, expirationDate) {
   try {
-    const body = { instrument: { symbol: symbol.toUpperCase(), type: 'EQUITY' }, expirationDate };
-    const res = await axios.post(url, body, {
-      headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' }
+    const now = Date.now();
+    const wait = FINNHUB_CALL_INTERVAL - (now - lastFinnhubCall);
+    if (wait > 0) await sleep(wait);
+
+    const res = await axios.get(`${FINNHUB_BASE}/option-chain`, {
+      params: { symbol, expiration: expirationDate, token: FINNHUB_KEY }
     });
-    const calls = res.data.calls || [];
-    const puts = res.data.puts || [];
-    return [...calls, ...puts];
+    lastFinnhubCall = Date.now();
+    return [...(res.data.calls || []), ...(res.data.puts || [])];
   } catch (err) {
-    console.error(`Error fetching option chain for ${symbol}:`, err.response?.data || err.message);
-    append(`\n=== ${symbol} ===`);
-    append('Failed to fetch option chain.');
+    console.warn(`Finnhub fetch failed for ${symbol}: ${err.message}, caching for retry`);
+    failedPolygonCalls.push({ symbol, expirationDate });
     return [];
   }
 }
 
-// === Analyzer with Filters ===
-async function analyzeSymbol(symbol, token) {
+// === Polygon Option Chain Fallback ===
+async function fetchPolygonOptionChain(symbol, expirationDate) {
+  try {
+    const res = await axios.get(`https://api.polygon.io/v3/snapshot/options/${symbol}`, {
+      params: { expiration_date: expirationDate, apiKey: POLYGON_KEY, limit: 250 }
+    });
+    return res.data.results || [];
+  } catch (err) {
+    console.warn(`Polygon fetch failed for ${symbol}: ${err.message}, caching for retry`);
+    failedPolygonCalls.push({ symbol, expirationDate });
+    return [];
+  }
+}
+
+// === Retry Cached Calls ===
+async function retryFailedCalls() {
+  if (!failedPolygonCalls.length) return;
+  console.log(`\n🔁 Retrying ${failedPolygonCalls.length} failed option chain calls...`);
+  const retryCalls = [...failedPolygonCalls];
+  failedPolygonCalls = [];
+
+  for (const { symbol, expirationDate } of retryCalls) {
+    let options = await fetchOptionChain(symbol, expirationDate);
+    if (!options.length) options = await fetchPolygonOptionChain(symbol, expirationDate);
+    // Save or log results from retry if needed
+    if (options.length) append(`\n✅ Retry success for ${symbol} ${expirationDate}`);
+    else append(`\n❌ Retry failed for ${symbol} ${expirationDate}`);
+  }
+}
+
+// === Generate Expiration Dates for Next 2 Months ===
+function getNextTwoMonthsExpirations() {
+  const expirations = [];
+  const now = new Date();
+  const end = new Date(now);
+  end.setMonth(end.getMonth() + 2);
+  let date = new Date(now);
+  while (date <= end) {
+    if (date.getDay() !== 0 && date.getDay() !== 6) {
+      expirations.push(new Date(date).toISOString().split('T')[0]);
+    }
+    date.setDate(date.getDate() + 1);
+  }
+  return expirations;
+}
+
+// === Analyze Symbol ===
+async function analyzeSymbol(symbol) {
   const spot = await fetchSpot(symbol);
   if (spot === null) return { symbol, results: [], alerts: [] };
 
-  const now = new Date();
-  const nextFriday = new Date(now);
-  nextFriday.setDate(now.getDate() + ((12 - now.getDay()) % 7 || 7));
-  const expISO = nextFriday.toISOString().split('T')[0];
-
-  const options = await fetchOptionChain(symbol, expISO, token);
+  const expirations = getNextTwoMonthsExpirations();
   const results = [];
   const alerts = [];
 
-  if (!options || options.length === 0) return { symbol, results, alerts };
+  for (const expISO of expirations) {
+    let options = await fetchOptionChain(symbol, expISO);
+    if (!options.length) options = await fetchPolygonOptionChain(symbol, expISO);
+    if (!options.length) continue;
 
-  const T = Math.max((new Date(expISO) - now) / (365 * 24 * 3600 * 1000), 0);
+    const T = Math.max((new Date(expISO) - new Date()) / (365 * 24 * 3600 * 1000), 0);
 
-  for (const opt of options) {
-    const sym = opt.instrument?.symbol || opt.symbol;
-    const parsed = parseOptionSymbol(sym);
-    if (!parsed) continue;
+    for (const opt of options) {
+      const sym = opt.instrument?.symbol || opt.symbol;
+      const parsed = parseOptionSymbol(sym);
+      if (!parsed) continue;
 
-    const { type, strike: K } = parsed;
-    const mid =
-      opt.bid && opt.ask
+      const { type, strike: K } = parsed;
+      const mid = opt.bid && opt.ask
         ? (parseFloat(opt.bid) + parseFloat(opt.ask)) / 2
         : parseFloat(opt.lastPrice || opt.last || 0);
 
-    if (!mid || mid < MIN_OPTION_PRICE) continue;
+      if (!mid || mid < MIN_OPTION_PRICE) continue;
 
-    const sigma = parseFloat(opt.impliedVolatility || opt.iv || 0.25);
-    const bs = bsPrice({ S: spot, K, T, r: RISK_FREE_RATE, sigma, type });
-    if (bs < 0.01) continue;
+      const sigma = parseFloat(opt.impliedVolatility || opt.iv || 0.25);
+      const bs = bsPrice({ S: spot, K, T, r: RISK_FREE_RATE, sigma, type });
+      if (bs < 0.01 || bs > 0.5) continue;
 
-    const diffPct = (((mid - bs) / bs) * 100).toFixed(2);
-    if (Math.abs(diffPct) < DIFF_THRESHOLD || mid > MAX_MARKET_PRICE) continue;
+      const diffPct = (((mid - bs) / bs) * 100).toFixed(2);
+      if (Math.abs(diffPct) < DIFF_THRESHOLD || mid > MAX_MARKET_PRICE) continue;
 
-    const status = mid > bs ? 'Overpriced' : 'Underpriced';
-    const record = {
-      symbol,
-      spotPrice: spot.toFixed(2),
-      expiration: expISO,
-      type,
-      strike: K,
-      marketPrice: mid.toFixed(2),
-      bsPrice: bs.toFixed(2),
-      diffPct,
-      status
-    };
-    results.push(record);
-    alerts.push(record);
+      const status = mid > bs ? 'Overpriced' : 'Underpriced';
+      const record = {
+        symbol,
+        spotPrice: spot.toFixed(2),
+        expiration: expISO,
+        type,
+        strike: K,
+        marketPrice: mid.toFixed(2),
+        bsPrice: bs.toFixed(2),
+        diffPct,
+        status
+      };
+      results.push(record);
+      alerts.push(record);
+    }
   }
 
   append(`\n=== ${symbol} (Spot: $${spot}) ===`);
-  if (results.length === 0) append('No filtered options data.');
+  if (!results.length) append('No filtered options data.');
   else for (const r of results) append(JSON.stringify(r, null, 2));
 
   return { symbol, results, alerts };
@@ -192,7 +206,6 @@ async function analyzeSymbol(symbol, token) {
 // === MAIN ENTRY POINT ===
 export async function runOptionAnalysis(stockSymbol = null) {
   fs.writeFileSync(LOG_FILE, '', 'utf8');
-  const token = await getAccessToken();
 
   const symbolsToProcess = stockSymbol ? [stockSymbol] : [...popularStocks, ...randomStocks];
   let allResults = [];
@@ -201,7 +214,7 @@ export async function runOptionAnalysis(stockSymbol = null) {
   for (const sym of symbolsToProcess) {
     console.log(`\n📈 Processing ${sym}...`);
     try {
-      const { results, alerts } = await analyzeSymbol(sym, token);
+      const { results, alerts } = await analyzeSymbol(sym);
       allResults.push(...results);
       allAlerts.push(...alerts);
     } catch (err) {
@@ -211,10 +224,11 @@ export async function runOptionAnalysis(stockSymbol = null) {
     }
   }
 
-  // Save results.json
+  // Retry any cached failed calls
+  await retryFailedCalls();
+
   fs.writeFileSync(RESULTS_JSON, JSON.stringify(allResults, null, 2), 'utf8');
 
-  // Save alerts.csv
   const csvHeader = 'symbol,spotPrice,expiration,type,strike,marketPrice,bsPrice,diffPct,status\n';
   const csvRows = allAlerts.map(r =>
     [r.symbol, r.spotPrice, r.expiration, r.type, r.strike, r.marketPrice, r.bsPrice, r.diffPct, r.status].join(',')
@@ -230,4 +244,3 @@ if (process.argv[1].endsWith('optionchaintest.js')) {
   const symbolArg = process.argv[2];
   runOptionAnalysis(symbolArg).then(res => console.log(JSON.stringify(res.allAlerts, null, 2)));
 }
-

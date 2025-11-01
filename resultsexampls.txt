@@ -1,0 +1,192 @@
+stockmonitor.js saves data in parquet files under Historical/today_15min as well as in stock_strat_test\log\livedata.json
+{
+  "AAPL": {
+    "symbol": "AAPL",
+    "ohlcv": {
+      "ts": "2025-10-31T15:30:00.000Z",
+      "o": 172.1,
+      "h": 172.5,
+      "l": 171.9,
+      "c": 172.34,
+      "v": 1200000,
+      "sma20": 171.8,
+      "rsi14": 58.2,
+      "atr14": 0.9,
+      "bollingerUpper": 174.0,
+      "bollingerLower": 169.5
+    },
+    "indicators": {
+      "sma20": 171.8,
+      "rsi": 58.2,
+      "atr": 0.9,
+      "boll": { "upper": 174.0, "lower": 169.5 },
+      "adx": 23.5,
+      "latestPrice": 172.34
+    },
+    "strategy": {
+      "name": "ema_cross_rsi",
+      "parameters": { "emaShort": 9, "emaLong": 21, "rsiPeriod": 14, "rsiThreshold": 70 },
+      "winRate": 0.72
+    }
+  }
+
+strat_test.js stores alert data at stock_strat_test\log\alerts.json
+[
+  {
+    "symbol": "AAPL",
+    "signal": "LONG",
+    "importance": "High",
+    "riskLevel": "Low",
+    "entry": 172.34,
+    "stopLoss": 171.25,
+    "takeProfit": 175.12,
+    "expectedDuration": "3-5 days",
+    "expectedMovePercent": "1.64",
+    "trendInfo": {
+      "15min": { "trend": "up", "rsi": 58.2 },
+      "1hour": { "trend": "up", "rsi": 60.1 },
+      "4hour": { "trend": "up", "rsi": 61.5 },
+      "1day": { "trend": "up", "rsi": 63.0 },
+      "1week": { "trend": "up", "rsi": 65.4 }
+    },
+    "timestamp": "2025-10-31T16:00:00.000Z"
+  },
+  {
+    "symbol": "MSFT",
+    "signal": "SHORT",
+    "importance": "Medium",
+    "riskLevel": "Medium",
+    "entry": 320.5,
+    "stopLoss": 323.2,
+    "takeProfit": 315.6,
+    "expectedDuration": "3-5 days",
+    "expectedMovePercent": "1.2",
+    "trendInfo": { ... },
+    "timestamp": "2025-10-31T16:00:00.000Z"
+  }
+]
+
+
+optionchaintest.js sends results to option-chain-test\log\alerts.json
+{
+  "symbol": "AAPL",
+  "spotPrice": "175.23",
+  "expiration": "2025-11-15",
+  "type": "call",
+  "strike": 180,
+  "marketPrice": "2.15",
+  "bsPrice": "1.90",
+  "diffPct": "13.16",
+  "status": "Overpriced"
+}
+
+chartoptionbridge.js sends combined alerts to 3 possible files
+If both alerts match, then saves to Chart Options Bridge\log\urgentAlert.json
+[
+  {
+    "symbol": "AAPL",
+    "alignment": "STRONG",
+    "stockSignal": "LONG",
+    "optionType": "call",
+    "optionStatus": "active",
+    "rsi": 62.5,
+    "adx": 30,
+    "currentPrice": 178.45,
+    "tradeDuration": 60,
+    "stopLoss": 175.00,
+    "takeProfit": 185.00,
+    "percentMove": 3.75,
+    "newsSentiment": "positive",
+    "newsHeadlines": [
+      {"title": "Apple Reports Strong Q3 Earnings", "sentiment": "positive"},
+      {"title": "Apple Stock Rises Amid Tech Rally", "sentiment": "positive"}
+    ],
+    "optionContracts": [
+      {"expiration": "2025-11-15", "strike": 180, "status": "undervalued", "bid": 2.50, "ask": 2.75},
+      {"expiration": "2025-11-22", "strike": 185, "status": "fairly valued", "bid": 1.80, "ask": 2.10}
+    ],
+    "confidence": "0.90",
+    "suggestedAction": "BUY STOCK + BUY CALL OPTION",
+    "timestamp": "2025-10-31T16:15:12.345Z"
+  },
+  {
+    "symbol": "TSLA",
+    "alignment": "STRONG",
+    "stockSignal": "SHORT",
+    "optionType": "put",
+    "optionStatus": "active",
+    "rsi": 38,
+    "adx": 28,
+    "currentPrice": 920.30,
+    "tradeDuration": 45,
+    "stopLoss": 935.00,
+    "takeProfit": 890.00,
+    "percentMove": 3.25,
+    "newsSentiment": "negative",
+    "newsHeadlines": [
+      {"title": "Tesla Production Delays Hit Shares", "sentiment": "negative"},
+      {"title": "Analyst Downgrades Tesla Stock", "sentiment": "negative"}
+    ],
+    "optionContracts": [
+      {"expiration": "2025-11-15", "strike": 900, "status": "undervalued", "bid": 15.20, "ask": 15.80},
+      {"expiration": "2025-11-22", "strike": 880, "status": "overvalued", "bid": 8.50, "ask": 9.10}
+    ],
+    "confidence": "0.85",
+    "suggestedAction": "SHORT STOCK + BUY PUT OPTION",
+    "timestamp": "2025-10-31T16:15:12.345Z"
+  }
+]
+
+If only stocks alert, then logs to Chart Options Bridge\log\stockAlert.json
+[
+  {
+    "symbol": "MSFT",
+    "alignment": "PARTIAL",
+    "stockSignal": "LONG",
+    "optionType": null,
+    "optionStatus": null,
+    "rsi": 60,
+    "adx": 32,
+    "currentPrice": 315.20,
+    "tradeDuration": 50,
+    "stopLoss": 310.00,
+    "takeProfit": 325.00,
+    "percentMove": 3.2,
+    "newsSentiment": "positive",
+    "newsHeadlines": [
+      {"title": "Microsoft Cloud Revenue Surges", "sentiment": "positive"}
+    ],
+    "optionContracts": [],
+    "confidence": "0.65",
+    "suggestedAction": "BUY STOCK",
+    "timestamp": "2025-10-31T16:15:12.345Z"
+  }
+]
+
+if only options, then to Chart Options Bridge\log\optionAlert.json
+[
+  {
+    "symbol": "AMZN",
+    "alignment": "PARTIAL",
+    "stockSignal": null,
+    "optionType": "call",
+    "optionStatus": "active",
+    "rsi": null,
+    "adx": null,
+    "currentPrice": 1460.00,
+    "tradeDuration": 40,
+    "stopLoss": null,
+    "takeProfit": null,
+    "percentMove": 2.5,
+    "newsSentiment": "neutral",
+    "newsHeadlines": [
+      {"title": "Amazon Announces New Logistics Hub", "sentiment": "neutral"}
+    ],
+    "optionContracts": [
+      {"expiration": "2025-11-15", "strike": 1450, "status": "undervalued", "bid": 12.50, "ask": 13.00}
+    ],
+    "confidence": "0.55",
+    "suggestedAction": "BUY CALL OPTION",
+    "timestamp": "2025-10-31T16:15:12.345Z"
+  }
+]

@@ -1,6 +1,11 @@
+Consider using polygon.io $30 plan for historical DB builder and stockmonitor
+Consider public.io for optionchaintest
 File Structure
 Chart Monitor/
 ├── Archive/                      # all archived material
+│   ├── logs                      # logged vents created from archiveManager.js
+│   ├── archiveManager.js         # creates logs of daily errors and alerts and anything else that may be needed in to future for quality control
+│   └── other archived files
 │
 ├── backend/                       
 │   └── config/
@@ -10,7 +15,7 @@ Chart Monitor/
 │   ├── Archive/               #Archived backtesters
 │   ├── log                    # holds results.js for fullbacktest.js
 │   │   └── results.json       # saves results gathered from fullbacktest.js
-│   ├── node_modules/          # has all node modules for fullbacktest.js
+│   ├── node_modules/          # has all node modules for fullbacktest.js|
 │   ├── strategies/            # has all strategies being implemented
 │   │   ├── BreakoutRange.js         
 │   │   ├── LowVolumeBreakout.js    
@@ -24,11 +29,15 @@ Chart Monitor/
 │   ├── packagelock.json
 │   ├── package.json           # package.json for fullbacktest.js
 │   ├── resetRetestedReplaced.js        #changes all retested and replaced fields to no in log/results.js for retesting strats
+│   ├── singlebacktest.js       #used to create and refine strategies
 │   └── update-optionable-list.js       # updates optionable_stocks.csv to current list of stocks with options available
 │   
 ├── cache/                     # includes all caches items
 │   
 ├── Chart Option Bridge/       # folder for the program to bridge chartMonitor.js and optionchainMonitor.js
+│   ├── log/                   # holds results and alerts from chartoptiobridge.js
+│   │   ├── alerts.json        # holds alerts to be sent to decisionsheets.json  
+│   │   └── results.json       # holds all results from chartoptionbridge.js
 │   ├── chartOptionBridge.js   # program to bridge chartMonitor.js and optionchainMonitor.js
 │   └── decisionSheets.json    # holds decisions for the chartOptionBridge for email alerts
 │
@@ -43,12 +52,17 @@ Chart Monitor/
 │       └── pages/             # Frontend API calls to backend             
 │
 ├── Historical/               
-│   ├── historicalDBBuilder.js  
+│   ├── data/
+│   │   ├── 1day/              # parquet files for each stock with 1 day historical data (exp AAPL.parquet)
+│   │   ├── 1hour/             # parquet files for each stock with 1 hour historical data (exp AAPL.parquet)
+│   │   ├── 1week/             # parquet files for each stock with 1 week historical data (exp AAPL.parquet)
+│   │   ├── 4hour/             # parquet files for each stock with 4 hour historical data (exp AAPL.parquet)
+│   |   └── 15min/             # parquet files for each stock with 15 min historical data (exp AAPL.parquet)  
+│   ├── today_15min/
+│   |   └── 15min/             # parquet files for each stock with 15 min live data (exp AAPL.parquet) 
 │   ├── progress.json 
-│   └── 6monthdb.json
-|
-├── logs/                     # includes old logs from archived singlebacktest /may be used in the future
-│
+│   └── historicalDBBuilder.json
+|│
 ├── node_modules/             # has all node modules
 |
 ├── option-chain-test/        # folder for program that examines option chains against black-sch0les equation for under and over pricing
@@ -59,10 +73,16 @@ Chart Monitor/
 │   ├── optionchaintest.js    # gets options chain data and runs it through black scholes equation to find contracts that are over and under priced
 │   └── package.json          # dependencies for optionchaintest.js
 |
+├── scheduler/               # holds scheduler.js
+│   └── scheduler.js         # manages the schedule for all programs to run and keeps them in order
+|
 ├── stock_strat_test/        # holds program and log for monitoring stock prices
 │   ├── log/                 # holds stockmonitor results
+│   |    ├── alerts.json     # results form stockmonitor
+│   |    ├── livedata.json   # results form stockmonitor
 │   |    └── results.json    # results form stockmonitor
-│   └── stockmonitor.js      # program to monitor stock prices
+│   ├── stockmonitor.js      # program to monitor stock prices
+│   └── strat_test.js        # program to test stocks with strategies against historic+live data
 |
 ├── tests/                    # holds tests
 │   ├── risk.test.js          # risk test  
@@ -74,6 +94,20 @@ Chart Monitor/
 ├── package.json              # dependencies
 ├── package-lock.json         
 └── README.md                 # Documentation
+
+Polygon.io APIs  →  HistoricalDBBuilder  →  FullBacktest
+                                       ↓
+                                  strategy_best.json
+                                       ↓
+Polygon.io APIs  →  StockMonitor  →  today_15min parquet
+                                       ↓
+                       Strat_Test  →  stock_alerts.json
+                                       ↓
+                       OptionChainTest  →  option_alerts.json
+                                       ↓
+                       ChartOptionBridge + DecisionSheet
+                                       ↓
+                             email alert → logs
 
 
 app.alpaca.markets

@@ -1,118 +1,285 @@
-// Chart Monitor/Historical/historicalDBBuilder.js
+require('dotenv').config({ path: require('path').resolve(__dirname, '../.env') });
+const fs = require('fs-extra');
+const path = require('path');
+const os = require('os');
+const axios = require('axios');
+const parquet = require('parquets');
+const tulind = require('tulind'); // for indicators
 
-const axios = require("axios");
-const fs = require("fs");
-const path = require("path");
-require("dotenv").config({ path: path.resolve(__dirname, "../.env") });
-
-// === CONFIGURATION ===
-const POLYGON_API_KEY = process.env.POLYGON_API_KEY;
-
-// === FILE PATHS ===
-const DB_PATH = path.join(__dirname, "6monthDB.json");
-
-// === TEST SYMBOLS (50 popular tickers) ===
-const testTickers = [
-  "AAPL","MSFT","AMZN","GOOG","META","TSLA","NVDA","AMD","NFLX","INTC",
-  "BABA","PYPL","CSCO","PEP","KO","WMT","DIS","NKE","XOM","CVX",
-  "JPM","BAC","GS","V","MA","UNH","PFE","MRNA","ABNB","UBER",
-  "SQ","SHOP","ADBE","CRM","ORCL","T","VZ","QCOM","MCD","COST",
-  "TGT","SBUX","BA","GE","CAT","DE","HON","MMM","AMAT","INTU"
-];
-
-// === TIMEFRAMES ===
-const timeframes = [
-  { name: "15m", multiplier: 15, timespan: "minute" },
-  { name: "1h", multiplier: 1, timespan: "hour" },
-  { name: "4h", multiplier: 4, timespan: "hour" },
-  { name: "1d", multiplier: 1, timespan: "day" }
-];
-
-// === CREATE 6monthDB.json IF NOT EXISTS ===
-if (!fs.existsSync(DB_PATH)) {
-  fs.writeFileSync(DB_PATH, JSON.stringify({}, null, 2), "utf-8");
+// -------------------- CONFIG --------------------
+if (!process.env.POLYGON_API_KEY) {
+  console.error("❌ POLYGON_API_KEY is missing in .env");
+  process.exit(1);
 }
 
-// === HELPER FUNCTIONS ===
-function getDateRange() {
-  const end = new Date();
-  const start = new Date();
-  start.setMonth(end.getMonth() - 6); // last 6 months
-  return {
-    start: start.toISOString().split("T")[0],
-    end: end.toISOString().split("T")[0]
-  };
-}
+const TIMEFRAMES = ['15min', '1hour', '4hour', '1day', '1week'];
+const OUTPUT_DIR = path.resolve(__dirname, '../Historical/data'); // updated
+const PROGRESS_FILE = path.resolve(__dirname, '../Historical/progress.json'); // updated
+const STOCKS_FILE = path.resolve(__dirname, '../backtesters/optionable_stocks.csv');
 
-async function fetchCandles(symbol, multiplier, timespan, start, end) {
-  const url = `https://api.polygon.io/v2/aggs/ticker/${symbol}/range/${multiplier}/${timespan}/${start}/${end}?adjusted=true&sort=asc&apiKey=${POLYGON_API_KEY}`;
+const MAX_CONCURRENT_DOWNLOADS = Math.max(4, os.cpus().length * 2);
+let activeDownloads = 0;
+let completed = 0;
+let totalTasks = 0;
+
+// -------------------- UTILITY --------------------
+async function loadProgress() {
   try {
-    const response = await axios.get(url);
-    const data = response.data.results || [];
-    return data.map(bar => ({
-      symbol,                   // Added symbol
-      timeframe: `${multiplier}${timespan}`, // Added timeframe
-      t: bar.t,
-      o: bar.o,
-      h: bar.h,
-      l: bar.l,
-      c: bar.c,
-      v: bar.v,
-      dateUTC: new Date(bar.t).toUTCString(),
-      dateLocal: new Date(bar.t).toLocaleString()
-    }));
-  } catch (err) {
-    if (err.response?.status === 429) {
-      const elapsed = ((Date.now() - globalStartTime) / 1000).toFixed(2);
-      console.error(`❌ 429 Rate Limit hit for ${symbol} (${multiplier}${timespan}) after ${elapsed} seconds`);
-      process.exit(1); // stop execution immediately
-    } else {
-      console.error(`❌ ${symbol} (${multiplier}${timespan}) - ${err.message}`);
+    if (await fs.pathExists(PROGRESS_FILE)) {
+      return await fs.readJSON(PROGRESS_FILE);
     }
+  } catch (err) {
+    console.warn('⚠️ Could not read progress.json, starting fresh.');
+  }
+  return { completed: {} };
+}
+
+async function saveProgress(progress) {
+  try {
+    await fs.ensureFile(PROGRESS_FILE);
+    await fs.writeJSON(PROGRESS_FILE, progress, { spaces: 2 });
+  } catch (err) {
+    console.warn('⚠️ Failed to save progress file:', err.message);
+  }
+}
+
+// -------------------- PARQUET SCHEMA --------------------
+const schema = new parquet.ParquetSchema({
+  ts: { type: 'TIMESTAMP_MILLIS' },
+  o: { type: 'DOUBLE' },
+  h: { type: 'DOUBLE' },
+  l: { type: 'DOUBLE' },
+  c: { type: 'DOUBLE' },
+  v: { type: 'INT64' },
+  n: { type: 'INT64', optional: true },
+  vw: { type: 'DOUBLE', optional: true },
+
+  sma20: { type: 'DOUBLE', optional: true },
+  sma50: { type: 'DOUBLE', optional: true },
+  ema20: { type: 'DOUBLE', optional: true },
+  rsi14: { type: 'DOUBLE', optional: true },
+  atr14: { type: 'DOUBLE', optional: true },
+  bollingerUpper: { type: 'DOUBLE', optional: true },
+  bollingerLower: { type: 'DOUBLE', optional: true },
+});
+
+// -------------------- API FETCH --------------------
+async function fetchOHLCV(symbol, timeframe, from, to) {
+  try {
+    const timespanMap = { '15min': 'minute', '1hour': 'hour', '4hour': 'hour', '1day': 'day', '1week': 'week' };
+    const multiplierMap = { '15min': 15, '1hour': 1, '4hour': 4, '1day': 1, '1week': 1 };
+    const timespan = timespanMap[timeframe], multiplier = multiplierMap[timeframe];
+
+    let allResults = [];
+    let nextUrl = `https://api.polygon.io/v2/aggs/ticker/${symbol}/range/${multiplier}/${timespan}/${from}/${to}?adjusted=true&sort=asc&limit=50000&apiKey=${process.env.POLYGON_API_KEY}`;
+
+    while (nextUrl) {
+      const response = await axios.get(nextUrl);
+      const results = response.data.results || [];
+      allResults = allResults.concat(results);
+
+      if (response.data.next_url) {
+        nextUrl = response.data.next_url + `&apiKey=${process.env.POLYGON_API_KEY}`;
+      } else {
+        nextUrl = null;
+      }
+    }
+    return allResults;
+  } catch (err) {
+    console.warn(`⚠️ Failed API fetch for ${symbol} ${timeframe}: ${err.message}`);
     return [];
   }
 }
 
-function saveData(symbol, timeframe, candles) {
-  const db = JSON.parse(fs.readFileSync(DB_PATH, "utf-8"));
-  if (!db[symbol]) db[symbol] = {};
-  db[symbol][timeframe] = candles;
-  fs.writeFileSync(DB_PATH, JSON.stringify(db, null, 2), "utf-8");
+// -------------------- COMPUTE INDICATORS --------------------
+async function computeIndicators(data) {
+  if (!data || data.length < 20) return data.map(d => ({ ...d }));
+
+  const close = data.map(d => d.c);
+  const high = data.map(d => d.h);
+  const low = data.map(d => d.l);
+
+  const [sma20] = await tulind.indicators.sma.indicator([close], [20]);
+  const [sma50] = await tulind.indicators.sma.indicator([close], [50]);
+  const [ema20] = await tulind.indicators.ema.indicator([close], [20]);
+  const [rsi14] = await tulind.indicators.rsi.indicator([close], [14]);
+  const [atr14] = await tulind.indicators.atr.indicator([high, low, close], [14]);
+  const [bbUpper, bbLower] = await tulind.indicators.bbands.indicator([close], [20, 2]);
+
+  const offset20 = close.length - sma20.length;
+  const offset50 = close.length - sma50.length;
+  const offsetRsi = close.length - rsi14.length;
+  const offsetAtr = close.length - atr14.length;
+
+  return data.map((d, i) => ({
+    ...d,
+    sma20: i >= offset20 ? sma20[i - offset20] : null,
+    sma50: i >= offset50 ? sma50[i - offset50] : null,
+    ema20: i >= offset20 ? ema20[i - offset20] : null,
+    rsi14: i >= offsetRsi ? rsi14[i - offsetRsi] : null,
+    atr14: i >= offsetAtr ? atr14[i - offsetAtr] : null,
+    bollingerUpper: i >= offset20 ? bbUpper[i - offset20] : null,
+    bollingerLower: i >= offset20 ? bbLower[i - offset20] : null
+  }));
 }
 
-// === MAIN EXECUTION ===
-let globalStartTime;
+// -------------------- SAVE PARQUET --------------------
+async function saveOHLCVParquet(symbol, timeframe, data) {
+  if (!data || data.length === 0) return false;
+  const localDir = path.join(OUTPUT_DIR, timeframe);
+  await fs.ensureDir(localDir);
+  const filePath = path.join(localDir, `${symbol}.parquet`);
 
-async function run() {
-  globalStartTime = Date.now();
-  const { start, end } = getDateRange();
-  console.log(`🚀 Fetching 6-month history (${start} → ${end}) for ${testTickers.length} symbols...\n`);
+  data = await computeIndicators(data);
 
-  // Calculate delay for 5 requests per minute
-  const delayMs = 12_000; // 12 seconds per request
-
-  for (const symbol of testTickers) {
-    console.log(`📈 Processing ${symbol}...`);
-    for (const tf of timeframes) {
-      const candles = await fetchCandles(symbol, tf.multiplier, tf.timespan, start, end);
-      if (candles.length > 0) {
-        saveData(symbol, tf.name, candles);
-        console.log(`✅ ${symbol} (${tf.name}) — ${candles.length} bars`);
-      } else {
-        console.log(`⚠️ No data for ${symbol} (${tf.name})`);
-      }
-
-      // --- Enforce 5 calls per minute ---
-      await new Promise(r => setTimeout(r, delayMs));
-    }
-    console.log(`--- Finished ${symbol} ---\n`);
+  let writer;
+  if (await fs.pathExists(filePath)) {
+    writer = await parquet.ParquetWriter.openFile(schema, filePath, { append: true });
+  } else {
+    writer = await parquet.ParquetWriter.openFile(schema, filePath);
   }
 
-  console.log("🎯 All done! Data stored in 6monthDB.json");
+  for (const d of data) {
+    await writer.appendRow({
+      ts: new Date(d.t),
+      o: d.o,
+      h: d.h,
+      l: d.l,
+      c: d.c,
+      v: d.v,
+      n: d.n,
+      vw: d.vw,
+      sma20: d.sma20,
+      sma50: d.sma50,
+      ema20: d.ema20,
+      rsi14: d.rsi14,
+      atr14: d.atr14,
+      bollingerUpper: d.bollingerUpper,
+      bollingerLower: d.bollingerLower
+    });
+  }
+
+  await writer.close();
+  return true;
 }
 
-run().catch(console.error);
+// -------------------- DOWNLOAD QUEUE --------------------
+async function runDownloadQueue(tasks, progress) {
+  return new Promise((resolve) => {
+    let index = 0;
+    totalTasks = tasks.length;
 
+    const startNext = async () => {
+      if (index >= tasks.length) {
+        if (activeDownloads === 0) resolve();
+        return;
+      }
 
+      const task = tasks[index++];
+      activeDownloads++;
+      const { symbol, timeframe, from, to, key } = task;
 
+      try {
+        const data = await fetchOHLCV(symbol, timeframe, from, to);
+        const saved = await saveOHLCVParquet(symbol, timeframe, data);
+
+        if (saved) progress.completed[key] = true;
+        completed++;
+
+        // only save progress after every 50 tasks or successful save
+        if (completed % 50 === 0 || saved) {
+          console.log(`📊 ${completed}/${totalTasks} (${((completed/totalTasks)*100).toFixed(2)}%) — ${symbol} ${timeframe}`);
+          await saveProgress(progress);
+        }
+      } catch (err) {
+        console.warn(`⚠️ Task failed: ${symbol} ${timeframe}: ${err.message}`);
+        await saveProgress(progress);
+      }
+
+      activeDownloads--;
+      startNext();
+    };
+
+    for (let i = 0; i < MAX_CONCURRENT_DOWNLOADS; i++) startNext();
+  });
+}
+
+// -------------------- PARQUET READER UTILITIES --------------------
+async function readOHLCV(symbols, timeframe) {
+  const results = {};
+  for (const symbol of symbols) {
+    const filePath = path.join(OUTPUT_DIR, timeframe, `${symbol}.parquet`);
+    if (!await fs.pathExists(filePath)) continue;
+
+    const reader = await parquet.ParquetReader.openFile(filePath);
+    const cursor = reader.getCursor();
+    const rows = [];
+    let row;
+    while (row = await cursor.next()) rows.push(row);
+    await reader.close();
+    results[symbol] = rows;
+  }
+  return results;
+}
+
+// -------------------- MAIN --------------------
+async function main() {
+  const progress = await loadProgress();
+
+  if (!await fs.pathExists(STOCKS_FILE)) {
+    console.error("❌ Stocks CSV file not found.");
+    process.exit(1);
+  }
+
+  const csvData = await fs.readFile(STOCKS_FILE, 'utf8');
+  const symbols = csvData.split(/\r?\n/).map(s => s.trim()).filter(Boolean);
+
+  console.log('Building tasks...');
+  const tasks = [];
+  const today = new Date();
+  const todayISO = today.toISOString().slice(0,10);
+
+  for (const symbol of symbols) {
+    for (const timeframe of TIMEFRAMES) {
+      const filePath = path.join(OUTPUT_DIR, timeframe, `${symbol}.parquet`);
+      let fromDate;
+
+      if (await fs.pathExists(filePath)) {
+        const reader = await parquet.ParquetReader.openFile(filePath);
+        const cursor = reader.getCursor();
+        let row, lastTs;
+        while (row = await cursor.next()) lastTs = row.ts;
+        await reader.close();
+        fromDate = lastTs ? new Date(lastTs) : new Date(today.getFullYear()-1, today.getMonth(), today.getDate());
+        if (lastTs) fromDate.setDate(fromDate.getDate() + 1);
+      } else {
+        fromDate = new Date(today.getFullYear()-1, today.getMonth(), today.getDate());
+      }
+
+      if (fromDate > today) fromDate = today;
+
+      const from = fromDate.toISOString().slice(0,10);
+      const key = `${symbol}_${timeframe}`;
+      if (progress.completed[key]) continue;
+
+      tasks.push({ symbol, timeframe, from, to: todayISO, key });
+    }
+  }
+
+  console.log(`Total tasks to process: ${tasks.length.toLocaleString()}`);
+  const startTime = Date.now();
+  await runDownloadQueue(tasks, progress);
+  const duration = ((Date.now() - startTime)/1000/60).toFixed(2);
+  await saveProgress(progress);
+  console.log(`✅ All downloads complete in ${duration} minutes.`);
+}
+
+// -------------------- EXPORT READER FOR BACKTESTING --------------------
+module.exports = {
+  fetchOHLCV,
+  saveOHLCVParquet,
+  readOHLCV
+};
+
+main().catch(err => console.error('❌ Fatal error:', err));
 

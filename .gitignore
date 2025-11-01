@@ -1,0 +1,12 @@
+# Ignore historical data folders and all their contents
+Historical/data/
+Historical/today_15min/
+
+# Ignore all .parquet files in Historical/ (recursively)
+Historical/**/*.parquet
+
+# Ignore environment file
+.env
+
+# Ignore notes
+notes.txt

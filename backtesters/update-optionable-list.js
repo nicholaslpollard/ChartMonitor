@@ -44,15 +44,10 @@ const alpaca = new Alpaca({
       return;
     }
 
-    // Generate CSV: Symbol,Name,Exchange
-    const header = 'Symbol,Name,Exchange\n';
-    const rows = optionable.map(a => {
-      // Escape quotes and wrap name in quotes
-      const safeName = a.name ? `"${a.name.replace(/"/g, '""')}"` : '';
-      return `${a.symbol},${safeName},${a.exchange}`;
-    }).join('\n');
+    // Minimal CSV: only the symbol per line
+    const rows = optionable.map(a => a.symbol).join('\n');
+    fs.writeFileSync(FILE_PATH, rows);
 
-    fs.writeFileSync(FILE_PATH, header + rows);
     console.log(`Optionable stock list updated. Total: ${optionable.length}`);
   } catch (err) {
     console.error('Failed to update optionable list:', err);

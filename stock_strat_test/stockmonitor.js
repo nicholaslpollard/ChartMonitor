@@ -1,195 +1,188 @@
-// ---- CONFIG ----
-const path = require('path');
-require('dotenv').config({ path: path.join(__dirname, '..', '.env') });
-const fs = require('fs');
-const axios = require('axios');
-const { parse: csvParse } = require('csv-parse/sync'); // updated import
+require("dotenv").config();
+const axios = require("axios");
+const fs = require("fs");
+const path = require("path");
+const parquet = require("parquetjs-lite");
+const { SMA, RSI, ATR, BollingerBands, ADX } = require(path.join(__dirname, "..", "backtesters", "helpers.js"));
 
-// ------------------- USER CONFIG -------------------
-const DELAY_MS = 200; // per-request delay
+const POLYGON_API_KEY = process.env.POLYGON_API_KEY;
+const BASE_URL = "https://api.polygon.io";
+const CONCURRENT_REQUESTS = 100;
 
-// Public API keys from .env
-const SECRET_KEY_1 = process.env.PUBLIC_API_KEY;
-const ACCOUNT_ID_1 = process.env.PUBLIC_API_ID;
-const BASE_1 = process.env.PUBLIC_API_BASE || "https://api.public.com";
+const todayParquetDir = path.join(__dirname, "..", "..", "Chart Monitor", "Historical", "today_15min");
+const liveDataPath = path.join(__dirname, "..", "..", "Chart Monitor", "stock_strat_test", "log", "livedata.json");
+const resultsPath = path.join(__dirname, "..", "backtesters", "log", "results.json");
 
-const SECRET_KEY_2 = process.env.PUBLIC_API_KEY_2;
-const ACCOUNT_ID_2 = process.env.PUBLIC_API_ID_2;
-const BASE_2 = process.env.PUBLIC_API_BASE_2 || "https://api.public.com";
-
-// ------------------- PATHS -------------------
-const backtesterLogPath = path.join(__dirname, '..', 'backtesters', 'log', 'results.json');
-const optionableCsvPath = path.join(__dirname, '..', 'backtesters', 'optionable_stocks.csv');
-const resultsPath = path.join(__dirname, 'log', 'results.json');
-const alertsTxtPath = path.join(__dirname, '..', '..', 'Chart Monitor', 'stock_strat_test', 'alerts.txt');
-const liveDataPath = path.join(__dirname, '..', '..', 'Chart Monitor', 'stock_strat_test', 'log', 'livedata.json');
-
-// Ensure folders exist
-for (const dir of [path.dirname(resultsPath), path.dirname(alertsTxtPath), path.dirname(liveDataPath)]) {
-  if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+// Ensure necessary folders exist
+for (const p of [todayParquetDir, path.dirname(liveDataPath)] ) {
+  if (!fs.existsSync(p)) fs.mkdirSync(p, { recursive: true });
 }
 
-// ---- Initialize liveData file if missing ----
-if (!fs.existsSync(liveDataPath)) {
-  fs.writeFileSync(liveDataPath, JSON.stringify({}, null, 2), 'utf-8');
+// Load backtester highest win-rate strategies
+function loadHighestWinRateStrategies() {
+  if (!fs.existsSync(resultsPath)) return {};
+  const results = JSON.parse(fs.readFileSync(resultsPath, "utf-8"));
+  const strategies = {};
+  results.forEach(r => { strategies[r.symbol] = r.strategy; });
+  return strategies;
 }
 
-// ---- Load Backtester Results ----
-let backtesterResults = [];
-if (fs.existsSync(backtesterLogPath)) backtesterResults = JSON.parse(fs.readFileSync(backtesterLogPath, 'utf-8'));
-else { console.error('Backtester results file missing!'); process.exit(1); }
-
-// ---- Load Optionable Stocks ----
-let optionableSymbols = [];
-if (fs.existsSync(optionableCsvPath)) {
-  const csvData = fs.readFileSync(optionableCsvPath, 'utf-8');
-  const records = csvParse(csvData, { columns: true, skip_empty_lines: true });
-  optionableSymbols = records.map(r => r.Symbol);
-} else { console.error('Optionable stocks CSV missing!'); process.exit(1); }
-
-// ---- Load Strategies ----
-const strategyDir = path.join(__dirname, '..', 'backtesters', 'strategies');
-const strategies = {};
-for (const file of fs.readdirSync(strategyDir).filter(f => f.endsWith('.js'))) {
-  strategies[path.basename(file, '.js')] = require(path.join(strategyDir, file));
+// Fetch today’s 15-min candles
+async function fetch15MinCandles(symbol) {
+  const today = new Date().toISOString().split("T")[0];
+  const url = `${BASE_URL}/v2/aggs/ticker/${symbol}/range/15/min/${today}/${today}?adjusted=true&sort=asc&apiKey=${POLYGON_API_KEY}`;
+  const res = await axios.get(url);
+  return res.data.results || [];
 }
 
-// ---- Load Helper Functions ----
-const { SMA, smaSlope, RSI, ATR, trendDirection, BollingerBands, ADX } = require(path.join(__dirname, '..', 'backtesters', 'helpers.js'));
-
-// ---- Utility ----
-const wait = ms => new Promise(res => setTimeout(res, ms));
-
-// ---- PUBLIC API AUTH ----
-async function getAccessToken(secretKey, base) {
-  try {
-    const res = await axios.post(
-      `${base}/userapiauthservice/personal/access-tokens`,
-      { validityInMinutes: 60, secret: secretKey },
-      { headers: { "Content-Type": "application/json" } }
-    );
-    return res.data.accessToken;
-  } catch (err) {
-    console.error('Error fetching access token:', err.response ? err.response.data : err.message);
-    return null;
-  }
+// Compute indicators for a candle array
+function computeIndicators(candles) {
+  const closes = candles.map(c => c.c);
+  const highs = candles.map(c => c.h);
+  const lows = candles.map(c => c.l);
+  return {
+    sma20: SMA(closes, 20).pop(),
+    rsi: RSI(closes, 14).pop(),
+    atr: ATR(highs, lows, closes, 14).pop(),
+    boll: BollingerBands(closes, 20).pop(),
+    adx: ADX(highs, lows, closes, 14).pop(),
+    latestPrice: closes[closes.length - 1]
+  };
 }
 
-// ---- Append/Update liveData file ----
-function logLiveData(symbolData) {
-  let currentData = {};
-  if (fs.existsSync(liveDataPath)) {
-    try { currentData = JSON.parse(fs.readFileSync(liveDataPath, 'utf-8')); } 
-    catch (e) { console.error('Failed to read livedata.json, resetting file.'); currentData = {}; }
-  }
-  for (const sym in symbolData) currentData[sym] = symbolData[sym];
-  fs.writeFileSync(liveDataPath, JSON.stringify(currentData, null, 2), 'utf-8');
-}
+// Append new candles to parquet (one file per symbol)
+async function appendToParquet(filepath, newCandles) {
+  if (!newCandles.length) return;
 
-// ---- FETCH LIVE QUOTES ----
-async function fetchLiveQuotes(symbols, token, accountId, base, label) {
-  const liveData = {};
-  for (let i = 0; i < symbols.length; i++) {
-    const symbol = symbols[i];
-    try {
-      const res = await axios.post(
-        `${base}/userapigateway/marketdata/${accountId}/quotes`,
-        { instruments: [{ symbol, type: 'EQUITY' }] },
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
+  const schema = new parquet.ParquetSchema({
+    ts: { type: "TIMESTAMP_MILLIS" },
+    o: { type: "DOUBLE" },
+    h: { type: "DOUBLE" },
+    l: { type: "DOUBLE" },
+    c: { type: "DOUBLE" },
+    v: { type: "DOUBLE" },
+    sma20: { type: "DOUBLE", optional: true },
+    rsi14: { type: "DOUBLE", optional: true },
+    atr14: { type: "DOUBLE", optional: true },
+    bollingerUpper: { type: "DOUBLE", optional: true },
+    bollingerLower: { type: "DOUBLE", optional: true }
+  });
 
-      const quote = res.data?.[0]?.quote || res.data;
-      liveData[symbol] = {
-        symbol,
-        lastPrice: quote.last ?? null,
-        bid: quote.bid ?? null,
-        ask: quote.ask ?? null,
-        time: new Date().toISOString(),
-      };
-
-      // Save immediately after fetching
-      logLiveData({ [symbol]: liveData[symbol] });
-      console.log(`✅ ${symbol} live price retrieved and logged (${label})`);
-    } catch (err) {
-      console.log(`❌ ${symbol} error (${label}):`, err.response ? err.response.data : err.message);
-    }
-    await wait(DELAY_MS);
-  }
-  return liveData;
-}
-
-// ---- RUN TWO KEYS IN PARALLEL ----
-async function getAllLiveData(symbols, tokens, accountIds, bases) {
-  const half = Math.ceil(symbols.length / 2);
-  const list1 = symbols.slice(0, half);
-  const list2 = symbols.slice(half);
-
-  const [data1, data2] = await Promise.all([
-    fetchLiveQuotes(list1, tokens[0], accountIds[0], bases[0], "key 1"),
-    fetchLiveQuotes(list2, tokens[1], accountIds[1], bases[1], "key 2"),
-  ]);
-
-  return { ...data1, ...data2 };
-}
-
-// ---- Risk Score Helper ----
-function calculateRiskScore(atr, currentPrice) {
-  let score = (atr / currentPrice) * 100 * 2;
-  score = Math.min(100, Math.max(0, score));
-  let level = '';
-  if (score <= 25) level = 'Low';
-  else if (score <= 50) level = 'Medium';
-  else if (score <= 75) level = 'High';
-  else level = 'Very High';
-  return { score: score.toFixed(1), level };
-}
-
-// ---- Interpret Indicators ----
-function interpretIndicators({ signal, rsi, adx, trend, atr, expectedMovePercent, stopLoss, takeProfit, currentPrice }) {
-  let interpretation = '';
-  if (signal === 'long') {
-    interpretation += `Bullish momentum detected `;
-    interpretation += adx > 25 ? `with strong trend (ADX ${adx.toFixed(1)}). ` : `trend strength moderate (ADX ${adx.toFixed(1)}). `;
-  } else if (signal === 'short') {
-    interpretation += `Bearish pressure detected `;
-    interpretation += adx > 25 ? `with strong downward trend (ADX ${adx.toFixed(1)}). ` : `trend strength moderate (ADX ${adx.toFixed(1)}). `;
+  let existingCandles = [];
+  if (fs.existsSync(filepath)) {
+    const reader = await parquet.ParquetReader.openFile(filepath);
+    const cursor = reader.getCursor();
+    let record = null;
+    while ((record = await cursor.next())) existingCandles.push(record);
+    await reader.close();
   }
 
-  if (rsi > 70) interpretation += `RSI ${rsi.toFixed(1)} overbought. `;
-  else if (rsi < 30) interpretation += `RSI ${rsi.toFixed(1)} oversold. `;
-  else interpretation += `RSI ${rsi.toFixed(1)} neutral. `;
+  const existingTimestamps = new Set(existingCandles.map(c => new Date(c.ts).getTime()));
+  const toAdd = newCandles.filter(c => !existingTimestamps.has(new Date(c.t).getTime()));
+  if (!toAdd.length) return;
 
-  interpretation += atr > currentPrice * 0.02 ? `ATR ${atr.toFixed(2)} elevated volatility. ` : `ATR ${atr.toFixed(2)} normal volatility. `;
-  interpretation += `Expected movement ~${expectedMovePercent.toFixed(2)}%. `;
-
-  const entries = signal === 'long' ? [currentPrice - atr * 0.5, currentPrice] : [currentPrice, currentPrice + atr * 0.5];
-  const positions = ['Full', 'Half', 'Quarter'];
-  interpretation += `Entries: `;
-  entries.forEach((entry, i) => { interpretation += `${positions[i] || 'Scaled'} at $${entry.toFixed(2)}, `; });
-  interpretation = interpretation.slice(0, -2) + '. ';
-
-  const risk = calculateRiskScore(atr, currentPrice);
-  interpretation += `Stop: $${stopLoss.toFixed(2)}, Take: $${takeProfit.toFixed(2)}. `;
-  interpretation += `Risk: ${risk.level} (${risk.score}/100). `;
-
-  return { text: interpretation.trim(), risk, signal };
+  const writer = await parquet.ParquetWriter.openFile(schema, filepath, { append: fs.existsSync(filepath) });
+  for (const c of toAdd) {
+    await writer.appendRow({
+      ts: new Date(c.t),
+      o: c.o,
+      h: c.h,
+      l: c.l,
+      c: c.c,
+      v: c.v,
+      sma20: c.sma20 || null,
+      rsi14: c.rsi14 || null,
+      atr14: c.atr14 || null,
+      bollingerUpper: c.bollingerUpper || null,
+      bollingerLower: c.bollingerLower || null
+    });
+  }
+  await writer.close();
 }
 
-// ---- MAIN MONITOR FUNCTION ----
-async function monitorStocks() {
-  console.log(`Fetching live market data via Public API...`);
-  const token1 = await getAccessToken(SECRET_KEY_1, BASE_1);
-  const token2 = await getAccessToken(SECRET_KEY_2, BASE_2);
+// Main fetch + update
+async function update15MinData(symbols) {
+  const startTime = Date.now();
+  const liveSnapshot = {};
+  const highestStrategies = loadHighestWinRateStrategies();
+  let totalUpdated = 0;
 
-  if (!token1 || !token2) {
-    console.error("❌ Failed to get access tokens.");
+  for (let i = 0; i < symbols.length; i += CONCURRENT_REQUESTS) {
+    const batch = symbols.slice(i, i + CONCURRENT_REQUESTS);
+
+    await Promise.all(batch.map(async sym => {
+      try {
+        const filepath = path.join(todayParquetDir, `${sym}.parquet`);
+        let existingCandles = [];
+        if (fs.existsSync(filepath)) {
+          const reader = await parquet.ParquetReader.openFile(filepath);
+          const cursor = reader.getCursor();
+          let record = null;
+          while ((record = await cursor.next())) existingCandles.push(record);
+          await reader.close();
+        }
+
+        const latestTime = existingCandles.length ? existingCandles[existingCandles.length - 1].ts.getTime() : null;
+        const candles = await fetch15MinCandles(sym);
+        if (!candles.length) throw new Error("No 15-min data");
+
+        // Skip if latest candle already exists
+        if (latestTime && new Date(candles[candles.length - 1].t).getTime() === latestTime) {
+          liveSnapshot[sym] = {
+            symbol: sym,
+            ohlcv: existingCandles[existingCandles.length - 1],
+            indicators: computeIndicators(existingCandles),
+            strategy: highestStrategies[sym] || null
+          };
+          return;
+        }
+
+        // Compute indicators for 15-min candles
+        const indicators = computeIndicators(candles);
+        candles.forEach(c => {
+          c.sma20 = indicators.sma20;
+          c.rsi14 = indicators.rsi;
+          c.atr14 = indicators.atr;
+          c.bollingerUpper = indicators.boll.upper;
+          c.bollingerLower = indicators.boll.lower;
+        });
+
+        // Append to parquet
+        await appendToParquet(filepath, candles);
+
+        liveSnapshot[sym] = {
+          symbol: sym,
+          ohlcv: candles[candles.length - 1],
+          indicators,
+          strategy: highestStrategies[sym] || null
+        };
+        totalUpdated++;
+        console.log(`${i + 1}/${symbols.length} ✅ ${sym} — Price $${indicators.latestPrice}`);
+      } catch (err) {
+        console.log(`${i + 1}/${symbols.length} ❌ ${sym} (${err.message})`);
+      }
+    }));
+  }
+
+  // Save live snapshot for quick access
+  fs.writeFileSync(liveDataPath, JSON.stringify(liveSnapshot, null, 2));
+
+  const endTime = ((Date.now() - startTime) / 1000).toFixed(1);
+  console.log(`\n🚀 Fetch complete. ${totalUpdated} stocks updated. Total runtime: ${endTime}s`);
+}
+
+// ------------------- MAIN -------------------
+(async () => {
+  const optionablePath = path.join(__dirname, "..", "backtesters", "optionable_stocks.csv");
+  if (!fs.existsSync(optionablePath)) {
+    console.error(`❌ Missing ${optionablePath}`);
     process.exit(1);
   }
+  const symbols = fs.readFileSync(optionablePath, "utf-8")
+    .split(/\r?\n/)
+    .map(l => l.trim())
+    .filter(l => l.length > 0);
 
-  const allSymbols = backtesterResults.map(s => s.symbol).filter(sym => optionableSymbols.includes(sym));
-  await getAllLiveData(allSymbols, [token1, token2], [ACCOUNT_ID_1, ACCOUNT_ID_2], [BASE_1, BASE_2]);
-
-  console.log("✅ Live data fetch complete — all stocks logged in livedata.json");
-}
-
-monitorStocks();
+  console.log(`📄 Loaded ${symbols.length} symbols`);
+  await update15MinData(symbols);
+})();

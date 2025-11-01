@@ -1,188 +1,201 @@
 require('dotenv').config();
 const fs = require('fs');
 const path = require('path');
-const nodemailer = require('nodemailer');
-
-// Import the option analysis function
-const { runOptionAnalysis } = require(path.join(__dirname, '..', 'option-chain-test', 'optionchaintest.js'));
+const axios = require('axios');
 
 // ---- Paths ----
-const decisionTablePath = path.join(__dirname, 'decisionSheets.json');
-const stockResultsPath = path.join(__dirname, '..', 'stock_strat_test', 'log', 'results.json');
+const stockLivePath = path.join(__dirname, '..', 'stock_strat_test', 'log', 'livedata.json');
+const stockAlertPath = path.join(__dirname, '..', 'stock_strat_test', 'log', 'alerts.json');
+const optionAlertPath = path.join(__dirname, '..', 'option-chain-test', 'log', 'alerts.json');
 
-const logDir = path.join(__dirname, 'log');
-const logTxtPath = path.join(logDir, 'alerts.txt');
-const logJsonPath = path.join(logDir, 'results.json');
+// ---- Output Paths ----
+const bridgeDir = path.join(__dirname, '..', 'Chart Options Bridge', 'log');
+const urgentAlertPath = path.join(bridgeDir, 'urgentAlert.json');
+const stockOnlyPath = path.join(bridgeDir, 'stockAlert.json');
+const optionOnlyPath = path.join(bridgeDir, 'optionAlert.json');
 
-// Ensure log folder exists
-if (!fs.existsSync(logDir)) fs.mkdirSync(logDir, { recursive: true });
+if (!fs.existsSync(bridgeDir)) fs.mkdirSync(bridgeDir, { recursive: true });
 
-// ---- Load Decision Table ----
-const decisionTable = JSON.parse(fs.readFileSync(decisionTablePath, 'utf-8'));
-
-// ---- Utility: get suggested action ----
-function getSuggestedAction(opt) {
-  for (const scenario of decisionTable) {
-    if (scenario.type.toLowerCase() !== opt.type.toLowerCase()) continue;
-    if (scenario.moneyness !== opt.moneyness) continue;
-
-    let diffCategory = '';
-    const diff = opt.diffPct;
-    if (diff > 50) diffCategory = '>50';
-    else if (diff > 25) diffCategory = '25-50';
-    else if (diff > 0) diffCategory = '0-25';
-    else if (diff > -25) diffCategory = '0-25';
-    else if (diff > -50) diffCategory = '<-25';
-    else diffCategory = '<-50';
-
-    if (scenario.diffPct.includes(diffCategory)) return scenario.suggestedAction;
-  }
-  return 'Hold / Review';
+// ---- Helper: Categorization ----
+function categorizeRSI(rsi) {
+  if (rsi < 30) return 'oversold';
+  if (rsi > 70) return 'overbought';
+  return 'neutral';
+}
+function categorizeADX(adx) {
+  if (adx < 20) return 'weak';
+  if (adx < 40) return 'moderate';
+  return 'strong';
 }
 
-// ---- Merge Stock & Option Data ----
-function mergeStockOptionData(stockAlerts, optionAlerts) {
-  const merged = [];
-  const batchTimestamp = new Date().toISOString();
-  for (const opt of optionAlerts) {
-    const stock = stockAlerts.find(s => s.symbol === opt.symbol);
-    if (!stock) continue;
-
-    merged.push({
-      ...opt,
-      stockSignal: stock.signal,
-      stockTrend: stock.trend,
-      stockRiskLevel: stock.riskLevel,
-      stockExpectedMove: stock.expectedMovePercent,
-      suggestedAction: getSuggestedAction(opt),
-      timestamp: new Date().toISOString(),
-      batchTimestamp
+// ---- Fetch News & Sentiment from Polygon.io ----
+async function fetchNewsSentiment(ticker) {
+  try {
+    const apiKey = process.env.POLYGON_API_KEY;
+    if (!apiKey) return [];
+    const res = await axios.get('https://api.polygon.io/v2/reference/news', {
+      params: { ticker, limit: 5, sort: 'published_utc', apiKey },
     });
+    return (
+      res.data.results?.map((n) => ({
+        title: n.title,
+        sentiment: n.sentiment || 'neutral',
+        published: n.published_utc,
+      })) || []
+    );
+  } catch (err) {
+    console.error(`❌ News fetch failed for ${ticker}:`, err.message);
+    return [];
   }
-  return merged;
 }
 
-// ---- Build HTML Email ----
-function buildAlertEmail(mergedAlerts) {
-  if (mergedAlerts.length === 0) return '';
-  const batchTime = mergedAlerts[0].batchTimestamp;
-  let html = `<h1>Stock & Option Alerts</h1>`;
-  html += `<p><b>Batch Generated:</b> ${batchTime}</p><hr>`;
-  mergedAlerts.forEach(alert => {
-    html += `
-      <h2>${alert.symbol} - ${alert.type.toUpperCase()} ${alert.strike} (${alert.status})</h2>
-      <ul>
-        <li>Alert Timestamp: ${alert.timestamp}</li>
-        <li>Stock Signal: ${alert.stockSignal}</li>
-        <li>Trend: ${alert.stockTrend}</li>
-        <li>Risk Level: ${alert.stockRiskLevel}</li>
-        <li>Expected Move: ${alert.stockExpectedMove}%</li>
-        <li>Option Last Price: ${alert.marketPrice}</li>
-        <li>Black-Scholes Price: ${alert.bsPrice}</li>
-        <li>Difference %: ${alert.diffPct}%</li>
-        <li>Type: ${alert.type}, Strike: ${alert.strike}, Expiration: ${alert.expiration}</li>
-        <li>Status: ${alert.status}</li>
-        <li>Suggested Action: <b>${alert.suggestedAction}</b></li>
-      </ul>
-      <hr>`;
-  });
-  return html;
-}
+// ---- Compute confidence score ----
+function computeConfidence({ stock, option, indicators, news }) {
+  let score = 0;
 
-// ---- Save Alerts to Logs ----
-function saveAlertsToLogs(mergedAlerts) {
-  let existingAlerts = [];
-  if (fs.existsSync(logJsonPath)) {
-    try { existingAlerts = JSON.parse(fs.readFileSync(logJsonPath, 'utf-8')); }
-    catch { existingAlerts = []; }
+  // --- Trend alignment ---
+  if (stock && option && stock.signal && option.type) {
+    const bothUp =
+      (stock.signal === 'LONG' || stock.signal === 'BUY') && option.type === 'call';
+    const bothDown =
+      (stock.signal === 'SHORT' || stock.signal === 'SELL') && option.type === 'put';
+    if (bothUp || bothDown) score += 0.5;
   }
-  const updatedAlerts = existingAlerts.concat(mergedAlerts);
-  fs.writeFileSync(logJsonPath, JSON.stringify(updatedAlerts, null, 2));
 
-  let txtContent = '';
-  mergedAlerts.forEach(alert => {
-    txtContent += `⚡ [${alert.timestamp}] ${alert.symbol} | ${alert.type.toUpperCase()} ${alert.strike} (${alert.status})\n`;
-    txtContent += `Stock Signal: ${alert.stockSignal}, Trend: ${alert.stockTrend}, Risk: ${alert.stockRiskLevel}, Expected Move: ${alert.stockExpectedMove}%\n`;
-    txtContent += `Option Last Price: ${alert.marketPrice}, BS Price: ${alert.bsPrice}, Diff%: ${alert.diffPct}%\n`;
-    txtContent += `Suggested Action: ${alert.suggestedAction}\n`;
-    txtContent += `Expiration: ${alert.expiration}\n`;
-    txtContent += `-------------------------------------------\n`;
-  });
-  fs.writeFileSync(logTxtPath, txtContent);
+  // --- Indicators ---
+  if (indicators) {
+    const { rsi, adx } = indicators;
+    if (rsi && ((rsi > 55 && stock?.signal === 'LONG') || (rsi < 45 && stock?.signal === 'SHORT')))
+      score += 0.2;
+    if (adx && adx > 25) score += 0.1;
+  }
+
+  // --- News sentiment ---
+  if (news.length > 0) {
+    const pos = news.filter((n) => n.sentiment === 'positive').length;
+    const neg = news.filter((n) => n.sentiment === 'negative').length;
+    if (pos > neg && stock?.signal === 'LONG') score += 0.2;
+    if (neg > pos && stock?.signal === 'SHORT') score += 0.2;
+  }
+
+  return Math.min(score, 1);
 }
 
-// ---- Send Email ----
-async function sendEmail(htmlContent) {
-  if (!htmlContent) return;
-  const transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-      user: process.env.EMAIL_USER || 'nlpChartMonitor@gmail.com',
-      pass: process.env.EMAIL_PASS
-    }
-  });
+// ---- Decision Builder ----
+function buildDecision(symbol, stock, option, indicators, news) {
+  const confidence = computeConfidence({ stock, option, indicators, news });
+  const aligned =
+    stock &&
+    option &&
+    ((stock.signal === 'LONG' && option.type === 'call') ||
+      (stock.signal === 'SHORT' && option.type === 'put'));
 
-  const mailOptions = {
-    from: 'nlpChartMonitor@gmail.com',
-    to: 'nlpChartMonitor@gmail.com',
-    subject: 'Stock & Option Alerts',
-    html: htmlContent
+  let suggestedAction = 'HOLD / REVIEW';
+  if (aligned && confidence > 0.7)
+    suggestedAction =
+      stock.signal === 'LONG'
+        ? 'BUY STOCK + BUY CALL OPTION'
+        : 'SHORT STOCK + BUY PUT OPTION';
+  else if (stock && !option)
+    suggestedAction = stock.signal === 'LONG' ? 'BUY STOCK' : 'SHORT STOCK';
+  else if (option && !stock)
+    suggestedAction =
+      option.type === 'call'
+        ? 'BUY CALL OPTION'
+        : option.type === 'put'
+        ? 'BUY PUT OPTION'
+        : 'HOLD OPTION';
+
+  // ---- Additional info for review ----
+  const currentPrice = indicators?.latestPrice || null;
+  const tradeDuration = stock?.durationMinutes || null;
+  const stopLoss = stock?.stopLoss || null;
+  const takeProfit = stock?.takeProfit || null;
+  const percentMove = stock?.percentMove || null;
+  const newsHeadlines = news.map(n => ({ title: n.title, sentiment: n.sentiment }));
+  const optionContracts =
+    option?.contracts?.map(c => ({
+      expiration: c.expiration,
+      strike: c.strike,
+      status: c.status,
+      bid: c.bid,
+      ask: c.ask,
+    })) || [];
+
+  return {
+    symbol,
+    alignment: aligned ? 'STRONG' : 'PARTIAL',
+    stockSignal: stock?.signal || null,
+    optionType: option?.type || null,
+    optionStatus: option?.status || null,
+    rsi: indicators?.rsi,
+    adx: indicators?.adx,
+    currentPrice,
+    tradeDuration,
+    stopLoss,
+    takeProfit,
+    percentMove,
+    newsSentiment:
+      newsHeadlines.reduce((acc, n) => acc + (n.sentiment === 'positive' ? 1 : n.sentiment === 'negative' ? -1 : 0), 0) > 0
+        ? 'positive'
+        : newsHeadlines.reduce((acc, n) => acc + (n.sentiment === 'positive' ? 1 : n.sentiment === 'negative' ? -1 : 0), 0) < 0
+        ? 'negative'
+        : 'neutral',
+    newsHeadlines,
+    optionContracts,
+    confidence: confidence.toFixed(2),
+    suggestedAction,
+    timestamp: new Date().toISOString(),
   };
-
-  try {
-    await transporter.sendMail(mailOptions);
-    console.log('✅ Alert email sent successfully!');
-  } catch (err) {
-    console.error('❌ Error sending email:', err.message);
-  }
 }
 
-// ---- Queue System for Stock Alerts ----
-const stockQueue = [];
-let processing = false;
+// ---- Main Processor ----
+async function processAllAlerts() {
+  const stockLive = fs.existsSync(stockLivePath)
+    ? JSON.parse(fs.readFileSync(stockLivePath, 'utf-8'))
+    : {};
+  const stockAlerts = fs.existsSync(stockAlertPath)
+    ? JSON.parse(fs.readFileSync(stockAlertPath, 'utf-8'))
+    : [];
+  const optionAlerts = fs.existsSync(optionAlertPath)
+    ? JSON.parse(fs.readFileSync(optionAlertPath, 'utf-8'))
+    : [];
 
-async function processQueue() {
-  if (processing) return;
-  processing = true;
+  const urgent = [];
+  const stockOnly = [];
+  const optionOnly = [];
 
-  while (stockQueue.length > 0) {
-    const stock = stockQueue.shift();
-    console.log(`🔔 Processing stock: ${stock.symbol}`);
-    try {
-      const { allResults: optionResults, allAlerts: optionAlerts } = await runOptionAnalysis(stock.symbol);
+  const symbols = new Set([
+    ...stockAlerts.map((s) => s.symbol),
+    ...optionAlerts.map((o) => o.symbol),
+  ]);
 
-      const merged = mergeStockOptionData([stock], optionAlerts);
-      if (merged.length > 0) {
-        saveAlertsToLogs(merged);
-        const html = buildAlertEmail(merged);
-        await sendEmail(html);
-      }
-    } catch (err) {
-      console.error(`Error processing ${stock.symbol}:`, err.message);
+  for (const symbol of symbols) {
+    const stock = stockAlerts.find((s) => s.symbol === symbol);
+    const option = optionAlerts.find((o) => o.symbol === symbol);
+    const indicators = stockLive[symbol]?.indicators || {};
+    const news = await fetchNewsSentiment(symbol);
+    const decision = buildDecision(symbol, stock, option, indicators, news);
+
+    if (stock && option && decision.alignment === 'STRONG' && decision.confidence > 0.7) {
+      urgent.push(decision);
+    } else if (stock && !option) {
+      stockOnly.push(decision);
+    } else if (option && !stock) {
+      optionOnly.push(decision);
     }
-
-    // Respect 55 calls/min (~1.1s per stock)
-    await new Promise(r => setTimeout(r, 1200));
   }
 
-  processing = false;
+  // ---- Write results ----
+  fs.writeFileSync(urgentAlertPath, JSON.stringify(urgent, null, 2));
+  fs.writeFileSync(stockOnlyPath, JSON.stringify(stockOnly, null, 2));
+  fs.writeFileSync(optionOnlyPath, JSON.stringify(optionOnly, null, 2));
+
+  console.log(`✅ Urgent Alerts: ${urgent.length}`);
+  console.log(`📈 Stock Alerts: ${stockOnly.length}`);
+  console.log(`📊 Option Alerts: ${optionOnly.length}`);
+  console.log('Finished writing to Chart Options Bridge/log/');
 }
 
-// ---- Watch Stock Results ----
-let processedSymbols = new Set();
-fs.watch(stockResultsPath, async (eventType) => {
-  if (eventType !== 'change') return;
-  try {
-    const allStockAlerts = JSON.parse(fs.readFileSync(stockResultsPath, 'utf-8'));
-    const newAlerts = allStockAlerts.filter(a => (a.riskLevel === 'Low' || a.riskLevel === 'Medium') && !processedSymbols.has(a.symbol));
-    for (const stock of newAlerts) {
-      processedSymbols.add(stock.symbol);
-      stockQueue.push(stock);
-    }
-    processQueue(); // Trigger processing if not already running
-  } catch (err) {
-    console.error('Error reading stock results:', err.message);
-  }
-});
-
-console.log('📡 Chart Option Bridge listening for stock alerts...');
+// ---- Run ----
+processAllAlerts();
