@@ -10,3 +10,6 @@ Historical/**/*.parquet
 
 # Ignore notes
 notes.txt
+
+# Ignore node_modules
+node_modules/
